@@ -6,8 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "login_users")
-public class LoginUser {
+public class LoggedUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +18,7 @@ public class LoginUser {
 
     @Email
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 128)
     @Column(unique = true)
 //    @Pattern(regexp = "")
     private String email;
@@ -29,16 +28,16 @@ public class LoginUser {
 //    @Pattern(regexp = "")
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "loginUser")
-    private GeneoUser fullDataUser;
+    @OneToOne(fetch = FetchType.LAZY)//,
+////            cascade =  CascadeType.ALL,
+//            mappedBy = "loggedUser")
+    private UserProfile userProfile;
 
     public Long getId() {
         return id;
     }
 
-    public LoginUser setId(Long id) {
+    public LoggedUser setId(Long id) {
         this.id = id;
         return this;
     }
@@ -47,7 +46,7 @@ public class LoginUser {
         return nicName;
     }
 
-    public LoginUser setNicName(String nicName) {
+    public LoggedUser setNicName(String nicName) {
         this.nicName = nicName;
         return this;
     }
@@ -56,7 +55,7 @@ public class LoginUser {
         return email;
     }
 
-    public LoginUser setEmail(String email) {
+    public LoggedUser setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -65,8 +64,18 @@ public class LoginUser {
         return password;
     }
 
-    public LoginUser setPassword(String password) {
+    public LoggedUser setPassword(String password) {
         this.password = password;
         return this;
     }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public LoggedUser setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
+    }
+
 }

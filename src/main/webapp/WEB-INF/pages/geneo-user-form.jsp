@@ -1,33 +1,33 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setBundle basename="app" var="messageLang"/>
+<%--<fmt:message key="app.title" bundle="${messageLang}"/>--%>
 
-<form:form method="post" modelAttribute="geneoUser">
+<form:form method="post" modelAttribute="userProfile">
     <form:hidden path="id"/>
+<%--    <form:hidden path="loggedUser.id"/>--%>
+    <form:hidden path="registered"/>
+    <form:hidden path="updated"/>
 
-    Firstname: <form:input path="firstName"/> <br>
-<%--    <form:errors path="title"/> <br>--%>
+    Firstname: <form:input path="name.firstName"/>
+    <form:errors path="name.firstName"/> <br>
+    Lastname: <form:input path="name.lastName"/>
+    <form:errors path="name.lastName"/> <br>
+    Middle name: <form:input path="name.middleName"/>
+    <form:errors path="name.middleName"/> <br>
 
-    Lastname: <form:input path="lastName"/> <br>
-<%--    <form:errors path="content"/> <br>--%>
+    Sex: <form:radiobuttons path="sex"/>
+    <form:errors path="sex"/> <br>
 
-    Sex: <form:radiobuttons path="sex" /> <br>
-    <%--    <form:errors path="title"/> <br>--%>
+    dateOfBirth: <form:input type="date" path="dateOfBirth" />
+    <form:errors path="dateOfBirth"/> <br>
 
-    dateOfBirth: <form:input type="date" path="dateOfBirth" /> <br>
-<%--    <form:errors path="categoriesList"/> <br>--%>
-
-    dateOfBirth: <form:input type="date" path="dateOfBirth"/> <br>
-<%--    <form:errors path="categoriesList"/> <br>--%>
-
-    placeOfBirth: <form:input path="placeOfBirth"/> <br>
-<%--    <form:errors path="categoriesList"/> <br>--%>
-
-    <form:hidden path="loginUser"/> <br>
-    <form:hidden path="registered"/> <br>
-    <form:hidden path="updated"/> <br>
+    placeOfBirth: <form:input path="placeOfBirth"/>
+    <form:errors path="placeOfBirth"/> <br>
 
 <%--    familyTies: <form:input path="familyTies"/> <br>--%>
 <%--    <form:errors path="categoriesList"/> <br>--%>
 
-    <input type="submit" name="Dodaj">
+    <input type="submit">
 </form:form>

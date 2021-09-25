@@ -17,6 +17,10 @@ enum Sex {
     }
 }
 
+//enum UserLocate {
+//
+//}
+
 enum RelationShip {FATHER, MATHER, SISTER, BROTHER, CHILD}
 
 enum PARENTS {FATHER, MATHER, STEPFATHER, STEPMOTHER}
