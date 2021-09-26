@@ -3,7 +3,9 @@ package com.borman.geneobook.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 public class LoggedUser {
@@ -28,9 +30,17 @@ public class LoggedUser {
 //    @Pattern(regexp = "")
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)//,
-////            cascade =  CascadeType.ALL,
-//            mappedBy = "loggedUser")
+    @Transient
+    private String confirmPassword;
+
+    @NotNull
+    private LocalDate dateRegisterLogin;
+
+    private LocalDate dateUpdateLogin;
+
+    @OneToOne(fetch = FetchType.LAZY,
+//            cascade =  CascadeType.ALL,
+            mappedBy = "loggedUser")
     private UserProfile userProfile;
 
     public Long getId() {
@@ -69,6 +79,32 @@ public class LoggedUser {
         return this;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public LoggedUser setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+        return this;
+    }
+
+    public LocalDate getDateRegisterLogin() {
+        return dateRegisterLogin;
+    }
+
+    public LoggedUser setDateRegisterLogin(LocalDate dateRegisterLogin) {
+        this.dateRegisterLogin = dateRegisterLogin;
+        return this;
+    }
+
+    public LocalDate getDateUpdateLogin() {
+        return dateUpdateLogin;
+    }
+
+    public LoggedUser setDateUpdateLogin(LocalDate dateUpdateLogin) {
+        this.dateUpdateLogin = dateUpdateLogin;
+        return this;
+    }
     public UserProfile getUserProfile() {
         return userProfile;
     }

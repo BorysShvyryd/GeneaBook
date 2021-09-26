@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import javax.validation.Validator;
 import java.util.Locale;
 
 @Configuration
@@ -23,11 +23,11 @@ public class AppConfig implements WebMvcConfigurer {
 
 //    public Set<Converter> getConverters() {
 //        Set<Converter> converters = new HashSet<>();
-//        converters.add((Converter) new CategoryConverter());
-//        converters.add((Converter) new AuthorConverter());
+//        converters.add((Converter) new LoggedUserConverter());
+////        converters.add((Converter) new AuthorConverter());
 //        return converters;
 //    }
-
+//
 //    @Bean(name = "conversionService")
 //    public ConversionService getConversionService() {
 //        ConversionServiceFactoryBean factory = new ConversionServiceFactoryBean();
@@ -40,7 +40,8 @@ public class AppConfig implements WebMvcConfigurer {
     public LocaleContextResolver getLocaleContextResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 //        localeResolver.setDefaultLocale(new Locale("pl","PL"));
-        localeResolver.setDefaultLocale(new Locale("uk","UA"));
+        localeResolver.setDefaultLocale(new Locale("en","EN"));
+//        localeResolver.setDefaultLocale(new Locale("uk","UA"));
         return localeResolver;
     }
 

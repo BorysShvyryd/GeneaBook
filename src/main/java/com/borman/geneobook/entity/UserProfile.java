@@ -1,6 +1,5 @@
 package com.borman.geneobook.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,10 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -46,8 +43,8 @@ public class UserProfile {
 
 //    private Address address;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private LoggedUser loggedUser;
+    @OneToOne
+    private LoggedUser loggedUser;
 
     private LocalDateTime registered;
     private LocalDateTime updated;
@@ -63,24 +60,6 @@ public class UserProfile {
         this.id = id;
         return this;
     }
-
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public GeneoUser setFirstName(String firstName) {
-//        this.firstName = firstName;
-//        return this;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public GeneoUser setLastName(String lastName) {
-//        this.lastName = lastName;
-//        return this;
-//    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -135,15 +114,6 @@ public class UserProfile {
         this.updated = updated;
         return this;
     }
-    //    public Character getSexCode() {
-//        return sexCode;
-//    }
-//
-//    public GeneoUser setSexCode(Character sexCode) {
-//        this.sexCode = sexCode;
-//        return this;
-//    }
-
 
     public Name getName() {
         return name;
@@ -153,15 +123,6 @@ public class UserProfile {
         this.name = name;
         return this;
     }
-
-//    public LoggedUser getLoggedUser() {
-//        return loggedUser;
-//    }
-//
-//    public UserProfile setLoggedUser(LoggedUser loggedUser) {
-//        this.loggedUser = loggedUser;
-//        return this;
-//    }
 
     public List<FamilyTies> getFamilyTies() {
         return familyTies;
@@ -187,10 +148,10 @@ public class UserProfile {
     }
 
     @Embeddable
-    public static class Name implements Serializable {
+    public static class Name {
 
-        @NotBlank
-        @Size(max = 64)
+        @NotBlank(message = "{javax.validation.constraints.NotBlank.message_firstName}")
+        @Size(max = 64, message = "{javax.validation.constraints.Size.message_firstName}")
         @Column(length = 64)
         private String firstName;
 
