@@ -10,7 +10,7 @@ import java.util.Properties;
 public class EmailTest
 {
 	private  final  static  String  PROPS_FILE = "src/main/resources/email.properties";
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 	public static void main(String[] args)
 	{
 		try {
@@ -24,7 +24,6 @@ public class EmailTest
 				com.borman.geneobook.EmailVerifycator.SendEmail.EMAIL_FROM     = props.getProperty ("from"   );
 				com.borman.geneobook.EmailVerifycator.SendEmail.SMTP_AUTH_USER = props.getProperty ("user"   );
 				com.borman.geneobook.EmailVerifycator.SendEmail.SMTP_AUTH_PWD  = props.getProperty ("pass"   );
-				com.borman.geneobook.EmailVerifycator.SendEmail.REPLY_TO       = props.getProperty ("replyto");
 				com.borman.geneobook.EmailVerifycator.SendEmail.FILE_PATH      = PROPS_FILE;
 		        	
 	        	String emailTo = props.getProperty ("to"   );
@@ -41,5 +40,4 @@ public class EmailTest
 			e.printStackTrace();
 		}
 	}
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
