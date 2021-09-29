@@ -1,4 +1,4 @@
-package com.borman.geneobook.EmailVerifycator;
+package com.borman.geneobook.entity.pojo;
 
 import javax.mail.PasswordAuthentication;
 

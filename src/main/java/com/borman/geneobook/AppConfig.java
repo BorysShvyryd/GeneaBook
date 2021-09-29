@@ -1,10 +1,13 @@
 package com.borman.geneobook;
 
+import com.borman.geneobook.controllers.LoginController;
+import com.borman.geneobook.entity.pojo.LoginUser;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
@@ -40,15 +43,16 @@ public class AppConfig implements WebMvcConfigurer {
     public LocaleContextResolver getLocaleContextResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 //        localeResolver.setDefaultLocale(new Locale("pl","PL"));
-        localeResolver.setDefaultLocale(new Locale("en","EN"));
-//        localeResolver.setDefaultLocale(new Locale("uk","UA"));
+//        localeResolver.setDefaultLocale(new Locale("en","EN"));
+        localeResolver.setDefaultLocale(new Locale("uk","UA"));
         return localeResolver;
     }
 
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:validationMessages");
+        messageSource.setBasenames("classpath:validationMessages",
+                                   "classpath:/messages/login");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -59,4 +63,5 @@ public class AppConfig implements WebMvcConfigurer {
         lvfb.setValidationMessageSource(messageSource());
         return lvfb;
     }
+
 }

@@ -1,7 +1,8 @@
 package com.borman.geneobook.entity;
 
+import com.borman.geneobook.utils.FamilyTies1;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class FamilyTies {
