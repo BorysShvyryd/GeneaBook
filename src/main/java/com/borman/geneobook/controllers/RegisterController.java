@@ -9,14 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/register")
-@SessionAttributes({"nic", "email", "key"})
+@SessionAttributes({"nic", "email", "token"})
 public class RegisterController {
 
     private final EmailRepository emailRepository;
@@ -42,57 +40,41 @@ public class RegisterController {
     @PostMapping
     public String loginRegSubmit(LoginUser loginUser, HttpServletRequest request, Model model) {
 
+        String tokenEmail = randomDataRepositories.getToken();
+
         model.addAttribute("nic", loginUser.getNicName());
         model.addAttribute("email", loginUser.getEmail());
-        model.addAttribute("key", LocalDateTime.now());
-
-        verificationKey = randomDataRepositories.getToken();
+        model.addAttribute("token", tokenEmail);
 
         emailRepository.SendEmail(loginUser.getEmail(),
                 "Confirmation email",
-                 "Follow the link to confirm"
+                 "Follow the link to confirm: "
                          + request.getHeader("referer")
                          + "/"
-                         + verificationKey);
+                         + tokenEmail);
 
         return "register/login-sendEmail";
     }
 
-    @GetMapping("/{key}")
-    public String loginRegConfirm(Model model, @PathVariable String key){
+    @GetMapping("/{token}")
+    public String loginRegConfirm(Model model, HttpSession httpSession, @PathVariable String token){
 
-        if (verificationKey == null) {
-            System.out.println("key");
-            return "register/user...";
-        }
-//verificationKey = "Borman---bormanpgg@gmail.com---2021-09-28T21:46:43.420627500";
+        if  (httpSession.getAttribute("token") == null) return "home-page";
 
-        if (verificationKey.equals(key)) {
-//        if (model.getAttribute("nic".);
-//        model.addAttribute("email", loginUser.getEmail());
-//        model.addAttribute("key", LocalDateTime.now());) {
+        if (httpSession.getAttribute("token") != token) {
 
             LoggedUser loggedUser = new LoggedUser();
-            loggedUser.setNicName(key.split("---")[0]);
-            loggedUser.setEmail(key.split("---")[1]);
-
+            loggedUser.setEmail(httpSession.getAttribute("nic").toString());
+            loggedUser.setNicName(httpSession.getAttribute("nic").toString());
             model.addAttribute("loggedUser", loggedUser);
 
-            System.out.println("ok");
+            httpSession.invalidate();
 
             return "register/login-register-form";
+
         } else {
-            return "register/user...";
+
+            return "home-page";
         }
     }
-
-
-    private KeyPair generateKeyPair(long seed) throws Exception {
-        KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("RSA");
-        SecureRandom rng = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        rng.setSeed(seed);
-        keyGenerator.initialize(2048, rng);
-        return (keyGenerator.generateKeyPair());
-    }
-
 }

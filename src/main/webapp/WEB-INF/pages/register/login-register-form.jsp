@@ -17,11 +17,11 @@
 
     <%--    <form:select path="userProfile"/>--%>
 
-    nicName: <form:input path="nicName"/>
-    <form:errors path="nicName"/> <br>
+    nicName: <form:input path="nicName" disabled="true"/><br>
+<%--    <form:errors path="nicName"/> <br>--%>
 
-    email: <form:input path="email"/>
-    <form:errors path="email"/> <br>
+    email: <form:input path="email" disabled="true"/><br>
+<%--    <form:errors path="email"/> <br>--%>
 
     password: <form:password path="password"/>
     <form:errors path="password"/> <br>
