@@ -1,7 +1,9 @@
-package com.borman.geneobook.utils;
+package com.borman.geneobook.repository;
 
-public class RandomDataUtils {
+import org.springframework.stereotype.Repository;
 
+@Repository
+public class RandomDataRepositories {
     private static final String AlphaString = "0123456789"
             + "QWERTYUIOPASDFGHJKLZXCVBNM"
             + "qwertyuiopasdfghjklzxcvbnm";
@@ -9,7 +11,7 @@ public class RandomDataUtils {
     private static final String BetaString = AlphaString
             + "!@#$%&?";
 
-    private static String getToken() {
+    public String getToken() {
 
         StringBuilder sb = new StringBuilder(64);
 
@@ -20,7 +22,7 @@ public class RandomDataUtils {
         return sb.toString();
     }
 
-    private static String getRandomPass() {
+    public String getRandomPass() {
 
         StringBuilder sb = new StringBuilder(12);
 
@@ -30,9 +32,4 @@ public class RandomDataUtils {
         }
         return sb.toString();
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(getToken());
-//        System.out.println(getRandomPass());
-//    }
 }

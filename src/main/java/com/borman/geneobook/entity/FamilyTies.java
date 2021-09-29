@@ -1,7 +1,5 @@
 package com.borman.geneobook.entity;
 
-import com.borman.geneobook.utils.FamilyTies1;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,7 +12,7 @@ public class FamilyTies {
 //    @ManyToOne
 //    private GeneoUser concreteGeneoUser;
 
-    private FamilyTies1 concreteFamilyties;
+//    private FamilyTies1 concreteFamilyties;
 
 //    @ManyToOne
 //    private GeneoUser geneoUser;

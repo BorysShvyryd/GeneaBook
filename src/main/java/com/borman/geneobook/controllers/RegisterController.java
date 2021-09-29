@@ -1,8 +1,9 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.utils.EmailUtil.*;
+import com.borman.geneobook.repository.EmailRepository;
 import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;
+import com.borman.geneobook.repository.RandomDataRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,15 @@ import java.time.LocalDateTime;
 @SessionAttributes({"nic", "email", "key"})
 public class RegisterController {
 
-    //    private final LoggedUserRepository loggedUserRepository;
-//
-//    public LoginController(LoggedUserRepository loggedUserRepository) {
-//        this.loggedUserRepository = loggedUserRepository;
-//    }
+    private final EmailRepository emailRepository;
+    private final RandomDataRepositories randomDataRepositories;
 
     private String verificationKey;
+
+    public RegisterController(EmailRepository emailRepository, RandomDataRepositories randomDataRepositories) {
+        this.emailRepository = emailRepository;
+        this.randomDataRepositories = randomDataRepositories;
+    }
 
     @GetMapping
     public String loginRegForm(Model model){
@@ -37,26 +40,20 @@ public class RegisterController {
     }
 
     @PostMapping
-    public String loginRegSubmit(LoginUser loginUser, HttpServletRequest request, Model model) throws Exception {
-
-        SendEmailForConfirmation send = new SendEmailForConfirmation(loginUser.getEmail());
+    public String loginRegSubmit(LoginUser loginUser, HttpServletRequest request, Model model) {
 
         model.addAttribute("nic", loginUser.getNicName());
         model.addAttribute("email", loginUser.getEmail());
         model.addAttribute("key", LocalDateTime.now());
 
-        verificationKey = "/"
-                        + loginUser.getNicName()
-                        + "---"
-                        + loginUser.getEmail()
-                        + "---"
-                        + LocalDateTime.now();
+        verificationKey = randomDataRepositories.getToken();
 
-        System.out.println(generateKeyPair(64L).toString());
-
-//        send.SendEmailForConfirmationKey(
-//                request.getHeader("referer")
-//                        + verificationKey);
+        emailRepository.SendEmail(loginUser.getEmail(),
+                "Confirmation email",
+                 "Follow the link to confirm"
+                         + request.getHeader("referer")
+                         + "/"
+                         + verificationKey);
 
         return "register/login-sendEmail";
     }

@@ -1,4 +1,4 @@
-package com.borman.geneobook.utils;
+package com.borman.geneobook.entity;
 
 //enum Gender { MALE, FEMALE, UNKNOWN }
 enum Sex {

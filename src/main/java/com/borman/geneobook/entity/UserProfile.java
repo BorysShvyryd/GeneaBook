@@ -1,6 +1,5 @@
 package com.borman.geneobook.entity;
 
-import com.borman.geneobook.utils.Sex;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
