@@ -5,7 +5,6 @@ Menu <br>
 <br>
 <a href="/login" >Login</a> <br>
 <a href="/register" >Registration</a> <br>
-<a href="/forgot" >Forgot password</a>
 ...
 <a href="/about" >About</a> <br>
 <br>

@@ -4,7 +4,7 @@
 <fmt:setBundle basename="app" var="messageLang"/>
 <%--<fmt:message key="app.title" bundle="${messageLang}"/>--%>
 
-<jsp:include page="../header.jsp" flush="true"/>
+<jsp:include page="../../header.jsp" flush="true"/>
 
 <form:form method="post" modelAttribute="userProfile">
     <form:hidden path="id"/>
@@ -33,4 +33,4 @@
     <input type="submit">
 </form:form>
 
-<jsp:include page="../footer.jsp" flush="true"/>
+<jsp:include page="../../footer.jsp" flush="true"/>

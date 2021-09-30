@@ -17,12 +17,15 @@
         </label>
     </p>
     <p>
-        <label><spring:message code="login.email" />:<br>
-            <input type="text" name="email" />
+        <label><spring:message code="login.pas" />:<br>
+            <input type="password" name="password" />
         </label>
     </p>
 
     <input type="submit" value="<spring:message code="login.btn" />">
 </form>
+
+Forgot password? <a href="/login/forgot">Send new password</a>
+
 </body>
 </html>

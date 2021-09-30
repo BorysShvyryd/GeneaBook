@@ -15,6 +15,8 @@ public class LoginUser {
     @Size(max = 128)
     private String email;
 
+    private String password;
+
     public String getNicName() {
         return nicName;
     }
@@ -30,6 +32,15 @@ public class LoginUser {
 
     public LoginUser setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public LoginUser setPassword(String password) {
+        this.password = password;
         return this;
     }
 }
