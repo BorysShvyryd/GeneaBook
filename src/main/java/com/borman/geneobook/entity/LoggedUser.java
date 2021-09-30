@@ -43,6 +43,7 @@ public class LoggedUser {
             mappedBy = "loggedUser")
     private UserProfile userProfile;
 
+
     public Long getId() {
         return id;
     }

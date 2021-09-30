@@ -33,6 +33,8 @@ enum CHILDREN {SON, DAUGHTER}
 
 enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LINE}
 
+enum LANG {EN, PL, RU, UK, CZ}
+
 // ANCESTORS предки,
 // family ties родинні зв'язки́,
 // kinship спорідненість (в шлюбі)

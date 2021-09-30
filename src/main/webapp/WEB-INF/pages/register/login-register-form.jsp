@@ -32,4 +32,6 @@
 
 </form:form>
 
+Forgot password? <a href="/login/forgot">Send new password</a>
+
 <jsp:include page="../../footer.jsp" flush="true"/>

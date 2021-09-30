@@ -21,8 +21,8 @@
 //        this.geneoRepository = geneoRepository;
 //    }
 //
-//    @GetMapping("/add")
-//    private String create (Model model) {
+//    @GetMapping("/geneo")
+//    private String dashboard (Model model) {
 //        model.addAttribute("userProfile", new UserProfile());
 ////        model.addAttribute("sexValue", Enum.class);
 //
