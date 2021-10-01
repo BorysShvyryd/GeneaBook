@@ -5,26 +5,30 @@ import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.RandomDataRepositories;
 import com.borman.geneobook.repository.UserRepository;
+import com.borman.geneobook.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/registration")
 @SessionAttributes({"nic", "email", "token"})
 public class RegisterController {
 
     private final EmailRepository emailRepository;
     private final RandomDataRepositories randomDataRepositories;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public RegisterController(EmailRepository emailRepository, RandomDataRepositories randomDataRepositories, UserRepository userRepository) {
+    public RegisterController(EmailRepository emailRepository, RandomDataRepositories randomDataRepositories, UserService userService) {
         this.emailRepository = emailRepository;
         this.randomDataRepositories = randomDataRepositories;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -32,7 +36,7 @@ public class RegisterController {
 
         model.addAttribute("loginUser", new LoginUser());
 
-        return "register/user-login";
+        return "registration/user-login";
     }
 
     @PostMapping
@@ -53,7 +57,7 @@ public class RegisterController {
                          + "/"
                          + tokenEmail);
 
-        return "register/login-sendEmail";
+        return "registration/login-sendEmail";
     }
 
     @GetMapping("/resend")
@@ -67,7 +71,7 @@ public class RegisterController {
 
         loginRegSubmit(loginUser, request, model);
 
-        return "register/login-sendEmail";
+        return "registration/login-sendEmail";
     }
 
     @GetMapping("/{token}")
@@ -76,7 +80,7 @@ public class RegisterController {
         if  (httpSession.getAttribute("token") == null) {
             model.addAttribute("nullToken", true);
 
-            return "register/login-null-token";
+            return "registration/login-null-token";
         }
 
         if (httpSession.getAttribute("token").equals(token)) {
@@ -84,25 +88,32 @@ public class RegisterController {
             LoggedUser loggedUser = new LoggedUser();
             loggedUser.setEmail(httpSession.getAttribute("email").toString());
             loggedUser.setNicName(httpSession.getAttribute("nic").toString());
+            loggedUser.setDateRegisterLogin(LocalDateTime.now());
+
             model.addAttribute("loggedUser", loggedUser);
 
             httpSession.invalidate();
 
-            return "register/login-register-form";
+            return "registration/login-register-form";
 
         } else {
 
             model.addAttribute("errorToken", true);
-            return "register/login-error-registration";
+            return "registration/login-error-registration";
 
         }
     }
 
     @PostMapping("/{token}")
-    private String loginRegSubmit(LoggedUser loggedUser) {
+    private String loginRegSubmit(@Valid LoggedUser loggedUser, BindingResult bindingResult) {
 
-        //            userRepository.save(loggedUser);
-        System.out.println("Save User ...");
+        if (bindingResult.hasErrors()) {
+            return "registration/login-register-form";
+        }
+
+        loggedUser.setDateRegisterLogin(LocalDateTime.now());
+        System.out.println(loggedUser);
+        userService.saveUser(loggedUser);
 
         return "redirect:/geneo";
     }

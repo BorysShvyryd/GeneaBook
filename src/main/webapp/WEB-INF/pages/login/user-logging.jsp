@@ -1,31 +1,42 @@
-<%@ page contentType="text/html; charset=utf-8" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><spring:message code="login.title" /></title>
+    <meta charset="utf-8">
+    <title><spring:message code="login.title"/></title>
+    <%--    Log in with your account--%>
 </head>
+
 <body>
+<sec:authorize access="isAuthenticated()">
+    <% response.sendRedirect("/"); %>
+</sec:authorize>
+<div>
+    <form modelAttribute="loginUser" method="post">
+        <h2>Login</h2>
+        <p>
+            <label><spring:message code="login.email"/>:
+                <input type="text" name="email" placeholder="nicName"/>
+            </label>
+        </p>
+        <p>
+            <label><spring:message code="login.pas"/>:
+                <input type="password" name="password" placeholder="Password"/>
+            </label>
+        </p>
 
-<form modelAttribute="loginUser" method="post">
-    <p>
-        <label><spring:message code="login.nicName" />:<br>
-            <input type="text" name="nicName" />
-        </label>
-    </p>
-    <p>
-        <label><spring:message code="login.pas" />:<br>
-            <input type="password" name="password" />
-        </label>
-    </p>
+        <input type="submit" value="<spring:message code="login.btn" />">
 
-    <input type="submit" value="<spring:message code="login.btn" />">
-</form>
+        <div>
+            Forgot password? <a href="/login/forgot" >Send new password</a>
+        </div>
 
-Forgot password? <a href="/login/forgot">Send new password</a>
+    </form>
+</div>
+
 
 </body>
 </html>

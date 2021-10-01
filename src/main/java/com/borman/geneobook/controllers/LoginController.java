@@ -1,5 +1,6 @@
 package com.borman.geneobook.controllers;
 
+import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.EmailRepository;
 import com.borman.geneobook.repository.RandomDataRepositories;
@@ -22,8 +23,8 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginForm(Model model,
-                            @CookieValue(name = "Name", value = "Value", required = false) Session.Cookie cookie) {
+    public String loginForm(Model model) { //,
+//                            @CookieValue(name = "Email", value = "Value", required = false) Session.Cookie cookie) {
 //        if (rCookie != null) {
 //        }
 //        model.addAttribute("loginUser", new LoginUser());
@@ -35,30 +36,33 @@ public class LoginController {
         return "login/user-logging";
     }
 
+    @PostMapping
+    public String loginSubmit() {
+        return "geneo";
+    }
+
     @GetMapping("/forgot")
-    public String forgotPassSend(Model model) {
+    public String forgotPassSend(Model model, LoggedUser loggedUser) {
 
         model.addAttribute("sendForgotPass", true);
 
         String token = randomDataRepositories.getRandomPass();
 
-        System.out.println(model.getAttribute("email"));
-//        System.out.println(loginUser.getNicName());
-//        System.out.println(loginUser.getPassword());
-        System.out.println(token);
+//        LoggedUser loggedUser = (LoggedUser) model.getAttribute("loginUser");
+        System.out.println(model.getAttribute(loggedUser.getEmail()));
 
 //        emailRepository.SendEmail(
 //                loginUser.getEmail(),
 //                "New password",
 //                "Password: " + token);
 
-        return "register/login-sendEmail";
+        return "registration/login-sendEmail";
     }
 
     @GetMapping("/forgot/resend")
-    public String resendPass(Model model, LoginUser loginUser) {
-        forgotPassSend(model);
-        return "register/login-sendEmail";
+    public String resendPass(Model model, LoggedUser loggedUser) {
+        forgotPassSend(model, loggedUser);
+        return "registration/login-sendEmail";
     }
 
     @GetMapping("/forgot/{token}")
@@ -70,7 +74,7 @@ public class LoginController {
             model.addAttribute("validate", true);
         }
 
-        return "register/forgot-pass-form";
+        return "registration/forgot-pass-form";
     }
 
     @PostMapping("/forgot/{token}")
@@ -87,7 +91,7 @@ public class LoginController {
             model.addAttribute("message", "Email does not exist");
         }
 
-        return "register/forgot-pass-form";
+        return "registration/forgot-pass-form";
     }
 
 }
