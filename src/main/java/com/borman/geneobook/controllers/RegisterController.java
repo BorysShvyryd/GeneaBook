@@ -1,6 +1,5 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.entity.UserProfile;
 import com.borman.geneobook.repository.EmailRepository;
 import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;

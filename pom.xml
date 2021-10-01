@@ -60,7 +60,15 @@
 			<version>9.0.52</version>
 		</dependency>
 
-<!--		<dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.3.11.RELEASE</version>
+		</dependency>
+
+
+		<!--		<dependency>-->
 <!--			<groupId>javax.servlet</groupId>-->
 <!--			<artifactId>javax.servlet-api</artifactId>-->
 <!--			<version>4.0.1</version>-->
@@ -136,14 +144,5 @@
 
 
 <!--	</dependencies>-->
-
-<!--	<build>-->
-<!--		<plugins>-->
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--			</plugin>-->
-<!--		</plugins>-->
-<!--	</build>-->
 
 </project>
