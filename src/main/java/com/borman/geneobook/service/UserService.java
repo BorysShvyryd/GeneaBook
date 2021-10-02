@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Collections;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @PersistenceContext
     private EntityManager em;
@@ -31,24 +31,13 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-//    @Override
-//    public User loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-//        User user = userRepository.findByUserEmail(userEmail);
-//
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//
-//        return user;
-//    }
-
     public boolean saveUser(User user) {
+
         User userFromDB = userRepository.findByUserEmail(user.getEmail());
 
         if (userFromDB != null) {
             return false;
         } else {
-
 
             user.setRoleSet(Collections.singleton(roleService.getUserRole()));
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -66,5 +55,17 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUserEmail(userEmail);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 }

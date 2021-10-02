@@ -92,10 +92,6 @@ public class RegistrationController {
             User user = new User();
             user.setEmail(httpSession.getAttribute("email").toString());
             user.setNicName(httpSession.getAttribute("nic").toString());
-//            user.setDateRegisterLogin(LocalDateTime.now());
-//            Set<Role> roleSet = new HashSet<>();
-//            roleSet.add(roleService.getUserRole());
-//            user.setRole(roleSet);
 
             model.addAttribute("user", user);
 
@@ -121,12 +117,7 @@ public class RegistrationController {
             return "registration/login-register-form";
         }
 
-//        Set<Role> roleSet = new HashSet<>();
-//        roleSet.add(roleService.getUserRole());
-//        user.setRoleSet(roleSet);
-
-        System.out.println("RegController : " + user);
-//        userService.saveUser(user);
+        userService.saveUser(user);
 
         return "redirect:/login";
     }

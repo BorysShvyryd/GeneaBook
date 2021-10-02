@@ -28,7 +28,6 @@
             <form:hidden path="dateUpdateLogin"/>
             <form:hidden path="nicName"/>
             <form:hidden path="email"/>
-<%--            <form:hidden path="roleSet.id"/>--%>
         <%--    &lt;%&ndash;    <form:select path="userProfile"/>&ndash;%&gt;--%>
 
         <h2>Registration</h2>

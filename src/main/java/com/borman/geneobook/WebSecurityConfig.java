@@ -15,13 +15,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final UserService userService;
-//
+    @Autowired
+    private UserService userService;
+
     private AccessDeniedHandler accessDeniedHandler;
-//
-//    public WebSecurityConfig(UserService userService) {
-//        this.userService = userService;
-//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -60,7 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
 
         auth.inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER")

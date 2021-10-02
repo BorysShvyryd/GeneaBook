@@ -14,9 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.email = :userEmail")
     User findByUserEmail(@Param("userEmail") String userEmail);
 
-    @Override
-    List<User> findAll();
-
-    @Override
-    void deleteById(Long aLong);
+//    @Override
+//    List<User> findAll();
+//
+//    @Override
+//    void deleteById(Long aLong);
 }

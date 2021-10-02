@@ -22,7 +22,7 @@
 
             <h1>Please Sign In</h1>
 
-            <c:if test="${param.error}">
+            <c:if test="${errorLogIn}">
                 <spring:message code="login.errorLogIn"/>
             </c:if>
             <c:if test="${param.logout}">

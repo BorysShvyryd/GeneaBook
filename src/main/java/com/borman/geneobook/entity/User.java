@@ -1,14 +1,23 @@
 package com.borman.geneobook.entity;
 
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-public class User{
+public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +35,7 @@ public class User{
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "userId"),inverseJoinColumns = @JoinColumn(name = "roleId"))
     private Set<Role> roleSet;
 
     @NotBlank
@@ -49,9 +59,8 @@ public class User{
         return id;
     }
 
-    public User setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public String getNicName() {
@@ -66,57 +75,63 @@ public class User{
         return email;
     }
 
-    public User setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+//        if () {
+//            if (this.getUser().isAdmin()) {
+//                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+//            }
+//            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//        }
+//        return authorities;
+        return roleSet;
+    }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
-//    @Override
-//    public String getUsername() {
-//        return email;
-//    }
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return false;
-//    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-    public User setPassword(String password) {
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     public String getConfirmPassword() {
         return confirmPassword;
     }
 
-    public User setConfirmPassword(String confirmPassword) {
+    public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-        return this;
     }
 
     public LocalDateTime getDateRegisterLogin() {
@@ -141,9 +156,8 @@ public class User{
         return userProfile;
     }
 
-    public User setUserProfile(UserProfile userProfile) {
+    public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
-        return this;
     }
 
     public Set<Role> getRoleSet() {
@@ -155,22 +169,13 @@ public class User{
         this.roleSet = roleSet;
     }
 
-    public User setDateRegisterLogin(LocalDateTime dateRegisterLogin) {
+    public void setDateRegisterLogin(LocalDateTime dateRegisterLogin) {
         this.dateRegisterLogin = dateRegisterLogin;
-        return this;
     }
 
-    public User setDateUpdateLogin(LocalDateTime dateUpdateLogin) {
+    public void setDateUpdateLogin(LocalDateTime dateUpdateLogin) {
         this.dateUpdateLogin = dateUpdateLogin;
-        return this;
     }
-//    public Set<Role> getRole() {
-//        return roleSet;
-//    }
-//
-//    public void setRole(Set<Role> role) {
-//        this.roleSet = role;
-//    }
 
     @Override
     public String toString() {
@@ -187,11 +192,11 @@ public class User{
                 '}';
     }
 
-//    @Override
-//    public void eraseCredentials() {
-////        super.eraseCredentials();
-////        if (this.userAuthentication != null && CredentialsContainer.class.isAssignableFrom(this.userAuthentication.getClass())) {
-////            CredentialsContainer.class.cast(this.userAuthentication).eraseCredentials();
-////        }
-//    }
+    @Override
+    public void eraseCredentials() {
+//        super.eraseCredentials();
+//        if (this.userAuthentication != null && CredentialsContainer.class.isAssignableFrom(this.userAuthentication.getClass())) {
+//            CredentialsContainer.class.cast(this.userAuthentication).eraseCredentials();
+//        }
+    }
 }

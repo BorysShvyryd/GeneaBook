@@ -33,9 +33,28 @@ enum CHILDREN {SON, DAUGHTER}
 
 enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LINE}
 
-enum LANG {EN, PL, RU, UK, CZ}
+enum LANG {
 
-//enum ROLE {ROLE_USER, ROLE_ADMIN}
+    ENGLISH("EN"), POLISH("PL"), RUSSIAN("RU"), UKRAINIAN("UK"), CZECH("CZ");
+
+    private final String lang;
+
+    LANG(String lang) { this.lang = lang; }
+
+    public String getLang() { return lang; }
+
+}
+
+//enum UserRoleEnum {
+//
+//    ADMIN,
+//    USER,
+//    ANONYMOUS;
+//
+//    UserRoleEnum() {
+//    }
+//
+//}
 
 // ANCESTORS предки,
 // family ties родинні зв'язки́,

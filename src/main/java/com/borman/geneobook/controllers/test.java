@@ -1,11 +1,28 @@
 package com.borman.geneobook.controllers;
 
+import com.borman.geneobook.entity.Role;
+import com.borman.geneobook.repository.RoleRepository;
+import com.borman.geneobook.service.RoleService;
+
 import java.util.UUID;
 
 public class test {
     public static void main(String args[]) throws Exception{
 
 //        System.out.println(UUID.randomUUID());
+
+        // InitROLE
+
+        RoleRepository roleRepository = null;
+        Role role = new Role();
+
+        role.setId(1L);
+        role.setName("ADMIN");
+        roleRepository.save(role);
+
+        role.setId(1L);
+        role.setName("USER");
+        roleRepository.save(role);
 
 
 //        //Creating a KeyGenerator object
