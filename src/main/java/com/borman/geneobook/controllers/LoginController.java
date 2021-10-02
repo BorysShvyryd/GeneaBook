@@ -2,9 +2,8 @@ package com.borman.geneobook.controllers;
 
 import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;
-import com.borman.geneobook.repository.EmailRepository;
+import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.repository.RandomDataRepositories;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final RandomDataRepositories randomDataRepositories;
-    private final EmailRepository emailRepository;
+    private final EmailService emailService;
 
-    public LoginController(RandomDataRepositories randomDataRepositories, EmailRepository emailRepository) {
+    public LoginController(RandomDataRepositories randomDataRepositories, EmailService emailService) {
         this.randomDataRepositories = randomDataRepositories;
-        this.emailRepository = emailRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping

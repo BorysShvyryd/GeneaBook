@@ -1,4 +1,4 @@
-package com.borman.geneobook.repository;
+package com.borman.geneobook.service;
 
 import com.borman.geneobook.entity.pojo.EmailAuthenticator;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.Properties;
 
 @Repository
-public class EmailRepository {
+public class EmailService {
 
     private final static String PROPERTIES_FILE = "src/main/resources/email.properties";
 

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Controller;
 public class LoggedController {
 
     public String userHomePage() {
-        return "";
+        return "home-page";
     }
 }

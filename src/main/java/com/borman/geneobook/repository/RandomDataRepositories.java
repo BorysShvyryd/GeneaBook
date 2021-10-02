@@ -2,6 +2,8 @@ package com.borman.geneobook.repository;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public class RandomDataRepositories {
     private static final String AlphaString = "0123456789"
@@ -31,5 +33,9 @@ public class RandomDataRepositories {
             sb.append(BetaString.charAt(index));
         }
         return sb.toString();
+    }
+
+    public String getUUID() {
+        return UUID.randomUUID().toString();
     }
 }

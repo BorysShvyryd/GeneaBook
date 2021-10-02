@@ -35,6 +35,8 @@ enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LIN
 
 enum LANG {EN, PL, RU, UK, CZ}
 
+enum ROLE {ROLE_USER, ROLE_ADMIN}
+
 // ANCESTORS предки,
 // family ties родинні зв'язки́,
 // kinship спорідненість (в шлюбі)

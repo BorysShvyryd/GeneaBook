@@ -43,7 +43,7 @@ public class UserProfile {
 
 //    private Address address;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private LoggedUser loggedUser;
 
     private LocalDateTime registered;

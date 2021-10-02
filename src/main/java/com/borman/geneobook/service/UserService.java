@@ -4,7 +4,6 @@ import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.repository.RoleRepository;
 import com.borman.geneobook.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,14 +20,18 @@ public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserService(EntityManager em, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.em = em;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
@@ -48,6 +51,7 @@ public class UserService implements UserDetailsService {
             return false;
         } else {
 
+
             user.setRole(Collections.singleton(new Role(1L, "ROLE_USER")));
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
@@ -55,5 +59,13 @@ public class UserService implements UserDetailsService {
 
             return true;
         }
+    }
+
+    public Object allUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 }

@@ -1,10 +1,9 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.repository.EmailRepository;
+import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.entity.LoggedUser;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.RandomDataRepositories;
-import com.borman.geneobook.repository.UserRepository;
 import com.borman.geneobook.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +20,12 @@ import java.time.LocalDateTime;
 @SessionAttributes({"nic", "email", "token"})
 public class RegisterController {
 
-    private final EmailRepository emailRepository;
+    private final EmailService emailService;
     private final RandomDataRepositories randomDataRepositories;
     private final UserService userService;
 
-    public RegisterController(EmailRepository emailRepository, RandomDataRepositories randomDataRepositories, UserService userService) {
-        this.emailRepository = emailRepository;
+    public RegisterController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserService userService) {
+        this.emailService = emailService;
         this.randomDataRepositories = randomDataRepositories;
         this.userService = userService;
     }
@@ -50,7 +49,7 @@ public class RegisterController {
 
         model.addAttribute("sendEmail", true);
 
-        emailRepository.SendEmail(loginUser.getEmail(),
+        emailService.SendEmail(loginUser.getEmail(),
                 "Confirmation email",
                  "Follow the link to confirm: "
                          + request.getHeader("referer")
@@ -113,7 +112,7 @@ public class RegisterController {
 
         loggedUser.setDateRegisterLogin(LocalDateTime.now());
         System.out.println(loggedUser);
-        userService.saveUser(loggedUser);
+//        userService.saveUser(loggedUser);
 
         return "redirect:/geneo";
     }

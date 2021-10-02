@@ -1,7 +1,13 @@
 package com.borman.geneobook.controllers;
 
+import java.util.UUID;
+
 public class test {
     public static void main(String args[]) throws Exception{
+
+//        System.out.println(UUID.randomUUID());
+
+
 //        //Creating a KeyGenerator object
 //        KeyGenerator keyGen = KeyGenerator.getInstance("DES");
 //

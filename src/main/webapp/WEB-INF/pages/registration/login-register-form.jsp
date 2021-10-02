@@ -26,8 +26,8 @@
             <form:hidden path="id"/>
             <form:hidden path="dateRegisterLogin"/>
             <form:hidden path="dateUpdateLogin"/>
-<%--            <form:hidden path="nicName"/>--%>
-<%--            <form:hidden path="email"/>--%>
+            <form:hidden path="nicName"/>
+            <form:hidden path="email"/>
         <%--    &lt;%&ndash;    <form:select path="userProfile"/>&ndash;%&gt;--%>
 
         <h2>Registration</h2>

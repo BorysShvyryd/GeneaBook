@@ -47,7 +47,7 @@ public class LoggedUser implements UserDetails {
     private LocalDateTime dateUpdateLogin;
 
     @OneToOne(fetch = FetchType.LAZY,
-//            cascade =  CascadeType.ALL,
+            cascade =  CascadeType.ALL,
             mappedBy = "loggedUser")
     private UserProfile userProfile;
 
