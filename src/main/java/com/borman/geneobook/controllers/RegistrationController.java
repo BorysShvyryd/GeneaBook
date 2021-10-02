@@ -1,9 +1,11 @@
 package com.borman.geneobook.controllers;
 
+import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.service.EmailService;
-import com.borman.geneobook.entity.LoggedUser;
+import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.RandomDataRepositories;
+import com.borman.geneobook.service.RoleService;
 import com.borman.geneobook.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,25 +15,28 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/registration")
 @SessionAttributes({"nic", "email", "token"})
-public class RegisterController {
+public class RegistrationController {
 
     private final EmailService emailService;
     private final RandomDataRepositories randomDataRepositories;
     private final UserService userService;
+    private final RoleService roleService;
 
-    public RegisterController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserService userService) {
+    public RegistrationController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserService userService, RoleService roleService) {
         this.emailService = emailService;
         this.randomDataRepositories = randomDataRepositories;
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping
-    public String loginRegForm(Model model){
+    public String loginRegForm(Model model) {
 
         model.addAttribute("loginUser", new LoginUser());
 
@@ -51,10 +56,10 @@ public class RegisterController {
 
         emailService.SendEmail(loginUser.getEmail(),
                 "Confirmation email",
-                 "Follow the link to confirm: "
-                         + request.getHeader("referer")
-                         + "/"
-                         + tokenEmail);
+                "Follow the link to confirm: "
+                        + request.getHeader("referer")
+                        + "/"
+                        + tokenEmail);
 
         return "registration/login-sendEmail";
     }
@@ -62,7 +67,7 @@ public class RegisterController {
     @GetMapping("/resend")
     public String resendEmail(Model model, HttpServletRequest request) {
 
-        LoginUser loginUser =  new LoginUser();
+        LoginUser loginUser = new LoginUser();
         loginUser.setNicName((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
 
@@ -74,9 +79,9 @@ public class RegisterController {
     }
 
     @GetMapping("/{token}")
-    public String loginRegConfirm(Model model, HttpSession httpSession, @PathVariable String token){
+    public String loginRegConfirm(Model model, HttpSession httpSession, @PathVariable String token) {
 
-        if  (httpSession.getAttribute("token") == null) {
+        if (httpSession.getAttribute("token") == null) {
             model.addAttribute("nullToken", true);
 
             return "registration/login-null-token";
@@ -84,12 +89,17 @@ public class RegisterController {
 
         if (httpSession.getAttribute("token").equals(token)) {
 
-            LoggedUser loggedUser = new LoggedUser();
-            loggedUser.setEmail(httpSession.getAttribute("email").toString());
-            loggedUser.setNicName(httpSession.getAttribute("nic").toString());
-            loggedUser.setDateRegisterLogin(LocalDateTime.now());
+            User user = new User();
+            user.setEmail(httpSession.getAttribute("email").toString());
+            user.setNicName(httpSession.getAttribute("nic").toString());
+//            user.setDateRegisterLogin(LocalDateTime.now());
+//            Set<Role> roleSet = new HashSet<>();
+//            roleSet.add(roleService.getUserRole());
+//            user.setRole(roleSet);
 
-            model.addAttribute("loggedUser", loggedUser);
+            model.addAttribute("user", user);
+
+//            System.out.println("@GetMapping(/{token}) : " + user);
 
             httpSession.invalidate();
 
@@ -104,16 +114,20 @@ public class RegisterController {
     }
 
     @PostMapping("/{token}")
-    private String loginRegSubmit(@Valid LoggedUser loggedUser, BindingResult bindingResult) {
+    private String loginRegSubmit(@Valid User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
             return "registration/login-register-form";
         }
 
-        loggedUser.setDateRegisterLogin(LocalDateTime.now());
-        System.out.println(loggedUser);
-//        userService.saveUser(loggedUser);
+//        Set<Role> roleSet = new HashSet<>();
+//        roleSet.add(roleService.getUserRole());
+//        user.setRoleSet(roleSet);
 
-        return "redirect:/geneo";
+        System.out.println("RegController : " + user);
+//        userService.saveUser(user);
+
+        return "redirect:/login";
     }
 }

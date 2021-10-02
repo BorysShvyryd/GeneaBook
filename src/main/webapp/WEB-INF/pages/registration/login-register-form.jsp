@@ -5,7 +5,7 @@
 <%--<fmt:setBundle basename="app" var="messageLang"/>--%>
 <%--<fmt:message key="app.title" bundle="${messageLang}"/>--%>
 
-<jsp:include page="../../header.jsp" flush="true"/>
+<jsp:include page="../../fragments/header.jsp" flush="true"/>
 
 <!DOCTYPE html>
 <html>
@@ -22,12 +22,13 @@
 </div>
 
 <div>
-    <form:form method="POST" modelAttribute="loggedUser">
+    <form:form method="POST" modelAttribute="user">
             <form:hidden path="id"/>
             <form:hidden path="dateRegisterLogin"/>
             <form:hidden path="dateUpdateLogin"/>
             <form:hidden path="nicName"/>
             <form:hidden path="email"/>
+<%--            <form:hidden path="roleSet.id"/>--%>
         <%--    &lt;%&ndash;    <form:select path="userProfile"/>&ndash;%&gt;--%>
 
         <h2>Registration</h2>
@@ -54,4 +55,4 @@
 </body>
 </html>
 
-<jsp:include page="../../footer.jsp" flush="true"/>
+<jsp:include page="../../fragments/footer.jsp" flush="true"/>

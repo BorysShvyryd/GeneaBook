@@ -1,19 +1,14 @@
 package com.borman.geneobook.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
-public class LoggedUser implements UserDetails {
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,22 +36,20 @@ public class LoggedUser implements UserDetails {
     @Transient
     private String confirmPassword;
 
-    @NotNull
     private LocalDateTime dateRegisterLogin;
 
     private LocalDateTime dateUpdateLogin;
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
-            mappedBy = "loggedUser")
+            mappedBy = "user")
     private UserProfile userProfile;
-
 
     public Long getId() {
         return id;
     }
 
-    public LoggedUser setId(Long id) {
+    public User setId(Long id) {
         this.id = id;
         return this;
     }
@@ -65,55 +58,54 @@ public class LoggedUser implements UserDetails {
         return nicName;
     }
 
-    public LoggedUser setNicName(String nicName) {
+    public void setNicName(String nicName) {
         this.nicName = nicName;
-        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public LoggedUser setEmail(String email) {
+    public User setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
 
     public String getPassword() {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    public LoggedUser setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -122,7 +114,7 @@ public class LoggedUser implements UserDetails {
         return confirmPassword;
     }
 
-    public LoggedUser setConfirmPassword(String confirmPassword) {
+    public User setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
         return this;
     }
@@ -131,40 +123,58 @@ public class LoggedUser implements UserDetails {
         return dateRegisterLogin;
     }
 
-    public LoggedUser setDateRegisterLogin(LocalDateTime dateRegisterLogin) {
-        this.dateRegisterLogin = dateRegisterLogin;
-        return this;
+    @PrePersist
+    public void setDateRegisterLogin() {
+        this.dateRegisterLogin = LocalDateTime.now();
     }
 
     public LocalDateTime getDateUpdateLogin() {
         return dateUpdateLogin;
     }
 
-    public LoggedUser setDateUpdateLogin(LocalDateTime dateUpdateLogin) {
-        this.dateUpdateLogin = dateUpdateLogin;
-        return this;
+    @PreUpdate
+    public void setDateUpdateLogin() {
+        this.dateUpdateLogin = LocalDateTime.now();
     }
+
     public UserProfile getUserProfile() {
         return userProfile;
     }
 
-    public LoggedUser setUserProfile(UserProfile userProfile) {
+    public User setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
         return this;
     }
 
-    public Set<Role> getRole() {
+    public Set<Role> getRoleSet() {
         return roleSet;
     }
 
-    public LoggedUser setRole(Set<Role> role) {
-        this.roleSet = role;
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
+    }
+
+    public User setDateRegisterLogin(LocalDateTime dateRegisterLogin) {
+        this.dateRegisterLogin = dateRegisterLogin;
         return this;
     }
 
+    public User setDateUpdateLogin(LocalDateTime dateUpdateLogin) {
+        this.dateUpdateLogin = dateUpdateLogin;
+        return this;
+    }
+//    public Set<Role> getRole() {
+//        return roleSet;
+//    }
+//
+//    public void setRole(Set<Role> role) {
+//        this.roleSet = role;
+//    }
+
     @Override
     public String toString() {
-        return "LoggedUser{" +
+        return "User{" +
                 "id=" + id +
                 ", nicName='" + nicName + '\'' +
                 ", email='" + email + '\'' +
@@ -176,4 +186,12 @@ public class LoggedUser implements UserDetails {
                 ", userProfile=" + userProfile +
                 '}';
     }
+
+//    @Override
+//    public void eraseCredentials() {
+////        super.eraseCredentials();
+////        if (this.userAuthentication != null && CredentialsContainer.class.isAssignableFrom(this.userAuthentication.getClass())) {
+////            CredentialsContainer.class.cast(this.userAuthentication).eraseCredentials();
+////        }
+//    }
 }

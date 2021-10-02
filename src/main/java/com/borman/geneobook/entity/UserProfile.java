@@ -44,7 +44,7 @@ public class UserProfile {
 //    private Address address;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private LoggedUser loggedUser;
+    private User user;
 
     private LocalDateTime registered;
     private LocalDateTime updated;
@@ -101,18 +101,18 @@ public class UserProfile {
         return registered;
     }
 
-    public UserProfile setRegistered(LocalDateTime registered) {
-        this.registered = registered;
-        return this;
+    @PrePersist
+    public void setRegistered() {
+        this.registered = LocalDateTime.now();
     }
 
     public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public UserProfile setUpdated(LocalDateTime updated) {
-        this.updated = updated;
-        return this;
+    @PreUpdate
+    public void setUpdated() {
+        this.updated = LocalDateTime.now();
     }
 
     public Name getName() {
@@ -142,7 +142,9 @@ public class UserProfile {
                 ", dateOfBirth=" + dateOfBirth +
                 ", dateOfDeath=" + dateOfDeath +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
-//                ", loggedUser=" + loggedUser +
+                ", user=" + user +
+                ", registered=" + registered +
+                ", updated=" + updated +
                 ", familyTies=" + familyTies +
                 '}';
     }

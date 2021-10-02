@@ -1,9 +1,9 @@
 package com.borman.geneobook.repository;
 
-import com.borman.geneobook.entity.LoggedUser;
+import com.borman.geneobook.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoggedUserRepository extends JpaRepository<LoggedUser, Long> {
+public interface LoggedUserRepository extends JpaRepository<User, Long> {
 
 
 }

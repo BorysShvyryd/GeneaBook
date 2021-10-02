@@ -1,8 +1,6 @@
 package com.borman.geneobook.service;
 
-import com.borman.geneobook.entity.LoggedUser;
-import com.borman.geneobook.entity.Role;
-import com.borman.geneobook.repository.RoleRepository;
+import com.borman.geneobook.entity.User;
 import com.borman.geneobook.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,47 +13,48 @@ import javax.persistence.PersistenceContext;
 import java.util.Collections;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @PersistenceContext
     private EntityManager em;
 
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserService(EntityManager em, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(EntityManager em, UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.em = em;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        LoggedUser user = userRepository.findByUserEmail(userEmail);
+//    @Override
+//    public User loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+//        User user = userRepository.findByUserEmail(userEmail);
+//
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        return user;
+//    }
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        return user;
-    }
-
-    public boolean saveUser(LoggedUser user) {
-        LoggedUser userFromDB = userRepository.findByUserEmail(user.getEmail());
+    public boolean saveUser(User user) {
+        User userFromDB = userRepository.findByUserEmail(user.getEmail());
 
         if (userFromDB != null) {
             return false;
         } else {
 
 
-            user.setRole(Collections.singleton(new Role(1L, "ROLE_USER")));
+            user.setRoleSet(Collections.singleton(roleService.getUserRole()));
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-            userRepository.save(user);
+            System.out.println("userService : " + user);
+//            userRepository.save(user);
 
             return true;
         }

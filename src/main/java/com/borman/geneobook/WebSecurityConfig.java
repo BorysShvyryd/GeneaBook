@@ -9,12 +9,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    UserService userService;
+
+//    private final UserService userService;
+//
+    private AccessDeniedHandler accessDeniedHandler;
+//
+//    public WebSecurityConfig(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -31,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/geneo").hasRole("USER")
+                .antMatchers("/geneo/**").hasRole("USER")
                 //Доступ разрешен всем пользователям
                 .antMatchers("/", "/resources/**", "/login/**").permitAll()
                 //Все остальные страницы требуют аутентификации
@@ -46,11 +53,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);;
     }
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+
+        auth.inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER")
+                .and()
+                .withUser("admin").password("password").roles("ADMIN");
     }
 }

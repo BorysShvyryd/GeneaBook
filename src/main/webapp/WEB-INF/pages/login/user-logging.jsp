@@ -1,6 +1,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -15,26 +16,38 @@
     <% response.sendRedirect("/"); %>
 </sec:authorize>
 <div>
-    <form modelAttribute="loginUser" method="post">
-        <h2>Login</h2>
-        <p>
-            <label><spring:message code="login.email"/>:
-                <input type="text" name="email" placeholder="nicName"/>
-            </label>
-        </p>
-        <p>
-            <label><spring:message code="login.pas"/>:
-                <input type="password" name="password" placeholder="Password"/>
-            </label>
-        </p>
+    <div style="margin-top:20px">
 
-        <input type="submit" value="<spring:message code="login.btn" />">
+        <form modelAttribute="loginUser" method="post">
 
-        <div>
-            Forgot password? <a href="/login/forgot" >Send new password</a>
-        </div>
+            <h1>Please Sign In</h1>
 
-    </form>
+            <c:if test="${param.error}">
+                <spring:message code="login.errorLogIn"/>
+            </c:if>
+            <c:if test="${param.logout}">
+                <spring:message code="login.logout"/>
+            </c:if>
+
+            <p>
+                <label><spring:message code="login.email"/>:
+                    <input type="text" name="email" placeholder="nicName"/>
+                </label>
+            </p>
+            <p>
+                <label><spring:message code="login.pas"/>:
+                    <input type="password" name="password" placeholder="Password"/>
+                </label>
+            </p>
+
+            <input type="submit" value="<spring:message code="login.btn" />">
+
+            <div>
+                Forgot password? <a href="/login/forgot">Send new password</a>
+            </div>
+
+        </form>
+    </div>
 </div>
 
 
