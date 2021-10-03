@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -38,12 +39,12 @@ public class AppConfig implements WebMvcConfigurer {
 //        return factory.getObject();
 //    }
 
-    @Bean(name="localeResolver")
+    @Bean(name = "localeResolver")
     public LocaleContextResolver getLocaleContextResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 //        localeResolver.setDefaultLocale(new Locale("pl","PL"));
 //        localeResolver.setDefaultLocale(new Locale("en","EN"));
-        localeResolver.setDefaultLocale(new Locale("uk","UA"));
+        localeResolver.setDefaultLocale(new Locale("uk", "UA"));
         return localeResolver;
     }
 
@@ -51,7 +52,7 @@ public class AppConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:validationMessages",
-                                   "classpath:/messages/login");
+                "classpath:/messages/login");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -64,7 +65,13 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public UserDetailsService getUserDetailsService(){
+    public UserDetailsService getUserDetailsService() {
         return new UserDetailsServiceImpl();
     }
+
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login").setViewName("login/user-logging");
+//        registry.addViewController("/403").setViewName("login/403");
+//    }
 }

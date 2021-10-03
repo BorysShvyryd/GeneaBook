@@ -2,6 +2,7 @@ package com.borman.geneobook.service;
 
 import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.repository.RoleRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +15,16 @@ public class RoleService {
     }
 
     public Role getAdminRole() {
-        Long roleId = roleRepository.findByName("ADMIN");
-        return roleRepository.findById(roleId).orElse(new Role());
+        Role role = roleRepository.findByName("ADMIN")
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Not role : ADMIN"));
+        return role;
     }
 
     public Role getUserRole() {
-        Long roleId = roleRepository.findByName("USER");
-        return roleRepository.findById(roleId).orElse(new Role());
+        Role role = roleRepository.findByName("USER")
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Not role : USER"));
+        return role;
     }
 }

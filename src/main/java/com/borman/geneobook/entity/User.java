@@ -34,8 +34,10 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 //    @Pattern(regexp = "")
     private String email;
 
+    private int enabled;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "userId"),inverseJoinColumns = @JoinColumn(name = "roleId"))
+    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet;
 
     @NotBlank
@@ -77,6 +79,14 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     @Override

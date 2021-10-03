@@ -1,5 +1,6 @@
 package com.borman.geneobook.service;
 
+import com.borman.geneobook.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,21 +15,25 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     private UserService userService;
 
     @Autowired
-    private RoleService roleService;
+    public void setUserRepository(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserDetails user = userService.loadUserByUsername(email);
-//        User user = userService.loadUserByUsername(email);
-        Set<GrantedAuthority> roles = new HashSet();
-        roles.add(new SimpleGrantedAuthority(roleService.getUserRole().getName()));
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),
-                roles);
+        User user = userService.findByUserName(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+        user.getRoleSet().forEach(r ->
+                grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), grantedAuthorities);
     }
 }

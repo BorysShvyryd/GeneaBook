@@ -1,6 +1,6 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.service.UserService;
+import com.borman.geneobook.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

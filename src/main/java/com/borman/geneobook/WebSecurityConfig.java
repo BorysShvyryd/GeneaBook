@@ -1,24 +1,27 @@
 package com.borman.geneobook;
 
-import com.borman.geneobook.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.borman.geneobook.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
 
-    private AccessDeniedHandler accessDeniedHandler;
+    //    private AccessDeniedHandler accessDeniedHandler;
+
+    @Bean
+    public UserDetailsServiceImpl customUserDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -44,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Настройка для входа в систему
                 .formLogin()
                 .loginPage("/login")
+                //        .failureUrl("/login-error")
                 //Перенарпавление на главную страницу после успешного входа
                 .defaultSuccessUrl("/")
                 .permitAll()
@@ -52,17 +56,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .logoutSuccessUrl("/")
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);;
+                .exceptionHandling()
+                .accessDeniedPage("/login/403");
+//                .and()
+//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);;
+
+//        httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    //    @Autowired
+//    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//
+//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+//
+//        auth.inMemoryAuthentication()
+//                .withUser("user").password("password").roles("USER")
+//                .and()
+//                .withUser("admin").password("password").roles("ADMIN");
+//    }
 
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
-
-        auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("ADMIN");
-    }
 }

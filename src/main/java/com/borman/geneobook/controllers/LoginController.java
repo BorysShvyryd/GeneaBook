@@ -5,6 +5,9 @@ import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.UserRepository;
 import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.repository.RandomDataRepositories;
+import com.borman.geneobook.service.UserService;
+import com.borman.geneobook.service.UserServiceImpl;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +20,14 @@ public class LoginController {
     private final RandomDataRepositories randomDataRepositories;
     private final EmailService emailService;
     private final UserRepository userRepository;
+    private final UserService userService;
 
 
-    public LoginController(RandomDataRepositories randomDataRepositories, EmailService emailService, UserRepository userRepository) {
+    public LoginController(RandomDataRepositories randomDataRepositories, EmailService emailService, UserRepository userRepository, UserService userService) {
         this.randomDataRepositories = randomDataRepositories;
         this.emailService = emailService;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -31,6 +36,7 @@ public class LoginController {
 //        if (rCookie != null) {
 //        }
 //        model.addAttribute("loginUser", new LoginUser());
+
         model.addAttribute("email");
 
         LoginUser loginUser = new LoginUser();
@@ -44,6 +50,17 @@ public class LoginController {
     public String loginSubmit(Model model) {
 //        Collection<? extends Session> usersSessions = this.sessions.findByPrincipalName(principal.getName()).values();
 //        model.addAttribute("sessions", usersSessions);
+//        model.addAttribute("errorLogIn", true);
+        String email = "bormanpgg@gmail.com";
+        String password = "12345678";
+        System.out.println(email + password);
+//        if (userRepository.findByUserEmail(email) == null) {
+//            model.addAttribute("login.noUser", true);
+////            throw new UsernameNotFoundException(String.format("Invalid credentials", authentication.getPrincipal()));
+//        }
+//        if(!userRepository.findByUserEmail(email).getPassword().equals(userRepository.(password)){
+//            throw new BadCredentialsException("Invalid password");
+//        }
 
         return "geneo";
     }
@@ -54,7 +71,10 @@ public class LoginController {
         //???
         String email = "bormanpgg@gmail.com";
 
-        User restoreUser = userRepository.findByUserEmail(email);
+        User restoreUser = userRepository.findByUsername(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User Not Found with -> username or email : " + email)
+                );
 
         if (restoreUser == null) {
             System.out.println("no");

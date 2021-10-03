@@ -12,9 +12,14 @@
 </head>
 
 <body>
-<sec:authorize access="isAuthenticated()">
-    <% response.sendRedirect("/"); %>
-</sec:authorize>
+<%--<sec:authorize access="isAuthenticated()">--%>
+<%--    <% response.sendRedirect("/"); %>--%>
+<%--</sec:authorize>--%>
+
+<%--<sec:authorize access="isAuthenticated()">--%>
+<%--    <p>Zalogowany jako: <sec:authentication property="username"/></p>--%>
+<%--    <p>Posiada role: <sec:authentication property="authorities"/></p>--%>
+<%--</sec:authorize>--%>
 <div>
     <div style="margin-top:20px">
 
@@ -22,12 +27,23 @@
 
             <h1>Please Sign In</h1>
 
-            <c:if test="${errorLogIn}">
+<%--            <c:if test="${errorLogIn}">--%>
+<%--                <spring:message code="login.errorLogIn"/>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${param.logout}">--%>
+<%--                <spring:message code="login.logout"/>--%>
+<%--            </c:if>--%>
+            <%--            <c:if test="${param.auth eq 'failure'}">--%>
+            <%--&lt;%&ndash;                <div class="error">&ndash;%&gt;--%>
+            <%--                <spring:message code="login.errorLogIn"/>--%>
+            <%--&lt;%&ndash;                    <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />&ndash;%&gt;--%>
+            <%--&lt;%&ndash;                </div>&ndash;%&gt;--%>
+            <%--            </c:if>--%>
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
                 <spring:message code="login.errorLogIn"/>
+<%--                <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>--%>
             </c:if>
-            <c:if test="${param.logout}">
-                <spring:message code="login.logout"/>
-            </c:if>
+
 
             <p>
                 <label><spring:message code="login.email"/>:
@@ -42,9 +58,12 @@
 
             <input type="submit" value="<spring:message code="login.btn" />">
 
-            <div>
-                Forgot password? <a href="/login/forgot">Send new password</a>
-            </div>
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+                <div>
+                    Forgot password? <a href="/login/forgot">Send new password</a>
+<%--                    ${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
+                </div>
+            </c:if>
 
         </form>
     </div>

@@ -10,6 +10,14 @@
 </head>
 <body>
 
+<c:if test="${nullToken}">
+    <<spring:message code="login.noUser" />
+</c:if>
+
+<c:if test="${errorToken}">
+    <<spring:message code="login.wrongPassword" />
+</c:if>
+
 <form modelAttribute="loginUser" method="post">
     <%--    <form:errors />--%>
     <p>

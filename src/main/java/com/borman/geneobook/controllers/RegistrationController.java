@@ -1,12 +1,10 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.RandomDataRepositories;
-import com.borman.geneobook.service.RoleService;
-import com.borman.geneobook.service.UserService;
+import com.borman.geneobook.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/registration")
@@ -25,14 +21,12 @@ public class RegistrationController {
 
     private final EmailService emailService;
     private final RandomDataRepositories randomDataRepositories;
-    private final UserService userService;
-    private final RoleService roleService;
+    private final UserServiceImpl userService;
 
-    public RegistrationController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserService userService, RoleService roleService) {
+    public RegistrationController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserServiceImpl userService) {
         this.emailService = emailService;
         this.randomDataRepositories = randomDataRepositories;
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping

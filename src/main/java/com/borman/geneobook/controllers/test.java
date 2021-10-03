@@ -14,6 +14,7 @@ public class test {
         // InitROLE
 
         RoleRepository roleRepository = null;
+
         Role role = new Role();
 
         role.setId(1L);
