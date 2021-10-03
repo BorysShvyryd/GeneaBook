@@ -1,4 +1,4 @@
-package com.borman.geneobook.controllers;
+package com.borman.geneobook.waste;
 
 import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.repository.RoleRepository;

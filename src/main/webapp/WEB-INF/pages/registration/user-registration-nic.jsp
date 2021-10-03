@@ -10,24 +10,36 @@
 </head>
 <body>
 
-<c:if test="${nullToken}">
-    <<spring:message code="login.noUser" />
-</c:if>
+<%--<c:if test="${nullToken}">--%>
+<%--    <<spring:message code="registration.nullToken" />--%>
+<%--</c:if>--%>
 
-<c:if test="${errorToken}">
-    <<spring:message code="login.wrongPassword" />
-</c:if>
+<%--<c:if test="${errorToken}">--%>
+<%--    <<spring:message code="registration.errorToken" />--%>
+<%--</c:if>--%>
 
 <form modelAttribute="loginUser" method="post">
-    <%--    <form:errors />--%>
+
+    <c:if test="${notCorrectNic}">
+        <<spring:message code="registration.notCorrectNic" />
+    </c:if>
+
+    <c:if test="${notCorrectEmail}">
+        <<spring:message code="registration.notCorrectEmail" />
+    </c:if>
+
+    <c:if test="${alreadyRegistered}">
+        <<spring:message code="registration.alreadyregistered" />
+    </c:if>
+
     <p>
-        <label><spring:message code="login.nicName" />:<br>
+        <label><spring:message code="registration.nicName" />:<br>
             <input type="text" name="nicName" />
             <%--            <errors path="nicName"/>--%>
         </label>
     </p>
     <p>
-        <label><spring:message code="login.email" />:<br>
+        <label><spring:message code="registration.email" />:<br>
             <input type="text" name="email" />
             <%--            <errors path="email"/>--%>
         </label>

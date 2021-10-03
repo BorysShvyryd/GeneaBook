@@ -1,11 +1,14 @@
-package com.borman.geneobook.repository;
+package com.borman.geneobook.service;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@Repository
-public class RandomDataRepositories {
+@Service
+public class RandomDataService {
     private static final String AlphaString = "0123456789"
             + "QWERTYUIOPASDFGHJKLZXCVBNM"
             + "qwertyuiopasdfghjklzxcvbnm";
@@ -37,5 +40,13 @@ public class RandomDataRepositories {
 
     public String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public boolean verificationEmail(String email) {
+
+        Pattern compiledPattern = Pattern.compile("[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,}){1}");
+        Matcher matcher = compiledPattern.matcher(email);
+        return matcher.matches();
+
     }
 }

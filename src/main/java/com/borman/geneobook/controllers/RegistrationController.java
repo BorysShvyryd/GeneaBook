@@ -3,7 +3,7 @@ package com.borman.geneobook.controllers;
 import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.pojo.LoginUser;
-import com.borman.geneobook.repository.RandomDataRepositories;
+import com.borman.geneobook.service.RandomDataService;
 import com.borman.geneobook.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +20,12 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private final EmailService emailService;
-    private final RandomDataRepositories randomDataRepositories;
+    private final RandomDataService randomDataService;
     private final UserServiceImpl userService;
 
-    public RegistrationController(EmailService emailService, RandomDataRepositories randomDataRepositories, UserServiceImpl userService) {
+    public RegistrationController(EmailService emailService, RandomDataService randomDataService, UserServiceImpl userService) {
         this.emailService = emailService;
-        this.randomDataRepositories = randomDataRepositories;
+        this.randomDataService = randomDataService;
         this.userService = userService;
     }
 
@@ -34,28 +34,48 @@ public class RegistrationController {
 
         model.addAttribute("loginUser", new LoginUser());
 
-        return "registration/user-login";
+        return "registration/user-registration-nic";
     }
 
     @PostMapping
     public String loginRegSubmit(LoginUser loginUser, HttpServletRequest request, Model model) {
 
-        String tokenEmail = randomDataRepositories.getToken();
+        model.addAttribute("notCorrectNic", false);
+
+        if (loginUser.getNicName().trim().length() < 5
+                && loginUser.getNicName().trim().length() > 32) {
+            model.addAttribute("notCorrectNic", true);
+        }
+
+        model.addAttribute("notCorrectEmail", false);
+
+        if (!randomDataService.verificationEmail(loginUser.getEmail())) {
+            model.addAttribute("notCorrectEmail", true);
+        }
+
+        model.addAttribute("alreadyRegistered", false);
+
+        if (userService.findByUserName(loginUser.getEmail()) != null) {
+            model.addAttribute("alreadyRegistered", true);
+            return "registration/user-registration-nic";
+        }
+
+        String tokenEmail = randomDataService.getToken();
 
         model.addAttribute("nic", loginUser.getNicName());
         model.addAttribute("email", loginUser.getEmail());
         model.addAttribute("token", tokenEmail);
 
-        model.addAttribute("sendEmail", true);
+        model.addAttribute("sendEmail",
+                emailService.SendEmail(loginUser.getEmail(),
+                        "Confirmation email",
+                        "Follow the link to confirm: "
+                                + request.getHeader("referer")
+                                + "/"
+                                + tokenEmail)
+        );
 
-        emailService.SendEmail(loginUser.getEmail(),
-                "Confirmation email",
-                "Follow the link to confirm: "
-                        + request.getHeader("referer")
-                        + "/"
-                        + tokenEmail);
-
-        return "registration/login-sendEmail";
+        return "registration/registration-sendEmail";
     }
 
     @GetMapping("/resend")
@@ -65,19 +85,20 @@ public class RegistrationController {
         loginUser.setNicName((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
 
-        model.addAttribute("sendEmail", true);
+//        model.addAttribute("sendEmail", true);
 
         loginRegSubmit(loginUser, request, model);
 
-        return "registration/login-sendEmail";
+        return "registration/registration-sendEmail";
     }
 
     @GetMapping("/{token}")
     public String loginRegConfirm(Model model, HttpSession httpSession, @PathVariable String token) {
 
+        model.addAttribute("nullToken", false);
+
         if (httpSession.getAttribute("token") == null) {
             model.addAttribute("nullToken", true);
-
             return "registration/login-null-token";
         }
 
@@ -93,7 +114,7 @@ public class RegistrationController {
 
             httpSession.invalidate();
 
-            return "registration/login-register-form";
+            return "registration/user-registration-form";
 
         } else {
 
@@ -104,11 +125,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/{token}")
-    private String loginRegSubmit(@Valid User user, BindingResult bindingResult) {
+    private String loginRegConfirmSubmit(@Valid User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
-            return "registration/login-register-form";
+            return "registration/user-registration-form";
         }
 
         userService.saveUser(user);

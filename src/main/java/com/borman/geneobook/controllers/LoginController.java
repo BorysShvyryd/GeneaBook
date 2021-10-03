@@ -4,9 +4,8 @@ import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.pojo.LoginUser;
 import com.borman.geneobook.repository.UserRepository;
 import com.borman.geneobook.service.EmailService;
-import com.borman.geneobook.repository.RandomDataRepositories;
+import com.borman.geneobook.service.RandomDataService;
 import com.borman.geneobook.service.UserService;
-import com.borman.geneobook.service.UserServiceImpl;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @SessionAttributes({"email"})
 public class LoginController {
 
-    private final RandomDataRepositories randomDataRepositories;
+    private final RandomDataService randomDataService;
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final UserService userService;
 
 
-    public LoginController(RandomDataRepositories randomDataRepositories, EmailService emailService, UserRepository userRepository, UserService userService) {
-        this.randomDataRepositories = randomDataRepositories;
+    public LoginController(RandomDataService randomDataService, EmailService emailService, UserRepository userRepository, UserService userService) {
+        this.randomDataService = randomDataService;
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.userService = userService;
@@ -85,7 +84,7 @@ public class LoginController {
 
 //        model.addAttribute("mail", email); ??? Cookie
 
-        String token = randomDataRepositories.getRandomPass();
+        String token = randomDataService.getRandomPass();
 
         emailService.SendEmail(
                 restoreUser.getEmail(),
@@ -121,7 +120,7 @@ public class LoginController {
         if (validate) {
             String email = (String) model.getAttribute("email");
 
-            String token = randomDataRepositories.getRandomPass();
+            String token = randomDataService.getRandomPass();
 
         } else {
             model.addAttribute("message", "Email does not exist");
