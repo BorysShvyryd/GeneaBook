@@ -16,10 +16,10 @@
 <%--    <% response.sendRedirect("/"); %>--%>
 <%--</sec:authorize>--%>
 
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--    <p>Zalogowany jako: <sec:authentication property="username"/></p>--%>
-<%--    <p>Posiada role: <sec:authentication property="authorities"/></p>--%>
-<%--</sec:authorize>--%>
+<sec:authorize access="isAuthenticated()">
+    <p>Zalogowany jako: <sec:authentication property="username"/></p>
+    <p>Posiada role: <sec:authentication property="authorities"/></p>
+</sec:authorize>
 <div>
     <div style="margin-top:20px">
 
@@ -41,9 +41,7 @@
             <%--            </c:if>--%>
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
                 <spring:message code="login.errorLogIn"/>
-<%--                <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>--%>
             </c:if>
-
 
             <p>
                 <label><spring:message code="login.email"/>:
@@ -58,11 +56,10 @@
 
             <input type="submit" value="<spring:message code="login.btn" />">
 
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                <div>
                     Forgot password? <a href="/login/forgot">Send new password</a>
-<%--                    ${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
-                </div>
             </c:if>
 
         </form>

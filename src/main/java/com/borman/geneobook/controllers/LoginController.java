@@ -31,39 +31,39 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginForm(Model model) { //,
+    public String loginForm() { //,
 //                            @CookieValue(name = "Email", value = "Value", required = false) Session.Cookie cookie) {
 //        if (rCookie != null) {
 //        }
 //        model.addAttribute("loginUser", new LoginUser());
 
-        model.addAttribute("email");
-
-        LoginUser loginUser = new LoginUser();
-
-        model.addAttribute("loginUser", loginUser);
+//        model.addAttribute("email");
+//
+//        LoginUser loginUser = new LoginUser();
+//
+//        model.addAttribute("loginUser", loginUser);
 
         return "login/user-logging";
     }
 
-    @PostMapping
-    public String loginSubmit(Model model) {
-//        Collection<? extends Session> usersSessions = this.sessions.findByPrincipalName(principal.getName()).values();
-//        model.addAttribute("sessions", usersSessions);
-//        model.addAttribute("errorLogIn", true);
-        String email = "bormanpgg@gmail.com";
-        String password = "12345678";
-        System.out.println(email + password);
-//        if (userRepository.findByUserEmail(email) == null) {
-//            model.addAttribute("login.noUser", true);
-////            throw new UsernameNotFoundException(String.format("Invalid credentials", authentication.getPrincipal()));
-//        }
-//        if(!userRepository.findByUserEmail(email).getPassword().equals(userRepository.(password)){
-//            throw new BadCredentialsException("Invalid password");
-//        }
-
-        return "geneo";
-    }
+//    @PostMapping
+//    public String loginSubmit(Model model) {
+////        Collection<? extends Session> usersSessions = this.sessions.findByPrincipalName(principal.getName()).values();
+////        model.addAttribute("sessions", usersSessions);
+////        model.addAttribute("errorLogIn", true);
+//        String email = "bormanpgg@gmail.com";
+//        String password = "12345678";
+//        System.out.println(email + password);
+////        if (userRepository.findByUserEmail(email) == null) {
+////            model.addAttribute("login.noUser", true);
+//////            throw new UsernameNotFoundException(String.format("Invalid credentials", authentication.getPrincipal()));
+////        }
+////        if(!userRepository.findByUserEmail(email).getPassword().equals(userRepository.(password)){
+////            throw new BadCredentialsException("Invalid password");
+////        }
+//
+//        return "geneo";
+//    }
 
     @GetMapping("/forgot")
     public String forgotPassSend(Model model, LoginUser user) {
