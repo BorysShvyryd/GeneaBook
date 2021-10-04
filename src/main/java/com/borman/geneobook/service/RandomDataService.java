@@ -44,9 +44,7 @@ public class RandomDataService {
 
     public boolean verificationEmail(String email) {
 
-        Pattern compiledPattern = Pattern.compile("[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,}){1}");
-        Matcher matcher = compiledPattern.matcher(email);
-        return matcher.matches();
+        return email.matches("[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,}){1}");
 
     }
 }

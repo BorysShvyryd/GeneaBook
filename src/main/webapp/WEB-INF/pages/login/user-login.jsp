@@ -23,16 +23,17 @@
 <div>
     <div style="margin-top:20px">
 
-        <form modelAttribute="loginUser" method="post">
+        <form method="post">
+<%--        <form modelAttribute="user" method="post">--%>
 
             <h1>Please Sign In</h1>
 
-<%--            <c:if test="${errorLogIn}">--%>
-<%--                <spring:message code="login.errorLogIn"/>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${param.logout}">--%>
-<%--                <spring:message code="login.logout"/>--%>
-<%--            </c:if>--%>
+            <%--            <c:if test="${errorLogIn}">--%>
+            <%--                <spring:message code="login.errorLogIn"/>--%>
+            <%--            </c:if>--%>
+            <%--            <c:if test="${param.logout}">--%>
+            <%--                <spring:message code="login.logout"/>--%>
+            <%--            </c:if>--%>
             <%--            <c:if test="${param.auth eq 'failure'}">--%>
             <%--&lt;%&ndash;                <div class="error">&ndash;%&gt;--%>
             <%--                <spring:message code="login.errorLogIn"/>--%>
@@ -45,7 +46,7 @@
 
             <p>
                 <label><spring:message code="login.email"/>:
-                    <input type="text" name="email" placeholder="nicName"/>
+                    <input type="text" name="username" placeholder="Email"/>
                 </label>
             </p>
             <p>
@@ -59,7 +60,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                    Forgot password? <a href="/login/forgot">Send new password</a>
+                Forgot password? <a href="/login/forgot">Send new password</a>
             </c:if>
 
         </form>

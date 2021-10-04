@@ -1,5 +1,6 @@
 package com.borman.geneobook.controllers;
 
+import com.borman.geneobook.repository.UserRepository;
 import com.borman.geneobook.service.EmailService;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.pojo.LoginUser;
@@ -22,11 +23,13 @@ public class RegistrationController {
     private final EmailService emailService;
     private final RandomDataService randomDataService;
     private final UserServiceImpl userService;
+    private final UserRepository userRepository;
 
-    public RegistrationController(EmailService emailService, RandomDataService randomDataService, UserServiceImpl userService) {
+    public RegistrationController(EmailService emailService, RandomDataService randomDataService, UserServiceImpl userService, UserRepository userRepository) {
         this.emailService = emailService;
         this.randomDataService = randomDataService;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -43,19 +46,21 @@ public class RegistrationController {
         model.addAttribute("notCorrectNic", false);
 
         if (loginUser.getNicName().trim().length() < 5
-                && loginUser.getNicName().trim().length() > 32) {
+                || loginUser.getNicName().trim().length() > 32) {
             model.addAttribute("notCorrectNic", true);
+            return "registration/user-registration-nic";
         }
 
         model.addAttribute("notCorrectEmail", false);
 
         if (!randomDataService.verificationEmail(loginUser.getEmail())) {
             model.addAttribute("notCorrectEmail", true);
+            return "registration/user-registration-nic";
         }
 
         model.addAttribute("alreadyRegistered", false);
 
-        if (userService.findByUserName(loginUser.getEmail()) != null) {
+        if (userRepository.existsByEmail(loginUser.getEmail())) {
             model.addAttribute("alreadyRegistered", true);
             return "registration/user-registration-nic";
         }
