@@ -30,7 +30,7 @@ public class LoginController {
     @GetMapping
     public String loginForm() { //,
 //                            @CookieValue(name = "Email", value = "Value", required = false) Session.Cookie cookie) {
-//        if (rCookie != null) {
+//        if (сookie != null) {
 //        }
 
         return "login/user-login";

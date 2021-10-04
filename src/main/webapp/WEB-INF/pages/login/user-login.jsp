@@ -43,7 +43,7 @@
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
                 <spring:message code="login.errorLogIn"/>
             </c:if>
-
+    ${param.error}
             <p>
                 <label><spring:message code="login.email"/>:
                     <input type="text" name="username" placeholder="Email"/>

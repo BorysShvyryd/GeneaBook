@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">
 </head>
 <body>
-: ${contextPath}
+
 <div>
     <h3>${pageContext.request.userPrincipal.name}</h3>
     <sec:authorize access="!isAuthenticated()">
@@ -18,6 +18,7 @@
         <h4><a href="/registration">Registration</a></h4>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
+        <h4><a href="/geneo/profile"></a></h4>
         <h4><a href="/logout">Logout</a></h4>
     </sec:authorize>
     <h4><a href="/about">About</a></h4>

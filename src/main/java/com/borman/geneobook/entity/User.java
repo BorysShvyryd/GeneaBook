@@ -28,7 +28,6 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
     @NotBlank
     @Size(max = 128)
     @Column(unique = true)
-//    @Pattern(regexp = "")
     private String email;
 
     private int enabled;
@@ -39,7 +38,6 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @NotBlank
     @Size(min = 8, max = 128)
-//    @Pattern(regexp = "")
     private String password;
 
     @Transient
@@ -88,14 +86,6 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
-//        if () {
-//            if (this.getUser().isAdmin()) {
-//                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//            }
-//            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//        }
-//        return authorities;
         return roleSet;
     }
 
