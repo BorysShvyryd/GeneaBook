@@ -27,7 +27,6 @@ public class AppConfig implements WebMvcConfigurer {
 //    public Set<Converter> getConverters() {
 //        Set<Converter> converters = new HashSet<>();
 //        converters.add((Converter) new LoggedUserConverter());
-////        converters.add((Converter) new AuthorConverter());
 //        return converters;
 //    }
 //

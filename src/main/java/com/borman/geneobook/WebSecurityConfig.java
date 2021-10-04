@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //    private AccessDeniedHandler accessDeniedHandler;
-
     @Bean
     public UserDetailsServiceImpl customUserDetailsService() {
         return new UserDetailsServiceImpl();
@@ -47,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 //        .failureUrl("/login-error")
                 //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/geneo")
                 .permitAll()
                 .and()
                 .logout()
@@ -70,16 +68,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bCryptPasswordEncoder());
 
     }
-
-    //    @Autowired
-//    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
-//
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER")
-//                .and()
-//                .withUser("admin").password("password").roles("ADMIN");
-//    }
-
 }

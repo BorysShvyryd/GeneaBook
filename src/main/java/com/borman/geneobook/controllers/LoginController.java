@@ -36,6 +36,12 @@ public class LoginController {
         return "login/user-login";
     }
 
+
+    @GetMapping("/403")
+    public String error403() {
+        return "login/403";
+    }
+
     @GetMapping("/forgot")
     public String forgotPassSend(Model model, LoginUser user) {
 
