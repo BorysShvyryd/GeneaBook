@@ -18,11 +18,11 @@ public class test {
         Role role = new Role();
 
         role.setId(1L);
-        role.setName("ADMIN");
+        role.setName("ROLE_ADMIN");
         roleRepository.save(role);
 
         role.setId(1L);
-        role.setName("USER");
+        role.setName("ROLE_USER");
         roleRepository.save(role);
 
 

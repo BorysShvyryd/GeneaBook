@@ -15,14 +15,14 @@ public class RoleService {
     }
 
     public Role getAdminRole() {
-        Role role = roleRepository.findByName("ADMIN")
+        Role role = roleRepository.findByName("ROLE_ADMIN")
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Not role : ADMIN"));
         return role;
     }
 
     public Role getUserRole() {
-        Role role = roleRepository.findByName("USER")
+        Role role = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Not role : USER"));
         return role;

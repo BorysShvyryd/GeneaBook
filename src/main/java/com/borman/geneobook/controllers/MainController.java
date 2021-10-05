@@ -1,16 +1,17 @@
 package com.borman.geneobook.controllers;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+//@Secured("ROLE_USER")
 @RequestMapping("/geneo")
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public String homePage() {
-        System.out.println("geneo");
         return "/geneo/main-page";
     }
 

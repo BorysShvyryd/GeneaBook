@@ -18,11 +18,12 @@
         <h4><a href="/registration">Registration</a></h4>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
-        <h4><a href="/geneo/profile"></a></h4>
+        <h4><a href="/geneo/profile">Profile</a></h4>
         <h4><a href="/logout">Logout</a></h4>
     </sec:authorize>
     <h4><a href="/about">About</a></h4>
     <h4><a href="/admin">Admin</a></h4>
+    <h4><a href="/feedback">Feedback from our users</a></h4>
 
     <%--<select name="${langs}"></select>language<br>--%>
 

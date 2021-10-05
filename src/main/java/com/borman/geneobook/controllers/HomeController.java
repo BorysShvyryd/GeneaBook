@@ -16,4 +16,9 @@ public class HomeController {
         return "/about";
     }
 
+    @GetMapping("/feedback")
+    public String feedback() {
+        return "/feedback";
+    }
+
 }
