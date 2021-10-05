@@ -52,49 +52,46 @@ public class UserProfile {
     @ManyToMany
     private List<FamilyTies> familyTies;
 
+    // Get&Set
+
     public Long getId() {
         return id;
     }
 
-    public UserProfile setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public UserProfile setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        return this;
     }
 
     public LocalDate getDateOfDeath() {
         return dateOfDeath;
     }
 
-    public UserProfile setDateOfDeath(LocalDate dateOfDeath) {
+    public void setDateOfDeath(LocalDate dateOfDeath) {
         this.dateOfDeath = dateOfDeath;
-        return this;
     }
 
     public String getPlaceOfBirth() {
         return placeOfBirth;
     }
 
-    public UserProfile setPlaceOfBirth(String placeOfBirth) {
+    public void setPlaceOfBirth(String placeOfBirth) {
         this.placeOfBirth = placeOfBirth;
-        return this;
     }
 
     public Sex getSex() {
         return sex;
     }
 
-    public UserProfile setSex(Sex sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
-        return this;
     }
 
     public LocalDateTime getRegistered() {
@@ -119,18 +116,32 @@ public class UserProfile {
         return name;
     }
 
-    public UserProfile setName(Name name) {
+    public void setName(Name name) {
         this.name = name;
-        return this;
     }
 
     public List<FamilyTies> getFamilyTies() {
         return familyTies;
     }
 
-    public UserProfile setFamilyTies(List<FamilyTies> familyTies) {
+    public void setFamilyTies(List<FamilyTies> familyTies) {
         this.familyTies = familyTies;
-        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRegistered(LocalDateTime registered) {
+        this.registered = registered;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 
     @Override
