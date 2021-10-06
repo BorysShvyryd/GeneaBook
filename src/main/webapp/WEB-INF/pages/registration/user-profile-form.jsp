@@ -10,6 +10,7 @@
     <form:hidden path="id"/>
     <form:hidden path="registered"/>
     <form:hidden path="updated"/>
+    <form:hidden path="user.id"/>
 
     Firstname: <form:input path="name.firstName"/>
     <form:errors path="name.firstName"/> <br>

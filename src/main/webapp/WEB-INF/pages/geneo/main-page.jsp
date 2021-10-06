@@ -25,6 +25,7 @@ Menu <br>
 <sec:authorize access="isAuthenticated()">
     <h4><a href="/geneo/profile">Profile</a></h4>
     <h4><a href="/logout">Logout</a></h4>
+    <h4><a href="/geneo/family">My family tree</a></h4>
 </sec:authorize>
 
 
