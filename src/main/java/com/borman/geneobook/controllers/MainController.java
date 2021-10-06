@@ -2,6 +2,7 @@ package com.borman.geneobook.controllers;
 
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.UserProfile;
+import com.borman.geneobook.entity.pojo.RelationShip;
 import com.borman.geneobook.repository.UserProfileRepository;
 import com.borman.geneobook.repository.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import java.security.Principal;
 
 @Controller
 //@Secured("ROLE_USER")
-@RequestMapping("/geneo")
+@RequestMapping("/genealogy")
 public class MainController {
 
     private final UserRepository userRepository;
@@ -29,7 +30,7 @@ public class MainController {
 
     @GetMapping("")
     public String homePage() {
-        return "/geneo/main-page";
+        return "/genealogy/main-page";
     }
 
     @GetMapping("/profile")
@@ -59,15 +60,23 @@ public class MainController {
             userProfileRepository.save(userProfile);
         }
 
-        return "/geneo/main-page";
+        return "/genealogy/main-page";
     }
 
     @GetMapping("/family")
-    public String familyProfileForm(Model model, Principal principal) {
+    public String familyTreePage(Model model, Principal principal) {
 
-//        UserProfile userProfile = new UserProfile();
-//        model.addAttribute("userProfile", userProfile);
+        model.addAttribute("relationShips", RelationShip.values());
 
-        return "/geneo/family-form";
+        return "/genealogy/family-tree";
+    }
+
+    @GetMapping("/family/member")
+    public String familyAddMemberForm(Model model, Principal principal) {
+
+//        Relat
+//        model.addAttribute("RelationShip", userProfile);
+
+        return "/genealogy/family-add-member-form";
     }
 }

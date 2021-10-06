@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 //        .failureUrl("/login-error")
                 //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/geneo")
+                .defaultSuccessUrl("/genealogy")
                 .permitAll()
                 .and()
                 .logout()
