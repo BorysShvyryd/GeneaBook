@@ -29,19 +29,19 @@ enum MARRIED_COUPLE {HUSBAND, WIFE}
 
 enum CHILDREN {SON, DAUGHTER}
 
-enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LINE}
+//enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LINE}
 
-enum LANG {
-
-    ENGLISH("EN"), POLISH("PL"), RUSSIAN("RU"), UKRAINIAN("UK"), CZECH("CZ");
-
-    private final String lang;
-
-    LANG(String lang) { this.lang = lang; }
-
-    public String getLang() { return lang; }
-
-}
+//enum LANG {
+//
+//    ENGLISH("EN"), POLISH("PL"), RUSSIAN("RU"), UKRAINIAN("UK"), CZECH("CZ");
+//
+//    private final String lang;
+//
+//    LANG(String lang) { this.lang = lang; }
+//
+//    public String getLang() { return lang; }
+//
+//}
 
 //enum UserRoleEnum {
 //

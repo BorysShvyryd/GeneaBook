@@ -102,8 +102,16 @@ public class RegistrationController {
 
         model.addAttribute("nullToken", false);
 
-        if (httpSession.getAttribute("token") == null) {
+        String responseToken = (String) httpSession.getAttribute("token");
+
+        if (responseToken == null) {
             model.addAttribute("nullToken", true);
+            return "registration/login-null-token";
+        }
+
+        if (responseToken.length() != 64) {
+//            model.addAttribute("nullToken", true);
+            System.out.println("False token. Please try again.");
             return "registration/login-null-token";
         }
 
@@ -115,9 +123,9 @@ public class RegistrationController {
 
             model.addAttribute("user", user);
 
-//            System.out.println("@GetMapping(/{token}) : " + user);
-
-            httpSession.invalidate();
+//            httpSession.invalidate();
+//            model.addAttribute("token", "");
+            httpSession.setAttribute("token", "");
 
             return "registration/user-registration-form";
 

@@ -1,6 +1,7 @@
 package com.borman.geneobook.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class FamilyTies {
@@ -9,12 +10,22 @@ public class FamilyTies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    private GeneoUser concreteGeneoUser;
+    @NotBlank
+    private String nameFamilyTies;
 
-//    private FamilyTies1 concreteFamilyties;
+    public Long getId() {
+        return id;
+    }
 
-//    @ManyToOne
-//    private GeneoUser geneoUser;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getNameFamilyTies() {
+        return nameFamilyTies;
+    }
+
+    public void setNameFamilyTies(String nameFamilyTies) {
+        this.nameFamilyTies = nameFamilyTies;
+    }
 }

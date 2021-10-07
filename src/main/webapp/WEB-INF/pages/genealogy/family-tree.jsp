@@ -9,8 +9,8 @@ FAMILY TREE
 
 <a href="/genealogy/family/member" >Add a family member</a><br>
 
-<c:forEach var="relationShip" items="${relationShips}">
-    <a href="/genealogy/family/member-${relationShip}">add ${relationShip}</a><br>
+<c:forEach var="singleFamilyTies" items="${familyTies}">
+    <a href="/genealogy/family/member/${userIdRelation.id}/${singleFamilyTies.id}">add ${singleFamilyTies.nameFamilyTies}</a><br>
 </c:forEach>
 
 wiev family tree

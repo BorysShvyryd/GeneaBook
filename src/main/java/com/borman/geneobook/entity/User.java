@@ -52,6 +52,7 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
             mappedBy = "user")
     private UserProfile userProfile;
 
+
     public Long getId() {
         return id;
     }

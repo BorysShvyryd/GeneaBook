@@ -4,7 +4,9 @@
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
+<table>
 <form:form method="post" modelAttribute="userProfile">
+
     <form:hidden path="id"/>
     <form:hidden path="registered"/>
     <form:hidden path="updated"/>
@@ -16,20 +18,22 @@
     <form:errors path="name.lastName"/> <br>
     Middle name: <form:input path="name.middleName"/>
     <form:errors path="name.middleName"/> <br>
-<%----%>
+
     Sex: <form:radiobuttons path="sex"/>
     <form:errors path="sex"/> <br>
-<%----%>
+
     dateOfBirth: <form:input type="date" path="dateOfBirth" />
     <form:errors path="dateOfBirth"/> <br>
-<%----%>
+
     placeOfBirth: <form:input path="placeOfBirth"/>
     <form:errors path="placeOfBirth"/> <br>
-<%----%>
+
     <%--    familyTies: <form:input path="familyTies"/> <br>--%>
     <%--    <form:errors path="categoriesList"/> <br>--%>
-<%----%>
+
     <input type="submit">
+
 </form:form>
+</table>
 
 <jsp:include page="../../fragments/footer.jsp" flush="true"/>
