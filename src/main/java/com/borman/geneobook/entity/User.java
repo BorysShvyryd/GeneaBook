@@ -22,7 +22,7 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @NotBlank
     @Size(max = 32)
-    private String nicName;
+    private String nickname;
 
     @Email
     @NotBlank
@@ -61,12 +61,12 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
         this.id = id;
     }
 
-    public String getNicName() {
-        return nicName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNicName(String nicName) {
-        this.nicName = nicName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getEmail() {
@@ -179,7 +179,7 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nicName='" + nicName + '\'' +
+                ", nicName='" + nickname + '\'' +
                 ", email='" + email + '\'' +
                 ", roleSet=" + roleSet +
                 ", password='" + password + '\'' +

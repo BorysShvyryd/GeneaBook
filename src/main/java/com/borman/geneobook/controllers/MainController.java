@@ -126,4 +126,8 @@ public class MainController {
 
         return "/genealogy/family-tree";
     }
+    @GetMapping("/403")
+    public String test() {
+        return "/login/403";
+    }
 }

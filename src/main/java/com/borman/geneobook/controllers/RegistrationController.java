@@ -45,8 +45,8 @@ public class RegistrationController {
 
         model.addAttribute("notCorrectNic", false);
 
-        if (loginUser.getNicName().trim().length() < 5
-                || loginUser.getNicName().trim().length() > 32) {
+        if (loginUser.getNickname().trim().length() < 5
+                || loginUser.getNickname().trim().length() > 32) {
             model.addAttribute("notCorrectNic", true);
             return "registration/user-registration-nic";
         }
@@ -67,7 +67,7 @@ public class RegistrationController {
 
         String tokenEmail = randomDataService.getToken();
 
-        model.addAttribute("nic", loginUser.getNicName());
+        model.addAttribute("nic", loginUser.getNickname());
         model.addAttribute("email", loginUser.getEmail());
         model.addAttribute("token", tokenEmail);
 
@@ -87,7 +87,7 @@ public class RegistrationController {
     public String resendEmail(Model model, HttpServletRequest request) {
 
         LoginUser loginUser = new LoginUser();
-        loginUser.setNicName((String) model.getAttribute("nic"));
+        loginUser.setNickname((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
 
 //        model.addAttribute("sendEmail", true);
@@ -119,7 +119,7 @@ public class RegistrationController {
 
             User user = new User();
             user.setEmail(httpSession.getAttribute("email").toString());
-            user.setNicName(httpSession.getAttribute("nic").toString());
+            user.setNickname(httpSession.getAttribute("nic").toString());
 
             model.addAttribute("user", user);
 

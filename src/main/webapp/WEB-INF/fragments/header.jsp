@@ -1,27 +1,41 @@
-<%--<html xmlns:th="http://www.thymeleaf.org">--%>
-<%--<head>--%>
-<%--    <div th:fragment="header-css">--%>
-<%--        <!-- this is header-css -->--%>
-<%--        <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />--%>
-<%--        <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />--%>
-<%--    </div>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<div th:fragment="header">--%>
-<%--    <!-- this is header -->--%>
-<%--    <nav class="navbar navbar-inverse">--%>
-<%--        <div class="container">--%>
-<%--            <div class="navbar-header">--%>
-<%--                <a class="navbar-brand" th:href="@{/}">Spring Boot</a>--%>
-<%--            </div>--%>
-<%--            <div id="navbar" class="collapse navbar-collapse">--%>
-<%--                <ul class="nav navbar-nav">--%>
-<%--                    <li class="active"><a th:href="@{/}">Home</a></li>--%>
-<%--                </ul>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </nav>--%>
-<%--</div>--%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%--</body>--%>
-<%--</html>--%>
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Family tree</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../../resources/css/main.css"/>
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="#" class="logo"><strong>Family tree</strong> project</a>
+
+                <ul class="icons">
+
+                    <sec:authorize access="!isAuthenticated()">
+                        <li><a href="/login"><span class="logo">Log in</span></a></li>
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                    </sec:authorize>
+
+                    <sec:authorize access="isAuthenticated()">
+                        <li><a href="/genealogy/profile"><span class="logo">${pageContext.request.userPrincipal.name}</span></a></li>
+                        <li><a href="/logout"><span class="logo">Sign out</span></a></li>
+                    </sec:authorize>
+
+                </ul>
+            </header>

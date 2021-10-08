@@ -15,4 +15,4 @@ FAMILY TREE
 
 wiev family tree
 
-<jsp:include page="../../fragments/footer.jsp" flush="true"/>
+<jsp:include page="../../fragments/footer1.jsp" flush="true"/>

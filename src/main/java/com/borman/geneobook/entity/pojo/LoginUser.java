@@ -8,19 +8,19 @@ public class LoginUser {
 
     @NotBlank
     @Size(max = 32)
-    private String nicName;
+    private String nickname;
 
     @Email
     @NotBlank
     @Size(max = 128)
     private String email;
 
-    public String getNicName() {
-        return nicName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNicName(String nicName) {
-        this.nicName = nicName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getEmail() {
