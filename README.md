@@ -1,2 +1,2 @@
-# GeneoBook
+# GenealogyBook
 Family tree project
