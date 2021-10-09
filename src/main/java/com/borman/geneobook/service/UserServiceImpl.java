@@ -35,13 +35,12 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
 
         if (!userRepository.existsByEmail(user.getEmail())) {
-//            System.out.println("A user with this email is registered.");
-//        } else {
             Role userRole = roleService.getUserRole();
             user.setRoleSet(new HashSet<Role>(List.of(userRole)));
             user.setEnabled(1);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
+
         userRepository.save(user);
     }
 
@@ -57,74 +56,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserId(Long userId) {
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId).orElseThrow(() ->
+                new UsernameNotFoundException("User Not Found with -> userId : " + userId)
+        );
     }
 
     @Override
     public boolean hasRoleAdmin(Long userId) {
         return findByUserId(userId).getRoleSet().contains(roleService.getAdminRole());
     }
-
-    //    @PersistenceContext
-//    private EntityManager em;
-//
-//    private final UserRepository userRepository;
-//
-//    private final RoleService roleService;
-//
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//
-//    public UserServiceImpl(EntityManager em, UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.em = em;
-//        this.userRepository = userRepository;
-//        this.roleService = roleService;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//    }
-//
-//    public boolean saveUser(User user) {
-//
-//        User userFromDB = userRepository.findByUsername(user.getEmail())
-//                .orElseThrow(() ->
-//                        new UsernameNotFoundException("User Not Found with -> username or email : " + user.getUsername())
-//                );
-//
-//        if (userFromDB != null) {
-//            return false;
-//        } else {
-//
-////            user.setRoleSet(Collections.singleton(roleService.getUserRole()));
-//            Role userRole = roleService.getUserRole();
-//            user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
-//            user.setEnabled(1);
-//            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//
-//            System.out.println("userService : " + user);
-////            userRepository.save(user);
-//
-//            return true;
-//        }
-//    }
-//
-//    public Object allUsers() {
-//        return userRepository.findAll();
-//    }
-//
-//    public void deleteUser(Long userId) {
-//        userRepository.deleteById(userId);
-//    }
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-//
-//        User user = userRepository.findByUsername(userEmail)
-//                .orElseThrow(() ->
-//                        new UsernameNotFoundException("User Not Found with -> username or email : " + userEmail)
-//                );
-//
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//
-//        return user;
-//    }
 }
