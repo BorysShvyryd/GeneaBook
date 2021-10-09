@@ -1,6 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
@@ -15,4 +14,4 @@ FAMILY TREE
 
 wiev family tree
 
-<jsp:include page="../../fragments/footer1.jsp" flush="true"/>
+<jsp:include page="../../fragments/footer.jsp" flush="true"/>

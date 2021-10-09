@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/geneo/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/genealogy/**").hasAnyRole("USER", "ADMIN")
                 //Доступ разрешен всем пользователям
                 .antMatchers("/", "/resources/**", "/login/**", "/feedback/**", "/about").permitAll()
                 //Все остальные страницы требуют аутентификации
@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 //        .failureUrl("/login-error")
                 //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/genealogy")
+                .defaultSuccessUrl("/")
+//                .defaultSuccessUrl("/genealogy")
                 .permitAll()
                 .and()
                 .logout()

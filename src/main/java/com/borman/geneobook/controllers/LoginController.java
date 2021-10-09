@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/login")
-//@SessionAttributes({"email"})
+@SessionAttributes({"userNickname"})
 public class LoginController {
 
     private final RandomDataService randomDataService;
@@ -32,10 +32,8 @@ public class LoginController {
 //                            @CookieValue(name = "Email", value = "Value", required = false) Session.Cookie cookie) {
 //        if (сookie != null) {
 //        }
-
         return "login/user-login";
     }
-
 
     @GetMapping("/403")
     public String error403() {

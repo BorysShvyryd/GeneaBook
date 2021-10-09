@@ -17,17 +17,7 @@ public class HomeController {
 //        current = Locale.getDefault();
 //        System.out.println(current);
 
-        return "/index";
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "/about";
-    }
-
-    @GetMapping("/feedback")
-    public String feedback() {
-        return "/feedback";
+        return "index";
     }
 
 }

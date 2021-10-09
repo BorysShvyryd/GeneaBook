@@ -117,7 +117,7 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled == 1;
     }
 
     public void setPassword(String password) {

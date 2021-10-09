@@ -21,7 +21,7 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="#" class="logo"><strong>Family tree</strong> project</a>
+                <a href="/" class="logo"><strong>Family tree</strong> project</a>
 
                 <ul class="icons">
 

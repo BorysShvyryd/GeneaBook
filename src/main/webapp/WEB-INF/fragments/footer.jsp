@@ -21,18 +21,9 @@
                 <h2>Menu</h2>
             </header>
             <ul>
-                <li><a href="">Homepage</a></li>
+                <li><a href="/">Homepage</a></li>
                 <li><a href="#">Who we are</a></li>
                 <li><a href="#">For what</a></li>
-                <!--										<li>-->
-                <!--											<span class="opener">Submenu</span>-->
-                <!--											<ul>-->
-                <!--												<li><a href="#">Lorem Dolor</a></li>-->
-                <!--												<li><a href="#">Ipsum Adipiscing</a></li>-->
-                <!--												<li><a href="#">Tempus Magna</a></li>-->
-                <!--												<li><a href="#">Feugiat Veroeros</a></li>-->
-                <!--											</ul>-->
-                <!--										</li>-->
                 <li><a href="#">Reviews</a></li>
                 <li><a href="#">Contacts</a></li>
 
@@ -42,7 +33,12 @@
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
+                    <li><a href="/genealogy/family">My family tree</a></li>
+                    <li><a href="/genealogy/profile">My profile</a></li>
                     <li><a href="/logout">Sign out</a></li>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <li><a href="/admin/listUsers">List of users</a></li>
+                    </sec:authorize>
                 </sec:authorize>
             </ul>
         </nav>
@@ -50,7 +46,7 @@
         <!-- Section -->
 <%--        <section>--%>
 <%--            <header class="major">--%>
-<%--                <h2>Ante interdum</h2>--%>
+<%--                <h2>Who we are</h2>--%>
 <%--            </header>--%>
 <%--            <div class="mini-posts">--%>
 <%--                <article>--%>

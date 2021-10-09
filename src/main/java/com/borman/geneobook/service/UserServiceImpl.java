@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
         if (userRepository.existsByEmail(user.getEmail())) {
             System.out.println("A user with this email is registered.");
+            userRepository.save(user);
         } else {
             Role userRole = roleService.getUserRole();
             user.setRoleSet(new HashSet<Role>(List.of(userRole)));
@@ -47,11 +48,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @Override
     public List<User> allUsers() {
         return userRepository.findAll();
     }
 
-//    @PersistenceContext
+    @Override
+    public User findByUserId(Long userId) {
+        return userRepository.findById(userId).get();
+    }
+
+    //    @PersistenceContext
 //    private EntityManager em;
 //
 //    private final UserRepository userRepository;
@@ -113,5 +124,4 @@ public class UserServiceImpl implements UserService {
 //
 //        return user;
 //    }
-
 }
