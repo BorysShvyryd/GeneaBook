@@ -14,7 +14,11 @@ public interface UserService {
 
     void saveUser(User user);
 
+//    void updateUser(User user);
+
     void deleteUserById(Long userId);
+
+    boolean hasRoleAdmin(Long userId);
 
     List<User> allUsers();
 

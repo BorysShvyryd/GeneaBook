@@ -34,17 +34,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            System.out.println("A user with this email is registered.");
-            userRepository.save(user);
-        } else {
+        if (!userRepository.existsByEmail(user.getEmail())) {
+//            System.out.println("A user with this email is registered.");
+//        } else {
             Role userRole = roleService.getUserRole();
             user.setRoleSet(new HashSet<Role>(List.of(userRole)));
             user.setEnabled(1);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
-            userRepository.save(user);
         }
+        userRepository.save(user);
     }
 
     @Override
@@ -60,6 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserId(Long userId) {
         return userRepository.findById(userId).get();
+    }
+
+    @Override
+    public boolean hasRoleAdmin(Long userId) {
+        return findByUserId(userId).getRoleSet().contains(roleService.getAdminRole());
     }
 
     //    @PersistenceContext

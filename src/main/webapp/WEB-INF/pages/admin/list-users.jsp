@@ -67,7 +67,7 @@
                     </c:otherwise>
                 </c:choose>
                 <button onclick="document.location='/admin/listUsers/delete?id=${user.id}'">Delete</button>
-                <button>Send new pass</button>
+                <button onclick="document.location='/admin/listUsers/change-admin-role?id=${user.id}'">Change ADMIN role</button>
             </td>
         </tr>
     </c:forEach>
