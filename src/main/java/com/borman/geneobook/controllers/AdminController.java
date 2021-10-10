@@ -4,12 +4,10 @@ import com.borman.geneobook.entity.Role;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.service.RoleService;
 import com.borman.geneobook.service.UserServiceImpl;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -18,6 +16,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
+//@SessionAttributes({"userNickname"})
 public class AdminController {
 
     private final UserServiceImpl userService;
@@ -26,11 +25,6 @@ public class AdminController {
     public AdminController(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-    }
-
-    @GetMapping("")
-    public String userAdmin() {
-        return "admin/admin";
     }
 
     @GetMapping("/listUsers")

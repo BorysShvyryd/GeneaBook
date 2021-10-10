@@ -1,10 +1,8 @@
 package com.borman.geneobook.controllers;
 
-import com.borman.geneobook.entity.FamilyTies;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.UserProfile;
 import com.borman.geneobook.repository.RelationshipRepository;
-import com.borman.geneobook.waste.RelationShip1;
 import com.borman.geneobook.repository.FamilyTiesRepository;
 import com.borman.geneobook.repository.UserProfileRepository;
 import com.borman.geneobook.repository.UserRepository;

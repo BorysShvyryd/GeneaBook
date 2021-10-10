@@ -1,6 +1,6 @@
-<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
@@ -39,9 +39,7 @@
                 <c:out value="${user.dateUpdateLogin}"/>
             </td>
             <td>
-                <c:forEach var="role" items="${user.roleSet}">
-                    <c:out value="${role.name}, "/>
-                </c:forEach>
+                <sec:authentication property="principal.authorities"/>
             </td>
             <td>
                 <c:choose>

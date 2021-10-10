@@ -22,6 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userService = userService;
     }
 
+    public User getUser(String email) {
+        return userService.findByUserName(email);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -29,10 +33,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
+
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         user.getRoleSet().forEach(r ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), grantedAuthorities);
     }
