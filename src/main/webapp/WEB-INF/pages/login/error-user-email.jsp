@@ -10,6 +10,9 @@
         <div class="body">
 
             <h2>There is no user with this email address. Please enter a valid email.</h2>
+            <button onclick="document.location='/login/forgot'">
+                Return
+            </button>
 
         </div>
     </section>

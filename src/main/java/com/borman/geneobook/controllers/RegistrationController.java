@@ -73,8 +73,8 @@ public class RegistrationController {
 
         model.addAttribute("sendEmail",
                 emailService.SendEmail(loginUser.getEmail(),
-                        "Confirmation email",
-                        "Follow the link to confirm: "
+                        "Confirm your account on GenealogyBook",
+                        "Thank you for registering with GenealogyBook! To activate your account, follow this link: "
                                 + request.getHeader("referer")
                                 + "/"
                                 + tokenEmail)
@@ -89,10 +89,14 @@ public class RegistrationController {
         LoginUser loginUser = new LoginUser();
         loginUser.setNickname((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
-
-//        model.addAttribute("sendEmail", true);
-
-        loginRegSubmit(loginUser, request, model);
+        model.addAttribute("sendEmail",
+                emailService.SendEmail(loginUser.getEmail(),
+                        "Confirm your account on GenealogyBook",
+                        "Thank you for registering with GenealogyBook! To activate your account, follow this link: "
+                                + request.getHeader("referer")
+                                + "/"
+                                + model.getAttribute("token"))
+        );
 
         return "registration/registration-sendEmail";
     }
@@ -109,12 +113,6 @@ public class RegistrationController {
             return "registration/login-null-token";
         }
 
-        if (responseToken.length() != 64) {
-//            model.addAttribute("nullToken", true);
-            System.out.println("False token. Please try again.");
-            return "registration/login-null-token";
-        }
-
         if (httpSession.getAttribute("token").equals(token)) {
 
             User user = new User();
@@ -123,8 +121,6 @@ public class RegistrationController {
 
             model.addAttribute("user", user);
 
-//            httpSession.invalidate();
-//            model.addAttribute("token", "");
             httpSession.setAttribute("token", "");
 
             return "registration/user-registration-form";
@@ -142,6 +138,11 @@ public class RegistrationController {
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
+            return "registration/user-registration-form";
+        }
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            System.out.println("Error confirm password");
             return "registration/user-registration-form";
         }
 

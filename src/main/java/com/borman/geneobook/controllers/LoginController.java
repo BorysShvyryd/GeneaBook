@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/login")
-@SessionAttributes({"nic", "email", "token"})
+@SessionAttributes({"token", "email"})
 public class LoginController {
 
     private final RandomDataService randomDataService;
@@ -38,70 +40,106 @@ public class LoginController {
     }
 
     @GetMapping("/forgot")
-    public String forgotPassForm() {
+    public String forgotPassForm(Model model) {
+        model.addAttribute("errorConfirmToken", false);
         return "login/forgot-pass-send-mail";
     }
 
     @PostMapping("/forgot")
-    public String forgotPassSend(@RequestParam("email") String email) {
+    public String forgotPassSend(@RequestParam("email") String email, Model model, HttpServletRequest request) {
 
-        System.out.println(email);
-        if (userService.findByUserName(email) == null) {
-            System.out.println("skjnckjs");
+        User restoreUser;
+
+        try {
+            restoreUser = userService.findByUserName(email);
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return "login/error-user-email";
         }
-//        User restoreUser = userService.findByUserName(email);
-//        System.out.println(restoreUser.toString());
-//        if (!restoreUser.getEmail().equals(email)) {
-//            return "login/error-user-email";
-//        }
 
-//        model.addAttribute("email", email);
-        //???????????
+        String tokenEmail = randomDataService.getToken();
 
-//        String token = randomDataService.getRandomPass();
-//
-//        emailService.SendEmail(
-//                restoreUser.getEmail(),
-//                "New password",
-//                "Password: " + token);
-        return "login/forgot-pass-send-mail";
+        model.addAttribute("token", tokenEmail);
+        model.addAttribute("email", email);
 
-//        return "registration/login-sendEmail";
+        model.addAttribute("sendEmail",
+                emailService.SendEmail(restoreUser.getEmail(),
+                        "Change password",
+                        "To change your password, follow the link: "
+                                + request.getHeader("referer")
+                                + "/"
+                                + tokenEmail)
+        );
+
+        model.addAttribute("sendForgotPass",true);
+        model.addAttribute("sendEmail",false);
+
+        return "registration/registration-sendEmail";
+
     }
 
     @GetMapping("/forgot/resend")
-    public String resendPass(Model model, Principal principal) {
-//        forgotPassSend(model);
-        return "registration/login-sendEmail";
+    public String resendPass(Model model, HttpServletRequest request) {
+
+        model.addAttribute("sendEmail",
+                emailService.SendEmail((String) model.getAttribute("email"),
+                        "Change password",
+                        "To change your password, follow the link: "
+                                + request.getHeader("referer")
+                                + "/"
+                                + model.getAttribute("token"))
+        );
+
+        model.addAttribute("sendForgotPass",true);
+        model.addAttribute("sendEmail",false);
+
+        return "registration/registration-sendEmail";
     }
 
     @GetMapping("/forgot/{token}")
-    public String forgotPassForm(Model model, @PathVariable String token) {
+    public String forgotPassForm(Model model, @PathVariable String token, HttpSession httpSession) {
 
         if (token == null) {
             return "redirect:/login";
         } else {
-            model.addAttribute("validate", true);
+            model.addAttribute("errorConfirmToken", true);
+            if (!token.equals(httpSession.getAttribute("token"))) {
+                return "login/forgot-pass-send-mail";
+            }
         }
 
-        return "registration/forgot-pass-form";
+        model.addAttribute("errorPass", false);
+        model.addAttribute("errorConfirmToken", false);
+
+        return "login/forgot-pass-form";
     }
 
     @PostMapping("/forgot/{token}")
-    public String forgotPassSubmit(Model model) {
+    public String forgotPassSubmit(Model model,
+                                   @RequestParam String password,
+                                   @RequestParam String conf_password,
+                                   HttpSession httpSession) {
 
-        boolean validate = Boolean.parseBoolean((String) model.getAttribute("validate"));
+        model.addAttribute("errorPass", false);
+        model.addAttribute("errorConfirmPass", false);
+        model.addAttribute("errorConfirmToken", false);
 
-        if (validate) {
-            String email = (String) model.getAttribute("email");
-
-            String token = randomDataService.getRandomPass();
-
-        } else {
-            model.addAttribute("message", "Email does not exist");
+        if (!password.equals(conf_password)) {
+            model.addAttribute("errorConfirmPass", true);
+            return "login/forgot-pass-form";
         }
 
-        return "registration/forgot-pass-form";
+        if (password.length() < 8) {
+            model.addAttribute("errorPass", true);
+            return "login/forgot-pass-form";
+        }
+
+            model.addAttribute("token", "");
+            User forgotPassUser = userService.findByUserName((String) httpSession.getAttribute("email"));
+            forgotPassUser.setPassword(password);
+            userService.saveNewPassUser(forgotPassUser);
+
+        return "redirect:/login";
     }
 
 }

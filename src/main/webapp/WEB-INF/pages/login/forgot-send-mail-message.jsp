@@ -14,19 +14,25 @@
     </p>
     <p>
     <h4><spring:message code="registration.sendEmail.h4resend"/>
-        <button onclick="document.location='/register/resend'">Resend</button>
+        <a href="/register/resend">
+            <button>Resend</button>
+        </a>
     </h4>
     </p>
-
+    <%--    <h4>A confirmation email has been sent to your email address.</h4> <br>--%>
+    <%--    <h4>Please follow the link. <a href="#">mail</a></h4> <br>--%>
+    <%--    <h4>Didn't receive the email? <a href="/register/resend">--%>
+    <%--        <button>Resend</button>--%>
+    <%--    </a></h4>--%>
+    <%--    <br>--%>
 </c:if>
 
 <c:if test="${sendForgotPass}">
-
     <h4>An email with a new password has been sent to your email address.</h4> <br>
     <h4>Please follow the link. <a href="#">mail</a></h4> <br>
-    <h4>Didn't receive the email?</h4>
-    <button onclick="document.location='/login/forgot/resend'">Resend</button>
-
+    <h4>Didn't receive the email? <a href="/login/forgot/resend">
+        <button>Resend</button>
+    </a></h4>
 </c:if>
 
 <jsp:include page="../../fragments/footer.jsp" flush="true"/>

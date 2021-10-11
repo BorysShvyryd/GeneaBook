@@ -12,6 +12,14 @@
 
                 <h2>Please enter you email</h2>
 
+<%--                <c:set var="${attributeVal}" value="validate"/>--%>
+
+                <c:if test="${errorConfirmToken}">
+                    <p>
+                    <h4><spring:message code="forgot-form.token.error"/></h4>
+                    </p
+                </c:if>
+
                 <label><spring:message code="login.email"/>:
                     <input type="text" name="email" placeholder="Email"/>
                 </label>

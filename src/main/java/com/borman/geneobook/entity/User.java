@@ -179,8 +179,9 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nicName='" + nickname + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
+                ", enabled=" + enabled +
                 ", roleSet=" + roleSet +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +
