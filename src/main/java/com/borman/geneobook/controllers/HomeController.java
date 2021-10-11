@@ -4,8 +4,12 @@ import com.borman.geneobook.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import java.security.Principal;
 
 @Controller
+@SessionAttributes("nickname")
 public class HomeController {
 
     private final UserService userService;
@@ -15,7 +19,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String indexPage(Model model) {
+    public String indexPage(Model model, Principal principal) {
+
+        if (principal != null) {
+            model.addAttribute("nickname", userService.findByUserName(principal.getName()).getNickname());
+        }
 
         if (userService.allUsers().size() == 0) {
             System.out.println("First connection");

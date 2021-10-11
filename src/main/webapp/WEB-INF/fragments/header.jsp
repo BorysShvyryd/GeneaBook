@@ -40,10 +40,15 @@
                     <sec:authorize access="isAuthenticated()">
                         <c:set var="emailLoggedUser" value="${pageContext.request.userPrincipal.name}"/>
 
-                        <li><a href="/genealogy/profile"><span class="logo">${emailLoggedUser}</span></a></li>
-<%--                        <li><a href="/genealogy/profile"><span class="logo">--%>
-<%--                            <%=UserService.class.getMethod("findByUserName(${emailLoggedUser})", String.class)%>--%>
-<%--                        </span></a></li>--%>
+                        <c:choose>
+                            <c:when test="${empty nickname}">
+                                <li><a href="/genealogy/profile"><span class="logo">${emailLoggedUser}</span></a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a href="/genealogy/profile"><span class="logo">${nickname}</span></a></li>
+                            </c:otherwise>
+                        </c:choose>
+
                         <li><a href="/logout"><span class="logo">Sign out</span></a></li>
                     </sec:authorize>
 
