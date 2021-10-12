@@ -4,14 +4,21 @@
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
-FAMILY TREE
+FAMILY TREE<br>
 
-<a href="/genealogy/family/member" >Add a family member</a><br>
+<!-- Search -->
+<%--        <section id="search" class="alt">--%>
+<%--            <form method="post" action="#">--%>
+<%--                <input type="text" name="query" id="query" placeholder="Search" />--%>
+<%--            </form>--%>
+<%--        </section>--%>
+
+current family member: ${userIdRelation.name.firstName} ${userIdRelation.name.lastName}<br>
 
 <c:forEach var="singleFamilyTies" items="${familyTies}">
-    <a href="/genealogy/family/member/${userIdRelation.id}/${singleFamilyTies.id}">add ${singleFamilyTies.nameFamilyTies}</a><br>
+    <a href="/genealogy/family/${userIdRelation.id}/add-family-member/${userIdRelation.id}/${singleFamilyTies.id}">add ${singleFamilyTies.nameFamilyTies}</a><br>
 </c:forEach>
 
-wiev family tree
+view family tree
 
 <jsp:include page="../../fragments/footer.jsp" flush="true"/>

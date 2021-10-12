@@ -6,6 +6,7 @@ import com.borman.geneobook.repository.RelationshipRepository;
 import com.borman.geneobook.repository.FamilyTiesRepository;
 import com.borman.geneobook.repository.UserProfileRepository;
 import com.borman.geneobook.repository.UserRepository;
+import com.borman.geneobook.service.UserProfileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,13 +21,16 @@ import java.security.Principal;
 public class MainController {
 
     private final UserRepository userRepository;
-    private final UserProfileRepository userProfileRepository;
+    private final UserProfileService userProfileService;
     private final FamilyTiesRepository familyTiesRepository;
     private final RelationshipRepository relationshipRepository;
 
-    public MainController(UserRepository userRepository, UserProfileRepository userProfileRepository, FamilyTiesRepository familyTiesRepository, RelationshipRepository relationshipRepository) {
+    public MainController(UserRepository userRepository,
+                          UserProfileService userProfileService,
+                          FamilyTiesRepository familyTiesRepository,
+                          RelationshipRepository relationshipRepository) {
         this.userRepository = userRepository;
-        this.userProfileRepository = userProfileRepository;
+        this.userProfileService = userProfileService;
         this.familyTiesRepository = familyTiesRepository;
         this.relationshipRepository = relationshipRepository;
     }
@@ -39,7 +43,15 @@ public class MainController {
     @GetMapping("/profile")
     public String userProfileForm(Model model, Principal principal) {
 
-        UserProfile userProfile = userProfileRepository.findByUser_Email(principal.getName()).orElse(new UserProfile());
+        UserProfile userProfile;
+
+        try {
+            userProfile = userProfileService.findUserByEmail(principal.getName());
+        } catch (RuntimeException ex) {
+            System.out.println(ex.getMessage());
+            userProfile = new UserProfile();
+        }
+
         model.addAttribute("userProfile", userProfile);
 
         return "/registration/user-profile-form";
@@ -57,30 +69,73 @@ public class MainController {
         if (userProfile.getId() == null) {
             userProfile.setUser(user);
             user.setUserProfile(userProfile);
-            userProfileRepository.save(userProfile);
+            userProfileService.saveUserProfile(userProfile);
             userRepository.save(user);
         } else {
-            userProfileRepository.save(userProfile);
+            userProfileService.saveUserProfile(userProfile);
         }
 
         return "/genealogy/main-page";
     }
 
+//    @GetMapping("/family")
+//    public String familyTreePage(Principal principal) {
+//
+//        UserProfile loggedUserProfile;
+//
+//        try {
+//            loggedUserProfile = userProfileService.findUserByEmail(principal.getName());
+//            return "redirect:/genealogy/family/" + loggedUserProfile.getId();
+//        } catch (RuntimeException ex) {
+//            System.out.println(ex.getMessage());
+//            return "/genealogy/no-profile-data";
+//        }
+//    }
+//
+//    @GetMapping("/family/{loggedUserId}")
+//    public String familyTreePageByCurrentUser(Model model, @PathVariable Long loggedUserId, Principal principal) {
+//
+//        try {
+//            UserProfile currentUserProfile = userProfileService.findUserProfileById(loggedUserId);
+//            model.addAttribute("familyTies", familyTiesRepository.findAll());
+//            model.addAttribute("userIdRelation", currentUserProfile);
+//
+//            Long id = userRepository.findByUsername(principal.getName()).get().getId();
+//            if (!loggedUserId.equals(id))
+//                return "redirect:/genealogy/family";
+//
+//            return "/genealogy/family-tree";
+//
+//        } catch (RuntimeException ex) {
+//            System.out.println(ex.getMessage());
+//            return "redirect:/genealogy/family";
+//        }
+//    }
+
     @GetMapping("/family")
-    public String familyTreePage(Model model, Principal principal) {
+    public String familyTreePageByCurrentUser(Model model, Principal principal) {
 
-        model.addAttribute("familyTies", familyTiesRepository.findAll());
-        model.addAttribute("userIdRelation", userProfileRepository.findByUser_Email(principal.getName()).get());
+//        if (model.getAttribute("currentUserProfile").equals())
 
-        return "/genealogy/family-tree";
+        try {
+            UserProfile currentUserProfile = userProfileService.findUserProfileById(loggedUserId);
+            model.addAttribute("familyTies", familyTiesRepository.findAll());
+            model.addAttribute("userIdRelation", currentUserProfile);
+
+            Long id = userRepository.findByUsername(principal.getName()).get().getId();
+            if (!loggedUserId.equals(id))
+                return "redirect:/genealogy/family";
+
+            return "/genealogy/family-tree";
+
+        } catch (RuntimeException ex) {
+            System.out.println(ex.getMessage());
+            return "redirect:/genealogy/family";
+        }
     }
 
-    @GetMapping("/family/member/")
-    public String redirectNullToken() {
-        return "redirect:/genealogy/family";
-    }
 
-    @GetMapping("/family/member/{userId}/{relation}")
+    @GetMapping("/family/{userId}/add-family-member//{idCurrentUserProfile}/{relation}")
     public String familyAddMemberForm(Model model, @PathVariable String relation, @PathVariable String userId, Principal principal) {
 
         Long idRelation = Long.parseLong(relation);
@@ -90,7 +145,7 @@ public class MainController {
             return "/404";
         }
 
-        if (!userProfileRepository.existsById(idUserRelation)) {
+        if (!userProfileService.existUserProfileById(idUserRelation)) {
             return "/404";
         }
 
@@ -106,7 +161,7 @@ public class MainController {
         return "/genealogy/family-add-member-form";
     }
 
-    @PostMapping("/family/member/{relation}")
+    @PostMapping("/family/add-family-member/{relation}")
     public String familyAddMemberFormSubmit(Model model, @PathVariable String relation, Principal principal) {
 
 //        Long idRelation = Long.parseLong(relation);

@@ -1,7 +1,3 @@
-<%@ page import="com.borman.geneobook.service.UserDetailsServiceImpl" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="com.borman.geneobook.entity.User" %>
-<%@ page import="com.borman.geneobook.service.UserService" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>

@@ -1,32 +1,32 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:include page="../../fragments/header.jsp" flush="true"/>
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Главная</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">
-</head>
-<body>
+MAIN PAGE
+<%--<div id="sidebar">--%>
+<%--    <div class="inner">--%>
+<%--        <!-- Search -->--%>
+<%--        <section id="search" class="alt">--%>
+<%--            <form method="post" action="#">--%>
+<%--                <input type="text" name="query" id="query" placeholder="Search"/>--%>
+<%--            </form>--%>
+<%--        </section>--%>
+<%--    </div>--%>
+<%--</div>--%>
 
-HOME PAGE <br>
-
-<h3>${pageContext.request.userPrincipal.name}</h3>
-
-Menu <br>
+<%--Menu <br>--%>
 
 <%--<a href="/profile" >Profile</a> <br>--%>
 <%--<a href="/logout" >Logout</a> <br>--%>
 <%--<a href="/register" >Registration</a> <br>--%>
 
-<sec:authorize access="isAuthenticated()">
-    <h4><a href="/genealogy/profile">Profile</a></h4>
-    <h4><a href="/logout">Logout</a></h4>
-    <h4><a href="/genealogy/family">My family tree</a></h4>
-</sec:authorize>
+<%--<sec:authorize access="isAuthenticated()">--%>
+<%--    <h4><a href="/genealogy/profile">Profile</a></h4>--%>
+<%--    <h4><a href="/genealogy/family">My family tree</a></h4>--%>
+<%--</sec:authorize>--%>
 
 
 <%--<object data = "video.mp4" name = "videoObject"> <!--внедряем в страницу мультимедийный контент (видео)-->--%>
@@ -47,5 +47,4 @@ Menu <br>
 <%--    <p class="errorMsg"><span th:text="${errorMsg}"></span></p>--%>
 <%--</div>--%>
 
-</body>
-</html>
+<jsp:include page="../../fragments/footer.jsp" flush="true"/>
