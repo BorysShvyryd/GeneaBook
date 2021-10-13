@@ -1,5 +1,7 @@
 package com.borman.geneobook.entity;
 
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -43,7 +45,9 @@ public class UserProfile {
 
 //    private Address address;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER)//,
+//            cascade = CascadeType.PERSIST)
+//@LazyToOne(LazyToOneOption.NO_PROXY)
     private User user;
 
     private LocalDateTime registered;
@@ -153,7 +157,7 @@ public class UserProfile {
                 ", dateOfBirth=" + dateOfBirth +
                 ", dateOfDeath=" + dateOfDeath +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
-                ", user=" + user +
+//                ", user=" + user +
                 ", registered=" + registered +
                 ", updated=" + updated +
                 ", familyTies=" + familyTies +

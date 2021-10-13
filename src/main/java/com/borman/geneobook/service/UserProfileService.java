@@ -5,6 +5,8 @@ import com.borman.geneobook.repository.UserProfileRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserProfileService {
 
@@ -24,6 +26,10 @@ public class UserProfileService {
         return userProfileRepository.findUserProfileById(id).orElseThrow(() ->
                 new UsernameNotFoundException("UserProfile Not Found with -> id : " + id)
         );
+    }
+
+    public List<UserProfile> findAllUserProfile() {
+        return userProfileRepository.findAll();
     }
 
     public void saveUserProfile(UserProfile userProfile) {

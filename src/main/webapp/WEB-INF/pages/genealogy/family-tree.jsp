@@ -13,6 +13,7 @@ FAMILY TREE<br>
 <%--            </form>--%>
 <%--        </section>--%>
 
+${currentUserProfile}
 current family member: ${userIdRelation.name.firstName} ${userIdRelation.name.lastName}<br>
 
 <c:forEach var="singleFamilyTies" items="${familyTies}">

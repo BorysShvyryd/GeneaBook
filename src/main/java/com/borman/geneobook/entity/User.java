@@ -47,8 +47,8 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     private LocalDateTime dateUpdateLogin;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
+    @OneToOne(fetch = FetchType.EAGER,
+            cascade =  CascadeType.REMOVE,
             mappedBy = "user")
     private UserProfile userProfile;
 

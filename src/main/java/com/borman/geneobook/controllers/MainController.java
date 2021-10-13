@@ -1,5 +1,6 @@
 package com.borman.geneobook.controllers;
 
+import com.borman.geneobook.entity.FamilyTies;
 import com.borman.geneobook.entity.User;
 import com.borman.geneobook.entity.UserProfile;
 import com.borman.geneobook.repository.RelationshipRepository;
@@ -7,6 +8,7 @@ import com.borman.geneobook.repository.FamilyTiesRepository;
 import com.borman.geneobook.repository.UserProfileRepository;
 import com.borman.geneobook.repository.UserRepository;
 import com.borman.geneobook.service.UserProfileService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 //@Secured("ROLE_USER")
@@ -113,72 +117,61 @@ public class MainController {
 //    }
 
     @GetMapping("/family")
-    public String familyTreePageByCurrentUser(Model model, Principal principal) {
-
-//        if (model.getAttribute("currentUserProfile").equals())
-
-        try {
-            UserProfile currentUserProfile = userProfileService.findUserProfileById(loggedUserId);
-            model.addAttribute("familyTies", familyTiesRepository.findAll());
-            model.addAttribute("userIdRelation", currentUserProfile);
-
-            Long id = userRepository.findByUsername(principal.getName()).get().getId();
-            if (!loggedUserId.equals(id))
-                return "redirect:/genealogy/family";
-
-            return "/genealogy/family-tree";
-
-        } catch (RuntimeException ex) {
-            System.out.println(ex.getMessage());
-            return "redirect:/genealogy/family";
-        }
+    public String familyTreePageByCurrentUser(Model model, UserProfile currentUserProfile, Principal principal) {
+//        System.out.println(currentUserProfile.getId());
+//
+//        if (currentUserProfile.getId() == null) {
+//            model.addAttribute("currentUserProfile", userProfileService.findUserByEmail(principal.getName()));
+//        } else {
+//            model.addAttribute("currentUserProfile", currentUserProfile);
+//        }
+        return "/genealogy/family-tree";
     }
 
 
-    @GetMapping("/family/{userId}/add-family-member//{idCurrentUserProfile}/{relation}")
-    public String familyAddMemberForm(Model model, @PathVariable String relation, @PathVariable String userId, Principal principal) {
+    @GetMapping("/family/add-family-member")
+    public String familyAddMemberForm(Model model, Principal principal) {
 
-        Long idRelation = Long.parseLong(relation);
-        Long idUserRelation = Long.parseLong(userId);
+//        UserProfile currentUserProfile = userProfileService.findUserByEmail(principal.getName());
+// тут вставити код актуального юзера
+//        model.addAttribute("currentUserProfile", currentUserProfile);
 
-        if (!familyTiesRepository.existsById(idRelation)) {
-            return "/404";
-        }
-
-        if (!userProfileService.existUserProfileById(idUserRelation)) {
-            return "/404";
-        }
-
-//        model.addAttribute("myProfile", myProfile);
-        System.out.println(relation);
-
-//        return "/registration/user-profile-form";
-
-//        тут форма хто і до кого маж відносини
-
-
+        model.addAttribute("allUserProfile", userProfileService.findAllUserProfile());
+        model.addAttribute("userProfileNewFamilyMember", new UserProfile());
+        model.addAttribute("listFamilyTies", familyTiesRepository.findAll());
 
         return "/genealogy/family-add-member-form";
     }
 
-    @PostMapping("/family/add-family-member/{relation}")
-    public String familyAddMemberFormSubmit(Model model, @PathVariable String relation, Principal principal) {
+    @PostMapping("/family/add-family-member")
+    public String familyAddMemberFormSubmit(@RequestParam Long idSelectedUserProfile,
+                                            @RequestParam Long idSelectedFamilyTies,
+                                            UserProfile userProfileNewFamilyMember) {
+        System.out.println(userProfileNewFamilyMember);
+        List<FamilyTies> memberFamilyTiesList = new ArrayList<>();
+        memberFamilyTiesList.add(familyTiesRepository.findById((idSelectedFamilyTies^3)+1).orElseThrow(() ->
+                new UsernameNotFoundException("Family Ties Not Found with -> selectedFamilyTies : " + idSelectedFamilyTies))
+        );
+        userProfileNewFamilyMember.setFamilyTies(memberFamilyTiesList);
+        userProfileNewFamilyMember.setUser(null);
 
-//        Long idRelation = Long.parseLong(relation);
-//
-//        UserProfile memberProfile = new UserProfile();
-//        List<FamilyTies> memberFamilyTiesList = new ArrayList<>();
-//        memberFamilyTiesList.add(familyTiesRepository.findById(idRelation).orElse(new FamilyTies())); //??
-//        memberProfile.setFamilyTies(memberFamilyTiesList);
-//
-//        UserProfile myProfile
-//                = userProfileRepository.findByUser_Email(principal.getName()).orElse(new UserProfile());
-//        List<FamilyTies> myFamilyTiesList = myProfile.getFamilyTies();
-//        myFamilyTiesList.add(familyTiesRepository.findById(idRelation).orElse(new FamilyTies())); //??
-//        myProfile.setFamilyTies(myFamilyTiesList);
+        UserProfile selectedUserProfile
+                = userProfileService.findUserProfileById(idSelectedUserProfile);
+        List<FamilyTies> selectedFamilyTiesList = selectedUserProfile.getFamilyTies();
+        selectedFamilyTiesList.add(familyTiesRepository.findById(idSelectedFamilyTies).orElseThrow(() ->
+                new UsernameNotFoundException("Family Ties Not Found with -> selectedFamilyTies : " + idSelectedFamilyTies))
+        );
+        selectedUserProfile.setFamilyTies(selectedFamilyTiesList);
+
+//        System.out.println("save ........");
+        System.out.println(userProfileNewFamilyMember);
+        System.out.println(selectedUserProfile);
+        userProfileService.saveUserProfile(userProfileNewFamilyMember);
+        userProfileService.saveUserProfile(selectedUserProfile);
 
         return "/genealogy/family-tree";
     }
+
     @GetMapping("/403")
     public String test() {
         return "/login/403";
