@@ -1,7 +1,6 @@
 package com.borman.geneobook.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Relationship {
@@ -10,10 +9,19 @@ public class Relationship {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    private Set<FamilyTies> nameFamilyTiesSet;
+    @OneToOne
+    private FamilyTies nameFamilyTies;
+
+    public Relationship() {
+    }
 
     private Long userWho;
+
+    public Relationship(Long userWho, FamilyTies nameFamilyTies, Long userWhom) {
+        this.nameFamilyTies = nameFamilyTies;
+        this.userWho = userWho;
+        UserWhom = userWhom;
+    }
 
     private Long UserWhom;
 
@@ -25,12 +33,12 @@ public class Relationship {
         this.id = id;
     }
 
-    public Set<FamilyTies> getNameFamilyTiesSet() {
-        return nameFamilyTiesSet;
+    public FamilyTies getNameFamilyTies() {
+        return nameFamilyTies;
     }
 
-    public void setNameFamilyTiesSet(Set<FamilyTies> nameFamilyTiesSet) {
-        this.nameFamilyTiesSet = nameFamilyTiesSet;
+    public void setNameFamilyTies(FamilyTies nameFamilyTiesSet) {
+        this.nameFamilyTies = nameFamilyTiesSet;
     }
 
     public Long getUserWho() {

@@ -1,7 +1,5 @@
 package com.borman.geneobook.entity;
 
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -33,7 +31,7 @@ public class UserProfile {
     @Past(message = "{javax.validation.constraints.Past.message_dateOfBirth}")
     private LocalDate dateOfBirth;
 
-//    @Temporal(TemporalType.DATE)
+    //    @Temporal(TemporalType.DATE)
 //    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "{javax.validation.constraints.Past.message_dateOfDeath}")
@@ -45,6 +43,11 @@ public class UserProfile {
 
 //    private Address address;
 
+    @OneToMany
+    private List<UserPhoto> userPhotoList;
+
+//    private UserPhoto mainPhoto;
+
     @OneToOne(fetch = FetchType.EAGER)//,
 //            cascade = CascadeType.PERSIST)
 //@LazyToOne(LazyToOneOption.NO_PROXY)
@@ -53,8 +56,9 @@ public class UserProfile {
     private LocalDateTime registered;
     private LocalDateTime updated;
 
-    @ManyToMany
-    private List<FamilyTies> familyTies;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Relationship> relationships;
 
     // Get&Set
 
@@ -124,12 +128,12 @@ public class UserProfile {
         this.name = name;
     }
 
-    public List<FamilyTies> getFamilyTies() {
-        return familyTies;
+    public List<Relationship> getRelationships() {
+        return relationships;
     }
 
-    public void setFamilyTies(List<FamilyTies> familyTies) {
-        this.familyTies = familyTies;
+    public void setRelationships(List<Relationship> relationships) {
+        this.relationships = relationships;
     }
 
     public User getUser() {
@@ -148,6 +152,14 @@ public class UserProfile {
         this.updated = updated;
     }
 
+    public List<UserPhoto> getUserFotoList() {
+        return userPhotoList;
+    }
+
+    public void setUserFotoList(List<UserPhoto> userFotoList) {
+        this.userPhotoList = userFotoList;
+    }
+
     @Override
     public String toString() {
         return "UserProfile{" +
@@ -160,7 +172,7 @@ public class UserProfile {
 //                ", user=" + user +
                 ", registered=" + registered +
                 ", updated=" + updated +
-                ", familyTies=" + familyTies +
+//                ", familyTies=" + familyTies +
                 '}';
     }
 

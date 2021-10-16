@@ -43,6 +43,19 @@
             </ul>
         </nav>
 
+        <section>
+            <header class="major">
+                <h2>Get in touch</h2>
+            </header>
+            <p>Lorem ipsum in dolore. Proin sed.</p>
+            <ul class="contact">
+                <li class="icon solid fa-envelope"><a href="#">genealogy@gmail.com</a></li>
+                <li class="icon solid fa-phone">(457) 720-8287</li>
+                <li class="icon solid fa-home">43-100 Tychy Honoraty<br />
+                    Nashville, TN 00000-0000</li>
+            </ul>
+        </section>
+
         <!-- Footer -->
         <footer id="footer">
             <p class="copyright">&copy; 2021 genealogy.com. All rights reserved. The final project CodersLab was made by

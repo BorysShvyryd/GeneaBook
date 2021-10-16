@@ -21,15 +21,29 @@ enum Sex {
 //
 //}
 
-enum PARENTS {FATHER, MATHER, STEPFATHER, STEPMOTHER}
+//enum PARENTS {FATHER, MATHER, STEPFATHER, STEPMOTHER}
 
-enum SISTERS_BROTHERS {SISTER, BROTHER}
+//enum SISTERS_BROTHERS {SISTER, BROTHER}
 
-enum MARRIED_COUPLE {HUSBAND, WIFE}
+//enum MARRIED_COUPLE {HUSBAND, WIFE}
 
-enum CHILDREN {SON, DAUGHTER}
+//enum CHILDREN {SON, DAUGHTER}
 
-//enum FamilyTies1 {ASCENDING_LINE, SISTERS_BROTHERS, MARRIED_COUPLE, DOWNWARD_LINE}
+//enum FAMILY_TIES {
+//    ASCENDING_LINE(1),
+//    MARRIED_COUPLE(2),
+//    DOWNWARD_LINE(3);
+//
+//    private final int family_ties_code;
+//
+//    FAMILY_TIES(int family_ties_code) {
+//        this.family_ties_code = family_ties_code;
+//    }
+//
+//    public int getFamilyTiesCode() {
+//        return family_ties_code;
+//    }
+//}
 
 //enum LANG {
 //
