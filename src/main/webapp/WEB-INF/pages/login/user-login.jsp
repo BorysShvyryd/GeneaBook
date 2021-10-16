@@ -4,37 +4,48 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
-
-<div>
-    <section id="login-form">
-        <div>
-            <form method="post">
-
+<div class="row gtr-200">
+    <section>
+        <hr class="major"/>
+        <div class="row gtr-200">
+            <div class="col-6 col-12-medium">
                 <h2>Please Sign In</h2>
 
-                <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                    <spring:message code="login.errorLogIn"/>
-                </c:if>
+                <form method="post">
+                    <div class="row gtr-uniform">
+                        <div class="col-12">
+                            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+                                <spring:message code="login.errorLogIn"/>
+                            </c:if>
+                        </div>
 
-                <label><spring:message code="login.email"/>:
-                    <input type="text" name="username" placeholder="Email"/>
-                </label>
+                        <div class="col-12">
+                            <label><spring:message code="login.email"/>:
+                                <input type="text" name="username" placeholder="Email"/>
+                            </label>
+                        </div>
 
-                <label><spring:message code="login.pas"/>:
-                    <input type="password" name="password" placeholder="Password"/>
-                </label>
+                        <div class="col-12">
+                            <label><spring:message code="login.pas"/>:
+                                <input type="password" name="password" placeholder="Password"/>
+                            </label>
+                        </div>
 
-                <input type="submit" value="<spring:message code="login.btn" />">
+                        <div class="col-6 col-12-medium">
+                            <input type="submit" value="<spring:message code="login.btn" />">
+                        </div>
 
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-                <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                    <p>
-                        Forgot password? <a href="/login/forgot">Recover password</a>
-                    </p>
-                </c:if>
-
-            </form>
+                        <div class="col-6 col-12-medium">
+                            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+                                <p>
+                                    Forgot password? <a href="/login/forgot">Recover password</a>
+                                </p>
+                            </c:if>
+                        </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 </div>

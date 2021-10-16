@@ -91,12 +91,6 @@ public class MainController {
         return "/genealogy/family-tree";
     }
 
-    @GetMapping("/family/test")
-    public String familyTest(Model model, UserProfile currentUserProfile, Principal principal) {
-
-        return "/genealogy/test";
-    }
-
     @GetMapping("/family/view-profile")
     public String viewUserProfile(Model model, @RequestParam Long id) {
 
