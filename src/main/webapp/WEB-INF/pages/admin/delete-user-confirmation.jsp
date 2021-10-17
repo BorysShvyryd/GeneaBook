@@ -6,6 +6,7 @@
 <div>
     <form method="post">
         <div>
+            <hr class="major"/>
             <table>
                 <h3>Do you really want to delete the user: ${deleteUser.nickname} </h3>
                 <tr>

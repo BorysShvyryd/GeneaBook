@@ -5,48 +5,61 @@
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
-<%--    <title><spring:message code="login.title" /></title>--%>
-
-<div class="content">
-    <section id="login-form">
-        <div style="max-width: 300px; position: center">
-            <c:if test="${nullToken}">
-                <spring:message code="registration.nullToken"/>
-            </c:if>
-
-            <c:if test="${errorToken}">
-                <spring:message code="registration.errorToken"/>
-            </c:if>
-
-            <form modelAttribute="loginUser" method="post">
+<div class="row gtr-200">
+    <section>
+        <hr class="major"/>
+        <div class="row gtr-200">
+            <div class="col-6 col-12-medium">
                 <h2>Register please</h2>
 
-                <c:if test="${notCorrectNic}">
-                    <spring:message code="registration.notCorrectNic"/>
-                </c:if>
+                <div class="col-12">
+                    <c:if test="${nullToken}">
+                        <spring:message code="registration.nullToken"/>
+                    </c:if>
 
-                <c:if test="${notCorrectEmail}">
-                    <spring:message code="registration.notCorrectEmail"/>
-                </c:if>
+                    <c:if test="${errorToken}">
+                        <spring:message code="registration.errorToken"/>
+                    </c:if>
+                </div>
 
-                <c:if test="${alreadyRegistered}">
-                    <spring:message code="registration.alreadyregistered"/>
-                </c:if>
+                <form modelAttribute="loginUser" method="post">
+                    <div class="row gtr-uniform">
 
-                <label>
-                    <spring:message code="registration.label.nickname"/>:
-                    <input type="text" name="nickname" placeholder="Nickname"/>
-                </label>
-                <label>
-                    <spring:message code="registration.label.email"/>:
-                    <input type="text" name="email" placeholder="Email"/>
-                </label>
+                        <div class="col-12">
+                            <c:if test="${notCorrectNic}">
+                                <spring:message code="registration.notCorrectNic"/>
+                            </c:if>
+                            <c:if test="${notCorrectEmail}">
+                                <spring:message code="registration.notCorrectEmail"/>
+                            </c:if>
+                            <c:if test="${alreadyRegistered}">
+                                <spring:message code="registration.alreadyregistered"/>
+                            </c:if>
+                        </div>
 
-                <input type="submit" value="<spring:message code="login.btn" />">
-                <c:if test="${alreadyRegistered}">
-                    <a href="/login"> <spring:message code="registration.loginLink"/> </a>
-                </c:if>
-            </form>
+                        <div class="col-12">
+                            <label>
+                                <spring:message code="registration.label.nickname"/>:
+                                <input type="text" name="nickname" placeholder="Nickname"/>
+                            </label>
+                        </div>
+                        <div class="col-12">
+                            <label>
+                                <spring:message code="registration.label.email"/>:
+                                <input type="text" name="email" placeholder="Email"/>
+                            </label>
+                        </div>
+                        <div class="col-6 col-12-medium">
+                            <input type="submit" value="<spring:message code="login.btn" />">
+                        </div>
+                        <div class="col-6 col-12-medium">
+                            <c:if test="${alreadyRegistered}">
+                                <a href="/login"> <spring:message code="registration.loginLink"/> </a>
+                            </c:if>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 </div>

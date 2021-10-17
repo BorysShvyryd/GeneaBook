@@ -24,20 +24,6 @@ import java.util.Locale;
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
 
-//    public Set<Converter> getConverters() {
-//        Set<Converter> converters = new HashSet<>();
-//        converters.add((Converter) new LoggedUserConverter());
-//        return converters;
-//    }
-//
-//    @Bean(name = "conversionService")
-//    public ConversionService getConversionService() {
-//        ConversionServiceFactoryBean factory = new ConversionServiceFactoryBean();
-//        factory.setConverters(getConverters());
-//        factory.afterPropertiesSet();
-//        return factory.getObject();
-//    }
-
     @Bean(name = "localeResolver")
     public LocaleContextResolver getLocaleContextResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
@@ -68,9 +54,4 @@ public class AppConfig implements WebMvcConfigurer {
         return new UserDetailsServiceImpl();
     }
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/login").setViewName("login/user-logging");
-//        registry.addViewController("/403").setViewName("login/403");
-//    }
 }

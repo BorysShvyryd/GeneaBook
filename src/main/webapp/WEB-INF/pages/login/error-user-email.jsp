@@ -5,14 +5,19 @@
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
-<div>
-    <section id="login-form">
-        <div class="body">
+<div class="row gtr-200">
+    <section>
+        <hr class="major"/>
+        <div class="row gtr-200">
+            <div class="col-6 col-12-medium">
 
-            <h2>There is no user with this email address. Please enter a valid email.</h2>
-            <button onclick="document.location='/login/forgot'">
-                Return
-            </button>
+                <h2>There is no user with this email address. Please enter a valid email.</h2>
+                <div class="col-12">
+                    <button onclick="document.location='/login/forgot'">
+                        Return
+                    </button>
+                </div>
+            </div>
 
         </div>
     </section>

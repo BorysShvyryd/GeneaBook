@@ -2,6 +2,7 @@ package com.borman.geneobook.service;
 
 import com.borman.geneobook.entity.pojo.EmailAuthenticator;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -11,7 +12,7 @@ import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.util.Properties;
 
-@Repository
+@Service
 public class EmailService {
 
     private final static String PROPERTIES_FILE = "src/main/resources/email.properties";
@@ -46,10 +47,10 @@ public class EmailService {
                 SendEmailCreate(userEmail, emailTopic);
 
                 if (sendMessage(emailText)) {
-                    System.out.println("Сообщение отправлено");
+                    System.out.println("Message sent");
                     resultSend =  true;
                 } else {
-                    System.out.println("Сообщение не отправлено");
+                    System.out.println("Message not sent");
                 }
             }
         } catch (IOException e) {
@@ -81,8 +82,6 @@ public class EmailService {
             message.setFrom(email_from);
             message.setRecipient(Message.RecipientType.TO, email_to);
             message.setSubject(thema);
-//		} catch (AddressException e) {
-//			System.err.println(e.getMessage());
         } catch (MessagingException e) {
             System.err.println(e.getMessage());
         }

@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
+
 <div class="row gtr-200">
     <section>
         <hr class="major"/>
