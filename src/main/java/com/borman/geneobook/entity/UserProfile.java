@@ -31,8 +31,6 @@ public class UserProfile {
     @Past(message = "{javax.validation.constraints.Past.message_dateOfBirth}")
     private LocalDate dateOfBirth;
 
-    //    @Temporal(TemporalType.DATE)
-//    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "{javax.validation.constraints.Past.message_dateOfDeath}")
     private LocalDate dateOfDeath;
@@ -46,11 +44,9 @@ public class UserProfile {
     @OneToMany
     private List<UserPhoto> userPhotoList;
 
-//    private UserPhoto mainPhoto;
+    private Long idMainPhoto;
 
-    @OneToOne(fetch = FetchType.EAGER)//,
-//            cascade = CascadeType.PERSIST)
-//@LazyToOne(LazyToOneOption.NO_PROXY)
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
     private LocalDateTime registered;
@@ -158,6 +154,22 @@ public class UserProfile {
 
     public void setUserFotoList(List<UserPhoto> userFotoList) {
         this.userPhotoList = userFotoList;
+    }
+
+    public List<UserPhoto> getUserPhotoList() {
+        return userPhotoList;
+    }
+
+    public void setUserPhotoList(List<UserPhoto> userPhotoList) {
+        this.userPhotoList = userPhotoList;
+    }
+
+    public Long getIdMainPhoto() {
+        return idMainPhoto;
+    }
+
+    public void setIdMainPhoto(Long idMainPhoto) {
+        this.idMainPhoto = idMainPhoto;
     }
 
     @Override

@@ -9,6 +9,22 @@
         <hr class="major"/>
         <div class="row gtr-200">
             <div class="col-6 col-12-medium">
+                <c:if test="${empty userProfile.idMainPhoto}">
+                    <c:choose>
+                        <c:when test="${userProfile.sex == 'MALE'}">
+                            <img src="../../../resources/img/anonymous/man.png">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="../../../resources/img/anonymous/woman.png">
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </div>
+            <div class="col-6 col-12-medium">
+                <c:if test="${readOnly}">
+                    <h2>View profile</h2>
+                </c:if>
+
                 <form:form method="post" modelAttribute="userProfile">
                     <div class="row gtr-uniform">
                         <div class="col-12">
@@ -46,7 +62,14 @@
                                 <form:input type="date" path="dateOfBirth" disabled="${readOnly}"/>
                                 <form:errors path="dateOfBirth"/>
                             </label>
+                            <c:if test="${not readOnly || (not empty userProfile.dateOfDeath)}">
+                                <label>Date of death:
+                                    <form:input type="date" path="dateOfDeath" disabled="${readOnly}"/>
+                                    <form:errors path="dateOfDeath"/>
+                                </label>
+                            </c:if>
                         </div>
+
                         <div class="col-12">
                             <label>Place of birth:
                                 <form:input path="placeOfBirth" disabled="${readOnly}"/>
@@ -65,6 +88,11 @@
                         </div>
                     </div>
                 </form:form>
+
+                <c:if test="${readOnly}">
+                    <button onclick="document.location('/genealogy/family/edit-profile?id=${userProfile.id}')">Edit
+                    </button>
+                </c:if>
             </div>
         </div>
     </section>

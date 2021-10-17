@@ -56,4 +56,14 @@ public class Relationship {
     public void setUserWhom(Long userWhom) {
         UserWhom = userWhom;
     }
+
+    @Override
+    public String toString() {
+        return "Relationship{" +
+                "id=" + id +
+                ", nameFamilyTies=" + nameFamilyTies +
+                ", userWho=" + userWho +
+                ", UserWhom=" + UserWhom +
+                '}';
+    }
 }
