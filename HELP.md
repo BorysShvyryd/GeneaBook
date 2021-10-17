@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.borman.geneo-book' is invalid and this project uses 'com.borman.geneobook' instead.
+* The original package name 'com.borman.geneo-book' is invalid and this project uses 'com.borman.geneabook' instead.
 
 # Getting Started
 

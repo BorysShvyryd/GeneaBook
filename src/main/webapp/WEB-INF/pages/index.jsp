@@ -16,7 +16,7 @@
         </ul>
     </div>
     <span class="image object">
-        <img src="../../resources/img/pic10.jpg" alt=""/>
+        <img src="../../resources/img/genealogy.jpg" alt=""/>
     </span>
 </section>
 
