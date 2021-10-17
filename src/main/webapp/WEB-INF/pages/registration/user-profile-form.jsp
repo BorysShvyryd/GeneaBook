@@ -6,24 +6,51 @@
 
 <div class="row gtr-200">
     <section>
-        <hr class="major"/>
         <div class="row gtr-200">
             <div class="col-6 col-12-medium">
-                <c:if test="${empty userProfile.idMainPhoto}">
-                    <c:choose>
-                        <c:when test="${userProfile.sex == 'MALE'}">
-                            <img src="../../../resources/img/anonymous/man.png">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="../../../resources/img/anonymous/woman.png">
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
+                <c:choose>
+                    <c:when test="${empty userProfile.idMainPhoto}">
+                        <p>
+                            <span class="image left">
+                                <c:choose>
+                                    <c:when test="${userProfile.sex == 'MALE'}">
+                                        <img src="../../../resources/img/anonymous/man.png">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="../../../resources/img/anonymous/woman.png">
+                                    </c:otherwise>
+                                </c:choose>
+                            </span>
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                        <p>
+                            <span class="image left">
+                                <img src="${userProfile.userPhotoList.get(userProfile.idMainPhoto).profilePic}">
+                            </span>
+                                ${userProfile.userPhotoList.get(userProfile.idMainPhoto).description}
+                        </p>
+
+                        <div class="box alt">
+                            <div class="row gtr-50 gtr-uniform">
+                                <c:forEach var="photo" items="${userProfile.userPhotoList}">
+                                    <div class="col-4"><span class="image fit"><img src="#" alt=""/></span></div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
             <div class="col-6 col-12-medium">
-                <c:if test="${readOnly}">
-                    <h2>View profile</h2>
-                </c:if>
+                <c:choose>
+                    <c:when test="${readOnly}">
+                        <h2>View profile</h2>
+                    </c:when>
+                    <c:otherwise>
+                        <h2>Edit profile</h2>
+                    </c:otherwise>
+                </c:choose>
 
                 <form:form method="post" modelAttribute="userProfile">
                     <div class="row gtr-uniform">
@@ -80,6 +107,14 @@
                             <c:choose>
                                 <c:when test="${readOnly}">
                                     <input type="submit" value="Return">
+                                    <c:if test="${readOnly}">
+                                        <a href="/genealogy/family/edit-profile?id=${userProfile.id}">
+                                            Edit
+                                        </a>
+                                        <%--                                        <button onclick="document.location('/genealogy/family/edit-profile?id=${userProfile.id}')">--%>
+                                        <%--                                            Edit--%>
+                                        <%--                                        </button>--%>
+                                    </c:if>
                                 </c:when>
                                 <c:otherwise>
                                     <input type="submit">
@@ -89,10 +124,7 @@
                     </div>
                 </form:form>
 
-                <c:if test="${readOnly}">
-                    <button onclick="document.location('/genealogy/family/edit-profile?id=${userProfile.id}')">Edit
-                    </button>
-                </c:if>
+
             </div>
         </div>
     </section>
