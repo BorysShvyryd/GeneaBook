@@ -1,6 +1,7 @@
 package com.borman.geneabook.entity;
 
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 public class UserPhoto {
@@ -9,17 +10,28 @@ public class UserPhoto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 64)
+    private String name;
+
     @Lob
-    private byte[] profilePic;;
+    private Blob userImage;;
 
     private String description;
 
-    public byte[] getProfilePic() {
-        return profilePic;
+    public Long getId() {
+        return id;
     }
 
-    public void setProfilePic(byte[] profilePic) {
-        this.profilePic = profilePic;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Blob getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(Blob userImage) {
+        this.userImage = userImage;
     }
 
     public String getDescription() {
@@ -28,5 +40,13 @@ public class UserPhoto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,3 +1,4 @@
+<%@ page import="java.util.Base64" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,9 +27,14 @@
                     <c:otherwise>
                         <p>
                             <span class="image left">
-                                <img src="${userProfile.userPhotoList.get(userProfile.idMainPhoto).profilePic}">
+                                <c:forEach var="imgimg" items="${userProfile.userPhotoList}">
+
+                                    <img src="../../../resources/img/saved.png" alt="Main images">
+
+<%--                                    <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
+                                </c:forEach>
                             </span>
-                                ${userProfile.userPhotoList.get(userProfile.idMainPhoto).description}
+<%--                                ${userProfile.userPhotoList.get(userProfile.idMainPhoto).description}--%>
                         </p>
 
                         <div class="box alt">
