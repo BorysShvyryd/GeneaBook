@@ -18,7 +18,7 @@ hs_err_pid*
 *.ctxt
 
 context.xml
-email.properties
+
 
 fam/
 ##############################
@@ -35,6 +35,7 @@ dependency-reduced-pom.xml
 buildNumber.properties
 #####
 application.properties
+src/main/resources/email.properties/email.properties
 #####
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
@@ -51,4 +52,3 @@ out/
 ##############################
 Dockerfile
 111docker-compose.yml
-tomcat-users.xml

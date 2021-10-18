@@ -11,7 +11,7 @@
             <div class="col-6 col-12-medium">
                 <div class="col-12">
 
-<%--                    <input type="hidden" id="wewe" name="myFamilyData" value="${myFamily}">--%>
+                    <%--                    <input type="hidden" id="wewe" name="myFamilyData" value="${myFamily}">--%>
 
                     <c:forEach var="singleFamilyMember" items="${myFamily}">
                         <a href="/genealogy/family/view-profile?id=${singleFamilyMember.id}">
@@ -141,7 +141,8 @@
                     <%--</script>--%>
 
                     <p></p>
-                    <button onclick="document.location('/genealogy/family/add-family-member')">add family member
+                    <button onclick="window.location.href='/genealogy/family/add-family-member'">
+                        add family member
                     </button>
                 </div>
             </div>
