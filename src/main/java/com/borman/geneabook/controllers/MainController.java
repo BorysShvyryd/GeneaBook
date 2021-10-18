@@ -247,21 +247,6 @@ public class MainController {
         return "redirect:/genealogy/family";
     }
 
-    @GetMapping("/test")
-    public String testttt() throws SQLException {
-        List<UserPhoto> userPhotoList = new ArrayList<>();
-        UserPhoto userPhoto = new UserPhoto();
-        userPhoto.setName("Name Photo");
-        userPhoto.setDescription("description Photo");
-        userPhoto.setUserImage(imageService.blobImageFromFile("E:\\geneo-book\\src\\main\\webapp\\resources\\img\\genealogy.jpg"));
-//        System.out.println(userPhoto.getUserImage());
-//
-//        System.out.println(imageService.blobImageFromFile("E:\\geneo-book\\src\\main\\webapp\\resources\\img\\genealogy.jpg").length());
-
-        imageService.saveImage(userPhoto);
-        return "redirect:/genealogy/family";
-    }
-
     @GetMapping("/403")
     public String test() {
         return "/login/403";
