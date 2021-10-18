@@ -129,12 +129,14 @@ public class MainController {
 
         if (userProfile.getIdMainPhoto() != null) {
 
-            Optional<UserPhoto> userPhoto = userProfile.getUserFotoList().
-                    stream()
+            Optional<UserPhoto> userPhoto = userProfile.getUserFotoList()
+                    .stream()
                     .filter(f -> Objects.equals(f.getId(), userProfile.getIdMainPhoto()))
                     .findFirst();
 
             if (userPhoto.isPresent()) {
+
+                model.addAttribute("mainPhoto", userPhoto.get());
 
                 InputStream is = userPhoto
                         .get()

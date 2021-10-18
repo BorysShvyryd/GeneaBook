@@ -26,24 +26,21 @@
                     </c:when>
                     <c:otherwise>
                         <p>
+                        <h4>${mainPhoto.name}</h4>
                             <span class="image left">
-                                <c:forEach var="imgimg" items="${userProfile.userPhotoList}">
-
                                     <img src="../../../resources/img/saved.png" alt="Main images">
-
-<%--                                    <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
-                                </c:forEach>
+                                    <%--                                    <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
                             </span>
-<%--                                ${userProfile.userPhotoList.get(userProfile.idMainPhoto).description}--%>
+                            ${mainPhoto.description}
                         </p>
 
-                        <div class="box alt">
-                            <div class="row gtr-50 gtr-uniform">
-                                <c:forEach var="photo" items="${userProfile.userPhotoList}">
-                                    <div class="col-4"><span class="image fit"><img src="#" alt=""/></span></div>
-                                </c:forEach>
-                            </div>
-                        </div>
+<%--                        <div class="box alt">--%>
+<%--                            <div class="row gtr-50 gtr-uniform">--%>
+<%--                                <c:forEach var="photo" items="${userProfile.userPhotoList}">--%>
+<%--                                    <div class="col-4"><span class="image fit"><img src="../../../resources/img/saved.png" alt=""/></span></div>--%>
+<%--                                </c:forEach>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                     </c:otherwise>
                 </c:choose>
 
@@ -117,9 +114,6 @@
                                         <a href="/genealogy/family/edit-profile?id=${userProfile.id}">
                                             Edit
                                         </a>
-                                        <%--                                        <button onclick="document.location('/genealogy/family/edit-profile?id=${userProfile.id}')">--%>
-                                        <%--                                            Edit--%>
-                                        <%--                                        </button>--%>
                                     </c:if>
                                 </c:when>
                                 <c:otherwise>

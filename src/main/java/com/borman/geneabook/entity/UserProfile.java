@@ -42,7 +42,8 @@ public class UserProfile {
 
 //    private Address address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<com.borman.geneabook.entity.UserPhoto> userPhotoList;
 
     private Long idMainPhoto;
