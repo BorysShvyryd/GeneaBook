@@ -6,8 +6,6 @@ import com.borman.geneabook.service.ImageService;
 import com.borman.geneabook.service.RelationshipService;
 import com.borman.geneabook.service.UserProfileService;
 import com.borman.geneabook.service.UserService;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.*;
@@ -110,8 +105,12 @@ public class MainController {
     @GetMapping("/family/edit-profile")
     public String editUserProfile(Model model, @RequestParam Long id) {
 
-        model.addAttribute("userProfile", userProfileService.findUserProfileById(id));
+        UserProfile userProfile = userProfileService.findUserProfileById(id);
+        model.addAttribute("userProfile", userProfile);
         model.addAttribute("readOnly", false);
+        UserPhoto userPhoto = imageService.getMainUserPhotoFromList(userProfile);
+        model.addAttribute("mainPhoto", userPhoto);
+
         return "/registration/user-profile-form";
     }
 
@@ -127,22 +126,13 @@ public class MainController {
 //        byte[] imageBytes = userProfileService.findUserProfileById(id).getUserFotoList().get(0).getUserImage().getBytes(1,
 //                    (int) userProfileService.findUserProfileById(id).getUserFotoList().get(0).getUserImage().length());
 
-        if (userProfile.getIdMainPhoto() != null) {
+        UserPhoto userPhoto = imageService.getMainUserPhotoFromList(userProfile);
 
-            Optional<UserPhoto> userPhoto = userProfile.getUserFotoList()
-                    .stream()
-                    .filter(f -> Objects.equals(f.getId(), userProfile.getIdMainPhoto()))
-                    .findFirst();
-
-            if (userPhoto.isPresent()) {
-
-                model.addAttribute("mainPhoto", userPhoto.get());
+            if (userPhoto != null) {
 
                 InputStream is = userPhoto
-                        .get()
                         .getUserImage()
                         .getBinaryStream(1, userPhoto
-                                .get()
                                 .getUserImage()
                                 .length());
 
@@ -155,7 +145,7 @@ public class MainController {
                     System.out.println(e.getMessage());
                 }
             }
-        }
+        model.addAttribute("mainPhoto", userPhoto);
 
         //***********************************
         return "/registration/user-profile-form";
@@ -240,7 +230,7 @@ public class MainController {
 
         userPhotoList.add(userPhoto);
         userProfileNewFamilyMember.setUserFotoList(userPhotoList);
-        userProfileNewFamilyMember.setIdMainPhoto(userPhoto.getId());
+//        userProfileNewFamilyMember.setIdMainPhoto(userPhoto.getId());
 /////////////////////////////////////////////
 
         userProfileService.saveUserProfile(userProfileNewFamilyMember);

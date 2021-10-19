@@ -46,8 +46,6 @@ public class UserProfile {
             cascade = CascadeType.ALL)
     private List<com.borman.geneabook.entity.UserPhoto> userPhotoList;
 
-    private Long idMainPhoto;
-
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
@@ -164,14 +162,6 @@ public class UserProfile {
 
     public void setUserPhotoList(List<com.borman.geneabook.entity.UserPhoto> userPhotoList) {
         this.userPhotoList = userPhotoList;
-    }
-
-    public Long getIdMainPhoto() {
-        return idMainPhoto;
-    }
-
-    public void setIdMainPhoto(Long idMainPhoto) {
-        this.idMainPhoto = idMainPhoto;
     }
 
     @Override

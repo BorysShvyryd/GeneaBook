@@ -1,4 +1,3 @@
-<%@ page import="java.util.Base64" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,7 +9,7 @@
         <div class="row gtr-200">
             <div class="col-6 col-12-medium">
                 <c:choose>
-                    <c:when test="${empty userProfile.idMainPhoto}">
+                    <c:when test="${empty mainPhoto}">
                         <p>
                             <span class="image left">
                                 <c:choose>
@@ -27,20 +26,20 @@
                     <c:otherwise>
                         <p>
                         <h4>${mainPhoto.name}</h4>
-                            <span class="image left">
+                        <span class="image left">
                                     <img src="../../../resources/img/saved.png" alt="Main images">
                                     <%--                                    <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
                             </span>
-                            ${mainPhoto.description}
+                        ${mainPhoto.description}
                         </p>
 
-<%--                        <div class="box alt">--%>
-<%--                            <div class="row gtr-50 gtr-uniform">--%>
-<%--                                <c:forEach var="photo" items="${userProfile.userPhotoList}">--%>
-<%--                                    <div class="col-4"><span class="image fit"><img src="../../../resources/img/saved.png" alt=""/></span></div>--%>
-<%--                                </c:forEach>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="box alt">--%>
+                        <%--                            <div class="row gtr-50 gtr-uniform">--%>
+                        <%--                                <c:forEach var="photo" items="${userProfile.userPhotoList}">--%>
+                        <%--                                    <div class="col-4"><span class="image fit"><img src="../../../resources/img/saved.png" alt=""/></span></div>--%>
+                        <%--                                </c:forEach>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
                     </c:otherwise>
                 </c:choose>
 
@@ -58,6 +57,19 @@
                 <form:form method="post" modelAttribute="userProfile">
                     <div class="row gtr-uniform">
                         <div class="col-12">
+<%--                            private Long id;--%>
+<%--                            private Name name;--%>
+<%--                            private Sex sex;--%>
+<%--                            private LocalDate dateOfBirth;--%>
+<%--                            private LocalDate dateOfDeath;--%>
+<%--                            private String placeOfBirth;--%>
+<%--                            //    private Address address;--%>
+<%--                            private List<com.borman.geneabook.entity.UserPhoto> userPhotoList;--%>
+<%--                            private Long idMainPhoto;--%>
+<%--                            private User user;--%>
+<%--                            private LocalDateTime registered;--%>
+<%--                            private LocalDateTime updated;--%>
+<%--                            private List<Relationship> relationships;--%>
                             <form:hidden path="id"/>
                             <form:hidden path="registered"/>
                             <form:hidden path="updated"/>
@@ -110,20 +122,18 @@
                             <c:choose>
                                 <c:when test="${readOnly}">
                                     <input type="submit" value="Return">
-                                    <c:if test="${readOnly}">
-                                        <a href="/genealogy/family/edit-profile?id=${userProfile.id}">
-                                            Edit
-                                        </a>
-                                    </c:if>
+                                    <button type="reset" onclick="javascript:window.location.href='/genealogy/family/edit-profile?id=${userProfile.id}'">
+                                        Edit
+                                    </button>
                                 </c:when>
                                 <c:otherwise>
-                                    <input type="submit">
+                                    <input type="submit" value="Save">
+                                    <button type="reset" onclick="javascript:history.go(-1)">Return</button>
                                 </c:otherwise>
                             </c:choose>
                         </div>
                     </div>
                 </form:form>
-
 
             </div>
         </div>
