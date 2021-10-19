@@ -1,18 +1,20 @@
 package com.borman.geneabook.service;
 
 import com.borman.geneabook.entity.UserPhoto;
+import com.borman.geneabook.entity.UserProfile;
 import com.borman.geneabook.repository.ImageRepository;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 
+import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 public class ImageService {
@@ -31,6 +33,16 @@ public class ImageService {
             System.out.println(ex.getMessage());
         }
         return null;
+    }
+
+    public UserPhoto getMainUserPhotoFromList(UserProfile userProfile) {
+        Optional<UserPhoto> userPhoto = userProfile.getUserFotoList()
+                .stream()
+                .filter(f -> f.getStatusImage() == 1)
+                .findFirst();
+
+        return userPhoto.orElse(null);
+
     }
 
 //    public Blob blobImageFromFile(String imageFilePath) {

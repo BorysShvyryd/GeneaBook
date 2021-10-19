@@ -18,6 +18,8 @@ public class UserPhoto {
 
     private String description;
 
+    private int statusImage;
+
     public Long getId() {
         return id;
     }
@@ -48,5 +50,13 @@ public class UserPhoto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatusImage() {
+        return statusImage;
+    }
+
+    public void setStatusImage(int statusImage) {
+        this.statusImage = statusImage;
     }
 }
