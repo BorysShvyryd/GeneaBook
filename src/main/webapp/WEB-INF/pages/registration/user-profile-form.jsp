@@ -28,22 +28,98 @@
                         <h4>${mainPhoto.name}</h4>
                         <span class="image left">
                                     <img src="../../../resources/img/saved.png" alt="Main images">
-                                    <%--                                    <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
-                            </span>
+                                    <%-- <img src="data:image/gif;base64,<%= imgDataBase64 %>" alt="images Here"/>--%>
+                        </span>
                         ${mainPhoto.description}
                         </p>
 
-                        <%--                        <div class="box alt">--%>
-                        <%--                            <div class="row gtr-50 gtr-uniform">--%>
-                        <%--                                <c:forEach var="photo" items="${userProfile.userPhotoList}">--%>
-                        <%--                                    <div class="col-4"><span class="image fit"><img src="../../../resources/img/saved.png" alt=""/></span></div>--%>
-                        <%--                                </c:forEach>--%>
-                        <%--                            </div>--%>
-                        <%--                        </div>--%>
                     </c:otherwise>
                 </c:choose>
 
+                <div class="box alt">
+                    <div class="row gtr-50 gtr-uniform" id="imageList">
+                        <c:forEach var="photo" items="${userProfile.userPhotoList}">
+                            <div class="col-2" id="imgListPreview">
+                                        <span class="image fit">
+                                                <img src="data:image/*;base64,${photo}" alt="Photo">
+                                        </span>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+                <div>
+                    <c:if test="${not readOnly}">
+
+                        <label for="add_to_list">Add image</label>
+                        <input type="file" id="add_to_list" accept=".jpg, .jpeg, .png"
+                               multiple="" style="opacity: 0;">
+
+                    </c:if>
+                </div>
+
+                <script type="text/javascript">
+                    document.addEventListener("DOMContentLoaded", function (event) {
+
+                        const input = document.getElementById('add_to_list');
+                        const image_list = document.getElementById('imageList');
+
+                        input.style.opacity = 0;
+
+                        input.addEventListener('change', addImageToList);
+
+                        function addImageToList() {
+
+                            const currentFiles = input.files;
+                            if (currentFiles.length === 0) {
+                                alert('No files currently selected for upload');
+                            } else {
+
+                                for (const file of currentFiles) {
+
+                                    if (validFileType(file)) {
+                                        const listItem = document.createElement('div');
+                                        listItem.classList.add('col-2');
+                                        image_list.appendChild(listItem);
+
+                                        const spanImageEl = document.createElement('span');
+                                        spanImageEl.classList.add('image');
+                                        spanImageEl.classList.add('fit');
+                                        listItem.appendChild(spanImageEl);
+
+                                        const image = document.createElement('img');
+                                        image.src = URL.createObjectURL(file);
+
+                                        spanImageEl.appendChild(image);
+                                    } else {
+                                        alert('File name ${file.name}: Not a valid file type. Update your selection.');
+                                    }
+                                }
+                            }
+                        }
+
+                    });
+
+                    const fileTypes = [
+                        "image/apng",
+                        "image/bmp",
+                        "image/gif",
+                        "image/jpeg",
+                        "image/pjpeg",
+                        "image/png",
+                        "image/svg+xml",
+                        "image/tiff",
+                        "image/webp",
+                        "image/x-icon"
+                    ];
+
+                    function validFileType(file) {
+                        return fileTypes.includes(file.type);
+                    }
+                </script>
+
             </div>
+
             <div class="col-6 col-12-medium">
                 <c:choose>
                     <c:when test="${readOnly}">
@@ -57,23 +133,12 @@
                 <form:form method="post" modelAttribute="userProfile">
                     <div class="row gtr-uniform">
                         <div class="col-12">
-<%--                            private Long id;--%>
-<%--                            private Name name;--%>
-<%--                            private Sex sex;--%>
-<%--                            private LocalDate dateOfBirth;--%>
-<%--                            private LocalDate dateOfDeath;--%>
-<%--                            private String placeOfBirth;--%>
-<%--                            //    private Address address;--%>
-<%--                            private List<com.borman.geneabook.entity.UserPhoto> userPhotoList;--%>
-<%--                            private Long idMainPhoto;--%>
-<%--                            private User user;--%>
-<%--                            private LocalDateTime registered;--%>
-<%--                            private LocalDateTime updated;--%>
-<%--                            private List<Relationship> relationships;--%>
                             <form:hidden path="id"/>
                             <form:hidden path="registered"/>
                             <form:hidden path="updated"/>
                             <form:hidden path="user.id"/>
+                            <form:hidden path="userPhotoList"/>
+                            <form:hidden path="relationships"/>
                         </div>
                         <div class="col-12">
                             <label>Firstname:
@@ -122,7 +187,8 @@
                             <c:choose>
                                 <c:when test="${readOnly}">
                                     <input type="submit" value="Return">
-                                    <button type="reset" onclick="javascript:window.location.href='/genealogy/family/edit-profile?id=${userProfile.id}'">
+                                    <button type="reset"
+                                            onclick="javascript:window.location.href='/genealogy/family/edit-profile?id=${userProfile.id}'">
                                         Edit
                                     </button>
                                 </c:when>
