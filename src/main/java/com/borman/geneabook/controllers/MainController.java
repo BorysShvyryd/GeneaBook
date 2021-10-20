@@ -114,6 +114,12 @@ public class MainController {
         return "/registration/user-profile-form";
     }
 
+    @PostMapping("/family/edit-profile")
+    public String viewUserProfile(UserProfile userProfile) {
+        userProfileService.saveUserProfile(userProfile);
+        return "redirect:/registration/family/view-profile?id=" + userProfile.getId();
+    }
+
     @GetMapping("/family/view-profile")
     public String viewUserProfile(Model model, @RequestParam Long id) throws SQLException, IOException {
 
@@ -175,66 +181,67 @@ public class MainController {
     public String familyAddMemberFormSubmit(@RequestParam Long idSelectedUserProfile,
                                             @RequestParam Long idSelectedFamilyTies,
                                             UserProfile userProfileNewFamilyMember,
-                                            BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors()) {
-            return "/genealogy/family-add-member-form";
-        }
+                                            BindingResult bindingResult) {
 
-        FamilyTies ftSelectedUser = familyTiesRepository
-                .findById(idSelectedFamilyTies)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Family Ties Not Found with -> idSelectedFamilyTies : " + idSelectedFamilyTies));
-
-        Relationship relationship = new Relationship(idSelectedUserProfile, ftSelectedUser, null);
-
-        if (idSelectedFamilyTies.equals(3L)) {
-            ftSelectedUser = familyTiesRepository
-                    .findById(1L)
-                    .orElseThrow(() ->
-                            new UsernameNotFoundException("Family Ties Not Found with -> 1L"));
-            relationship = new Relationship(null, ftSelectedUser, idSelectedUserProfile);
-        }
-
-        relationshipService.save(relationship);
-
-        userProfileNewFamilyMember.setUser(null);
-        userProfileService.saveUserProfile(userProfileNewFamilyMember);
-
-        if (idSelectedFamilyTies.equals(3L)) {
-            relationship.setUserWho(userProfileNewFamilyMember.getId());
-        } else {
-            relationship.setUserWhom(userProfileNewFamilyMember.getId());
-        }
-
-        relationshipService.save(relationship);
-
-        UserProfile selectedUserProfile
-                = userProfileService.findUserProfileById(idSelectedUserProfile);
-        List<Relationship> relationshipList = selectedUserProfile.getRelationships();
-        relationshipList.add(relationship);
-        selectedUserProfile.setRelationships(relationshipList);
-
-        relationshipList = new ArrayList<>();
-        relationshipList.add(relationship);
-        userProfileNewFamilyMember.setRelationships(relationshipList);
-        userProfileNewFamilyMember.setUser(null);
-
-///////////////////////////////////////////
-        List<UserPhoto> userPhotoList = new ArrayList<>();
-        UserPhoto userPhoto = new UserPhoto();
-        userPhoto.setName("Name Photo");
-        userPhoto.setDescription("description Photo");
-        userPhoto.setUserImage(imageService.blobImageFromFile("E:\\geneo-book\\src\\main\\webapp\\resources\\img\\genealogy.jpg"));
-
-        imageService.saveImage(userPhoto);
-
-        userPhotoList.add(userPhoto);
-        userProfileNewFamilyMember.setUserFotoList(userPhotoList);
-//        userProfileNewFamilyMember.setIdMainPhoto(userPhoto.getId());
+//        if (bindingResult.hasErrors()) {
+//            return "/genealogy/family-add-member-form";
+//        }
+//
+//        FamilyTies ftSelectedUser = familyTiesRepository
+//                .findById(idSelectedFamilyTies)
+//                .orElseThrow(() ->
+//                        new UsernameNotFoundException("Family Ties Not Found with -> idSelectedFamilyTies : " + idSelectedFamilyTies));
+//
+//        Relationship relationship = new Relationship(idSelectedUserProfile, ftSelectedUser, null);
+//
+//        if (idSelectedFamilyTies.equals(3L)) {
+//            ftSelectedUser = familyTiesRepository
+//                    .findById(1L)
+//                    .orElseThrow(() ->
+//                            new UsernameNotFoundException("Family Ties Not Found with -> 1L"));
+//            relationship = new Relationship(null, ftSelectedUser, idSelectedUserProfile);
+//        }
+//
+//        relationshipService.save(relationship);
+//
+//        userProfileNewFamilyMember.setUser(null);
+//        userProfileService.saveUserProfile(userProfileNewFamilyMember);
+//
+//        if (idSelectedFamilyTies.equals(3L)) {
+//            relationship.setUserWho(userProfileNewFamilyMember.getId());
+//        } else {
+//            relationship.setUserWhom(userProfileNewFamilyMember.getId());
+//        }
+//
+//        relationshipService.save(relationship);
+//
+//        UserProfile selectedUserProfile
+//                = userProfileService.findUserProfileById(idSelectedUserProfile);
+//        List<Relationship> relationshipList = selectedUserProfile.getRelationships();
+//        relationshipList.add(relationship);
+//        selectedUserProfile.setRelationships(relationshipList);
+//
+//        relationshipList = new ArrayList<>();
+//        relationshipList.add(relationship);
+//        userProfileNewFamilyMember.setRelationships(relationshipList);
+//        userProfileNewFamilyMember.setUser(null);
+//
 /////////////////////////////////////////////
-
-        userProfileService.saveUserProfile(userProfileNewFamilyMember);
-        userProfileService.saveUserProfile(selectedUserProfile);
+//        List<UserPhoto> userPhotoList = new ArrayList<>();
+//        UserPhoto userPhoto = new UserPhoto();
+//        userPhoto.setName("Name Photo");
+//        userPhoto.setDescription("description Photo");
+//        userPhoto.setUserImage(imageService.blobImageFromFile("E:\\geneo-book\\src\\main\\webapp\\resources\\img\\genealogy.jpg"));
+//
+//        imageService.saveImage(userPhoto);
+//
+//        userPhotoList.add(userPhoto);
+//        userProfileNewFamilyMember.setUserFotoList(userPhotoList);
+////        userProfileNewFamilyMember.setIdMainPhoto(userPhoto.getId());
+///////////////////////////////////////////////
+//
+//        userProfileService.saveUserProfile(userProfileNewFamilyMember);
+//        userProfileService.saveUserProfile(selectedUserProfile);
 
         return "redirect:/genealogy/family";
     }
