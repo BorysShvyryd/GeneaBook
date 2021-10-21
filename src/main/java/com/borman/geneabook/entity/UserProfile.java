@@ -42,7 +42,7 @@ public class UserProfile {
 
 //    private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY,
+    @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private List<com.borman.geneabook.entity.UserPhoto> userPhotoList;
 

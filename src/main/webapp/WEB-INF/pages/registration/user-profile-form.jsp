@@ -16,8 +16,11 @@
                                     <c:when test="${userProfile.sex == 'MALE'}">
                                         <img src="../../../resources/img/anonymous/man.png">
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:when test="${userProfile.sex == 'FEMALE'}">
                                         <img src="../../../resources/img/anonymous/woman.png">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="../../../resources/img/anonymous/unknown.png">
                                     </c:otherwise>
                                 </c:choose>
                             </span>
@@ -41,7 +44,9 @@
                         <c:forEach var="photo" items="${userProfile.userPhotoList}">
                             <div class="col-2" id="imgListPreview">
                                         <span class="image fit">
-                                                <img src="data:image/*;base64,${photo}" alt="Photo">
+<%--                                            ${photo.userImage.length()}--%>
+                                            <img src="${(window.URL ? URL : webkitURL).createObjectURL(photo.userImage)}" alt="Photo">
+<%--                                            <img src="../../../resources/img/anonymous/unknown.png" alt="Photo">--%>
                                         </span>
                             </div>
                         </c:forEach>
@@ -58,65 +63,81 @@
                     </c:if>
                 </div>
 
-                <script type="text/javascript">
-                    document.addEventListener("DOMContentLoaded", function (event) {
+                <c:if test="${not readOnly}">
+                    <script type="text/javascript">
+                        document.addEventListener("DOMContentLoaded", function (event) {
 
-                        const input = document.getElementById('add_to_list');
-                        const image_list = document.getElementById('imageList');
+                            const input = document.getElementById('add_to_list');
+                            const image_list = document.getElementById('imageList');
 
-                        input.style.opacity = 0;
+                            <%--for (let i = 0; i < "${userProfile.userPhotoList.size()}"; i++) {--%>
+                            <%--    const listItem = document.createElement('div');--%>
+                            <%--    listItem.classList.add('col-2');--%>
+                            <%--    image_list.appendChild(listItem);--%>
 
-                        input.addEventListener('change', addImageToList);
+                            <%--    const spanImageEl = document.createElement('span');--%>
+                            <%--    spanImageEl.classList.add('image','fit');--%>
+                            <%--    listItem.appendChild(spanImageEl);--%>
 
-                        function addImageToList() {
+                            <%--    const image = document.createElement('img');--%>
+                            <%--    image.src = URL.createObjectURL("${userProfile.userPhotoList.get(0)}");--%>
 
-                            const currentFiles = input.files;
-                            if (currentFiles.length === 0) {
-                                alert('No files currently selected for upload');
-                            } else {
+                            <%--    spanImageEl.appendChild(image);--%>
+                            <%--}--%>
 
-                                for (const file of currentFiles) {
+                            input.addEventListener('change', addImageToList);
 
-                                    if (validFileType(file)) {
-                                        const listItem = document.createElement('div');
-                                        listItem.classList.add('col-2');
-                                        image_list.appendChild(listItem);
+                            function addImageToList() {
 
-                                        const spanImageEl = document.createElement('span');
-                                        spanImageEl.classList.add('image');
-                                        spanImageEl.classList.add('fit');
-                                        listItem.appendChild(spanImageEl);
+                                const currentFiles = input.files;
+                                if (currentFiles.length === 0) {
+                                    alert('No files currently selected for upload');
+                                } else {
 
-                                        const image = document.createElement('img');
-                                        image.src = URL.createObjectURL(file);
+                                    for (const file of currentFiles) {
 
-                                        spanImageEl.appendChild(image);
-                                    } else {
-                                        alert('File name ${file.name}: Not a valid file type. Update your selection.');
+                                        if (validFileType(file)) {
+                                            const listItem = document.createElement('div');
+                                            listItem.classList.add('col-2');
+                                            image_list.appendChild(listItem);
+
+                                            const spanImageEl = document.createElement('span');
+                                            spanImageEl.classList.add('image','fit');
+                                            listItem.appendChild(spanImageEl);
+
+                                            const image = document.createElement('img');
+                                            image.src = URL.createObjectURL(file);
+
+                                            spanImageEl.appendChild(image);
+
+                                            <%--let addd = "${userProfile.userPhotoList.add()}";--%>
+                                        } else {
+                                            alert('File name ${file.name}: Not a valid file type. Update your selection.');
+                                        }
                                     }
                                 }
                             }
+
+                        });
+
+                        const fileTypes = [
+                            "image/apng",
+                            "image/bmp",
+                            "image/gif",
+                            "image/jpeg",
+                            "image/pjpeg",
+                            "image/png",
+                            "image/svg+xml",
+                            "image/tiff",
+                            "image/webp",
+                            "image/x-icon"
+                        ];
+
+                        function validFileType(file) {
+                            return fileTypes.includes(file.type);
                         }
-
-                    });
-
-                    const fileTypes = [
-                        "image/apng",
-                        "image/bmp",
-                        "image/gif",
-                        "image/jpeg",
-                        "image/pjpeg",
-                        "image/png",
-                        "image/svg+xml",
-                        "image/tiff",
-                        "image/webp",
-                        "image/x-icon"
-                    ];
-
-                    function validFileType(file) {
-                        return fileTypes.includes(file.type);
-                    }
-                </script>
+                    </script>
+                </c:if>
 
             </div>
 
