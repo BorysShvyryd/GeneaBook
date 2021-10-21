@@ -1,6 +1,7 @@
 package com.borman.geneabook.entity;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.sql.Blob;
 
 @Entity
@@ -35,6 +36,11 @@ public class UserPhoto {
     public void setUserImage(Blob userImage) {
         this.userImage = userImage;
     }
+
+//    public void setUserImage(Image userImage) {
+//
+//        this.userImage = userImage;
+//    }
 
     public String getDescription() {
         return description;
