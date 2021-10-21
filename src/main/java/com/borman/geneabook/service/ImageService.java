@@ -5,13 +5,10 @@ import com.borman.geneabook.entity.UserProfile;
 import com.borman.geneabook.repository.ImageRepository;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -44,16 +41,6 @@ public class ImageService {
         return userPhoto.orElse(null);
 
     }
-
-//    public Blob blobImageFromFile(String imageFilePath) {
-//        try {
-//            ClassPathResource imageFile = new ClassPathResource(imageFilePath);
-//            return new SerialBlob(StreamUtils.copyToByteArray(imageFile.getInputStream()));
-//        } catch (IOException | SQLException ioex) {
-//            System.out.println(ioex.getMessage());
-//        }
-//        return null;
-//    }
 
     public Blob blobImageFromFile(String imageFilePath) {
         try {

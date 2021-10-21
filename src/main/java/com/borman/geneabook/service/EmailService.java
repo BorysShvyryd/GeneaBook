@@ -1,7 +1,6 @@
 package com.borman.geneabook.service;
 
 import com.borman.geneabook.entity.pojo.EmailAuthenticator;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;

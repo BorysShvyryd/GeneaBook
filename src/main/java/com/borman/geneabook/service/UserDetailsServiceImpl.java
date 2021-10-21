@@ -1,7 +1,6 @@
 package com.borman.geneabook.service;
 
 import com.borman.geneabook.entity.User;
-import com.borman.geneabook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

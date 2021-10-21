@@ -1,11 +1,8 @@
 package com.borman.geneabook.service;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class RandomDataService {

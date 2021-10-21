@@ -3,8 +3,6 @@ package com.borman.geneabook.service;
 import com.borman.geneabook.entity.Role;
 import com.borman.geneabook.entity.User;
 import com.borman.geneabook.repository.UserRepository;
-import com.borman.geneabook.service.RoleService;
-import com.borman.geneabook.service.UserService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

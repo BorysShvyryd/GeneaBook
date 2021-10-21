@@ -1,6 +1,5 @@
 package com.borman.geneabook.entity;
 
-import com.borman.geneabook.entity.UserProfile;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

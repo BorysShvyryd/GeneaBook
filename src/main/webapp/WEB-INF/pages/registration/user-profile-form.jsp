@@ -70,18 +70,18 @@
                             const input = document.getElementById('add_to_list');
                             const image_list = document.getElementById('imageList');
 
-                            <%--for (let i = 0; i < "${userProfile.userPhotoList.size()}"; i++) {--%>
+                            <%--for (let i = 0; i <= "${userProfile.userPhotoList.size()}"; i++) {--%>
                             <%--    const listItem = document.createElement('div');--%>
                             <%--    listItem.classList.add('col-2');--%>
                             <%--    image_list.appendChild(listItem);--%>
-
+                            <%--//--%>
                             <%--    const spanImageEl = document.createElement('span');--%>
                             <%--    spanImageEl.classList.add('image','fit');--%>
                             <%--    listItem.appendChild(spanImageEl);--%>
-
+                            <%--//--%>
                             <%--    const image = document.createElement('img');--%>
-                            <%--    image.src = URL.createObjectURL("${userProfile.userPhotoList.get(0)}");--%>
-
+                            <%--    image.src = URL.createObjectURL("${userProfile.userPhotoList.get(0).userImage}");--%>
+                            <%--//--%>
                             <%--    spanImageEl.appendChild(image);--%>
                             <%--}--%>
 

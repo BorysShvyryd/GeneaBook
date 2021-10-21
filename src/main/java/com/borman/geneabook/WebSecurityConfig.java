@@ -29,21 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                //Доступ только для не зарегистрированных пользователей
                 .antMatchers("/registration/**", "/login/**").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/genealogy/**").hasAnyRole("USER", "ADMIN")
-                //Доступ разрешен всем пользователям
                 .antMatchers("/", "/resources/**", "/login/**", "/feedback/**", "/about").permitAll()
-                //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
-                //Настройка для входа в систему
                 .formLogin()
                 .loginPage("/login")
-                //        .failureUrl("/login-error")
-                //Перенарпавление на главную страницу после успешного входа
                 .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
