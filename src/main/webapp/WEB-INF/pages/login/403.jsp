@@ -2,12 +2,11 @@
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
-<section id="banner">
-    <div class="content">
-        <header>
+<div class="row gtr-200">
+    <section>
+        <hr class="major"/>
             <h1>Error 403. Access is denied</h1>
-        </header>
-    </div>
-</section>
+    </section>
+</div>
 
 <jsp:include page="../../fragments/footer.jsp" flush="true"/>

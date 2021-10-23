@@ -27,13 +27,19 @@
         </c:if>
 
         <c:if test="${sendForgotPass}">
-            <h4>An email with a new password has been sent to your email address.</h4> <br>
-            <h4>Please follow the link.
+            <h4>
+                <spring:message code="forgot-send-mail-message.sendForgotPass"/>
+            </h4>
+            <h4>
+                <spring:message code="forgot-send-mail-message.sendForgotPass.link"/>
                 <a href="#">mail</a>
-            </h4> <br>
-            <h4>Didn't receive the email?
+            </h4>
+            <h4>
+                <spring:message code="forgot-send-mail-message.sendForgotPass.resend"/>
                 <a href="/login/forgot/resend">
-                    <button>Resend</button>
+                    <button>
+                        <spring:message code="forgot-send-mail-message.sendForgotPass.button"/>
+                    </button>
                 </a>
             </h4>
         </c:if>
