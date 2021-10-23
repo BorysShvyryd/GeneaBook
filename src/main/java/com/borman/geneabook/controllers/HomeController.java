@@ -1,5 +1,6 @@
 package com.borman.geneabook.controllers;
 
+import com.borman.geneabook.entity.User;
 import com.borman.geneabook.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("nickname")
@@ -22,7 +24,10 @@ public class HomeController {
     public String indexPage(Model model, Principal principal) {
 
         if (principal != null) {
-            model.addAttribute("nickname", userService.findByUserName(principal.getName()).getNickname());
+            Optional<User> userOptional = userService.findByUserName(principal.getName());
+            if (userOptional.isPresent()) {
+                model.addAttribute("nickname", userOptional.get().getNickname());
+            }
         }
 
         if (userService.allUsers().size() == 0) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/login")
@@ -48,13 +49,14 @@ public class LoginController {
     @PostMapping("/forgot")
     public String forgotPassSend(@RequestParam("email") String email, Model model, HttpServletRequest request) {
 
-        User restoreUser;
+        Optional<User> restoreUser = userService.findByUserName(email);
 
-        try {
-            restoreUser = userService.findByUserName(email);
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            return "login/error-user-email";
+        if (!restoreUser.isPresent()) {
+            model.addAttribute("errorUserEmail", true);
+            model.addAttribute("errorToken", false);
+            model.addAttribute("nullToken", false);
+            model.addAttribute("nonCorrectToken", false);
+            return "error";
         }
 
         String tokenEmail = randomDataService.getToken();
@@ -63,7 +65,7 @@ public class LoginController {
         model.addAttribute("email", email);
 
         model.addAttribute("sendEmail",
-                emailService.SendEmail(restoreUser.getEmail(),
+                emailService.SendEmail(restoreUser.get().getEmail(),
                         "Change password",
                         "To change your password, follow the link: "
                                 + request.getHeader("referer")
@@ -71,8 +73,8 @@ public class LoginController {
                                 + tokenEmail)
         );
 
-        model.addAttribute("sendForgotPass",true);
-        model.addAttribute("sendEmail",false);
+        model.addAttribute("sendForgotPass", true);
+        model.addAttribute("sendEmail", false);
 
         return "registration/registration-sendEmail";
 
@@ -90,8 +92,8 @@ public class LoginController {
                                 + model.getAttribute("token"))
         );
 
-        model.addAttribute("sendForgotPass",true);
-        model.addAttribute("sendEmail",false);
+        model.addAttribute("sendForgotPass", true);
+        model.addAttribute("sendEmail", false);
 
         return "registration/registration-sendEmail";
     }
@@ -126,18 +128,22 @@ public class LoginController {
 
         if (!password.equals(conf_password)) {
             model.addAttribute("errorConfirmPass", true);
+            model.addAttribute("errorPass", false);
             return "login/forgot-pass-form";
         }
 
         if (password.length() < 8) {
+            model.addAttribute("errorConfirmPass", false);
             model.addAttribute("errorPass", true);
             return "login/forgot-pass-form";
         }
 
-            model.addAttribute("token", "");
-            User forgotPassUser = userService.findByUserName((String) httpSession.getAttribute("email"));
-            forgotPassUser.setPassword(password);
-            userService.saveNewPassUser(forgotPassUser);
+        model.addAttribute("token", "");
+        Optional<User> userOptional = userService.findByUserName((String) httpSession.getAttribute("email"));
+        if (userOptional.isPresent()) {
+            userOptional.get().setPassword(password);
+            userService.saveNewPassUser(userOptional.get());
+        }
 
         return "redirect:/login";
     }

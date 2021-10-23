@@ -3,12 +3,12 @@ package com.borman.geneabook.service;
 import com.borman.geneabook.entity.Role;
 import com.borman.geneabook.entity.User;
 import com.borman.geneabook.repository.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,11 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String userEmail) {
-        return userRepository.findByUsername(userEmail)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User Not Found with -> email : " + userEmail)
-                );
+    public Optional<User> findByUserName(String userEmail) {
+        return userRepository.findByUsername(userEmail);
     }
 
     @Override
@@ -61,14 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new UsernameNotFoundException("User Not Found with -> userId : " + userId)
-        );
+    public Optional<User> findByUserId(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
     public boolean hasRoleAdmin(Long userId) {
-        return findByUserId(userId).getRoleSet().contains(roleService.getAdminRole());
+        return findByUserId(userId).isPresent();
     }
 }

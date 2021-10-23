@@ -109,8 +109,19 @@ public class RegistrationController {
         String responseToken = (String) httpSession.getAttribute("token");
 
         if (responseToken == null) {
+            model.addAttribute("errorUserEmail", false);
+            model.addAttribute("errorToken", false);
             model.addAttribute("nullToken", true);
-            return "registration/login-null-token";
+            model.addAttribute("nonCorrectToken", false);
+            return "error";
+        }
+
+        if (!responseToken.matches("[0-9a-zA-Z]{64}")) {
+            model.addAttribute("errorUserEmail", false);
+            model.addAttribute("errorToken", false);
+            model.addAttribute("nullToken", false);
+            model.addAttribute("nonCorrectToken", true);
+            return "error";
         }
 
         if (httpSession.getAttribute("token").equals(token)) {
@@ -127,9 +138,11 @@ public class RegistrationController {
 
         } else {
 
+            model.addAttribute("errorUserEmail", false);
             model.addAttribute("errorToken", true);
-            return "registration/login-error-registration";
-
+            model.addAttribute("nullToken", false);
+            model.addAttribute("nonCorrectToken", false);
+            return "error";
         }
     }
 

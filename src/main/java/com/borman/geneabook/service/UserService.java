@@ -4,13 +4,14 @@ import com.borman.geneabook.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface UserService {
 
-    User findByUserName(String userEmail);
+    Optional<User> findByUserName(String userEmail);
 
-    User findByUserId(Long userId);
+    Optional<User> findByUserId(Long userId);
 
     void saveUser(User user);
 

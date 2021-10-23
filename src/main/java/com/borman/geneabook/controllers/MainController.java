@@ -6,6 +6,7 @@ import com.borman.geneabook.service.ImageService;
 import com.borman.geneabook.service.RelationshipService;
 import com.borman.geneabook.service.UserProfileService;
 import com.borman.geneabook.service.UserService;
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,15 +77,17 @@ public class MainController {
             return "/registration/user-profile-form";
         }
 
-        User user = userService.findByUserName(principal.getName());
+        Optional<User> user = userService.findByUserName(principal.getName());
 
-        if (userProfile.getId() == null) {
-            userProfile.setUser(user);
-            user.setUserProfile(userProfile);
-            userProfileService.saveUserProfile(userProfile);
-            userService.saveUser(user);
-        } else {
-            userProfileService.saveUserProfile(userProfile);
+        if (user.isPresent()) {
+            if (userProfile.getId() == null) {
+                userProfile.setUser(user.get());
+                user.get().setUserProfile(userProfile);
+                userProfileService.saveUserProfile(userProfile);
+                userService.saveUser(user.get());
+            } else {
+                userProfileService.saveUserProfile(userProfile);
+            }
         }
 
         return "/genealogy/main-page";
@@ -93,11 +96,16 @@ public class MainController {
     @GetMapping("/family")
     public String familyTreePageByCurrentUser(Model model, UserProfile currentUserProfile, Principal principal) {
 
-        if (!userProfileService.existUserProfileById(userService.findByUserName(principal.getName()).getId())) {
-            return "/genealogy/no-profile-data";
-        }
+        Optional<User> userOptional = userService.findByUserName(principal.getName());
 
-        model.addAttribute("myFamily", userProfileService.findAllUserProfile());
+        if (userOptional.isPresent()) {
+
+            if (!userProfileService.existUserProfileById(userOptional.get().getId())) {
+                return "/genealogy/no-profile-data";
+            }
+
+            model.addAttribute("myFamily", userProfileService.findAllUserProfile());
+        }
 
         return "/genealogy/family-tree";
     }
@@ -168,8 +176,13 @@ public class MainController {
     @GetMapping("/family/add-family-member")
     public String familyAddMemberForm(Model model, Principal principal) {
 
-        if (!userProfileService.existUserProfileById(userService.findByUserName(principal.getName()).getId())) {
-            return "/genealogy/no-profile-data";
+        Optional<User> userOptional = userService.findByUserName(principal.getName());
+
+        if (userOptional.isPresent()) {
+            if (!userProfileService.existUserProfileById(userOptional.get().getId())) {
+                return "/genealogy/no-profile-data";
+            }
+
         }
 
         model.addAttribute("allUserProfile", userProfileService.findAllUserProfile());

@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,9 +35,9 @@ class UserServiceImplTest {
 
         assertEquals(1, userService.allUsers().size());
 
-        User findUserWithCorrectPassword = userService.findByUserName("user@user.com");
+        Optional<User> findUserWithCorrectPassword = userService.findByUserName("user@user.com");
 
-        assertEquals(userWithCorrectPassword.getNickname(), findUserWithCorrectPassword.getNickname());
+        findUserWithCorrectPassword.ifPresent(user -> assertEquals(userWithCorrectPassword.getNickname(), user.getNickname()));
 
         userService.deleteUserById(1L);
 
