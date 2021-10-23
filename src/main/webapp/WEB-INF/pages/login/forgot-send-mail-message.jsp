@@ -10,14 +10,9 @@
     <div class="col-6 col-12-medium">
 
         <c:if test="${sendEmail}">
-            <p>
             <h4><spring:message code="registration.sendEmail.h4title"/></h4>
-            </p
-            <p>
             <h4><spring:message code="registration.sendEmail.h4link"/></h4>
             <a href="#">mail</a></h4>
-            </p>
-            <p>
             <h4><spring:message code="registration.sendEmail.h4resend"/>
                 <a href="/register/resend">
                     <button>Resend</button>
