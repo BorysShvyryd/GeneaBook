@@ -1,7 +1,6 @@
 package com.borman.geneabook.controllers;
 
 import com.borman.geneabook.entity.User;
-import com.borman.geneabook.entity.pojo.LoginUser;
 import com.borman.geneabook.service.EmailService;
 import com.borman.geneabook.service.RandomDataService;
 import com.borman.geneabook.service.UserService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -49,7 +47,7 @@ public class LoginController {
     @PostMapping("/forgot")
     public String forgotPassSend(@RequestParam("email") String email, Model model, HttpServletRequest request) {
 
-        Optional<User> restoreUser = userService.findByUserName(email);
+        Optional<User> restoreUser = userService.findByEmail(email);
 
         if (!restoreUser.isPresent()) {
             model.addAttribute("errorUserEmail", true);
@@ -139,10 +137,10 @@ public class LoginController {
         }
 
         model.addAttribute("token", "");
-        Optional<User> userOptional = userService.findByUserName((String) httpSession.getAttribute("email"));
+        Optional<User> userOptional = userService.findByEmail((String) httpSession.getAttribute("email"));
         if (userOptional.isPresent()) {
             userOptional.get().setPassword(password);
-            userService.saveNewPassUser(userOptional.get());
+            userService.saveUserNewPass(userOptional.get());
         }
 
         return "redirect:/login";

@@ -1,4 +1,4 @@
-package com.borman.geneabook;
+package com.borman.geneabook.config;
 
 import com.borman.geneabook.service.UserDetailsServiceImpl;
 import org.springframework.context.MessageSource;
@@ -22,13 +22,6 @@ import java.util.Locale;
 @EnableJpaRepositories(basePackages = "com.borman.geneabook.repository")
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
-
-    @Bean(name = "localeResolver")
-    public LocaleContextResolver getLocaleContextResolver() {
-        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("uk", "UA"));
-        return localeResolver;
-    }
 
     @Bean
     public MessageSource messageSource() {

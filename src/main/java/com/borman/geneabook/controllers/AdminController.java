@@ -69,7 +69,7 @@ public class AdminController {
     @GetMapping("/listUsers/change-admin-role")
     public String addAdminRole(@RequestParam Long id, Principal principal) {
 
-        Optional<User> user = userService.findByUserName(principal.getName());
+        Optional<User> user = userService.findByEmail(principal.getName());
 
         if (user.isPresent()) {
 

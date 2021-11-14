@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="../../fragments/header.jsp" flush="true"/>
 
@@ -12,7 +13,7 @@
             <div class="col-6 col-12-medium">
                 <h2>Please Sign In</h2>
 
-                <form method="post">
+                <form:form modelAttribute="user" method="post">
                     <div class="row gtr-uniform">
                         <div class="col-12">
                             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
@@ -45,7 +46,7 @@
                         </div>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </section>

@@ -24,22 +24,9 @@ public class HomeController {
     public String indexPage(Model model, Principal principal) {
 
         if (principal != null) {
-            Optional<User> userOptional = userService.findByUserName(principal.getName());
-            if (userOptional.isPresent()) {
-                model.addAttribute("nickname", userOptional.get().getNickname());
-            }
+            Optional<User> userOptional = userService.findByEmail(principal.getName());
+            userOptional.ifPresent(user -> model.addAttribute("nickname", user.getNickname()));
         }
-
-        if (userService.allUsers().size() == 0) {
-            System.out.println("First connection");
-            // add record ROLE
-            // add record ...
-        }
-
-//        Locale uk = new Locale("uk", "UA");
-//        Locale.setDefault(uk);
-//        current = Locale.getDefault();
-//        System.out.println(current);
 
         return "index";
     }

@@ -77,7 +77,7 @@ public class MainController {
             return "/registration/user-profile-form";
         }
 
-        Optional<User> user = userService.findByUserName(principal.getName());
+        Optional<User> user = userService.findByEmail(principal.getName());
 
         if (user.isPresent()) {
             if (userProfile.getId() == null) {
@@ -96,7 +96,7 @@ public class MainController {
     @GetMapping("/family")
     public String familyTreePageByCurrentUser(Model model, UserProfile currentUserProfile, Principal principal) {
 
-        Optional<User> userOptional = userService.findByUserName(principal.getName());
+        Optional<User> userOptional = userService.findByEmail(principal.getName());
 
         if (userOptional.isPresent()) {
 
@@ -176,7 +176,7 @@ public class MainController {
     @GetMapping("/family/add-family-member")
     public String familyAddMemberForm(Model model, Principal principal) {
 
-        Optional<User> userOptional = userService.findByUserName(principal.getName());
+        Optional<User> userOptional = userService.findByEmail(principal.getName());
 
         if (userOptional.isPresent()) {
             if (!userProfileService.existUserProfileById(userOptional.get().getId())) {

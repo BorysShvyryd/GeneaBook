@@ -3,7 +3,6 @@ package com.borman.geneabook.controllers;
 import com.borman.geneabook.repository.UserRepository;
 import com.borman.geneabook.service.EmailService;
 import com.borman.geneabook.entity.User;
-import com.borman.geneabook.entity.pojo.LoginUser;
 import com.borman.geneabook.service.RandomDataService;
 import com.borman.geneabook.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -35,13 +34,13 @@ public class RegistrationController {
     @GetMapping
     public String loginRegForm(Model model) {
 
-        model.addAttribute("loginUser", new LoginUser());
+        model.addAttribute("loginUser", new User());
 
         return "registration/user-registration-nic";
     }
 
     @PostMapping
-    public String loginRegSubmit(LoginUser loginUser, HttpServletRequest request, Model model) {
+    public String loginRegSubmit(User loginUser, HttpServletRequest request, Model model) {
 
         model.addAttribute("notCorrectNic", false);
 
@@ -86,7 +85,7 @@ public class RegistrationController {
     @GetMapping("/resend")
     public String resendEmail(Model model, HttpServletRequest request) {
 
-        LoginUser loginUser = new LoginUser();
+        User loginUser = new User();
         loginUser.setNickname((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
         model.addAttribute("sendEmail",
@@ -157,6 +156,12 @@ public class RegistrationController {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             System.out.println("Error confirm password");
             return "registration/user-registration-form";
+        }
+// ????
+        if (userService.userCount() == 0) {
+            System.out.println("First connection");
+            // add record ROLE
+            // add record ...
         }
 
         userService.saveUser(user);

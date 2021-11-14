@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUserName(String userEmail) {
-        return userRepository.findByUsername(userEmail);
+    public Optional<User> findByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail);
     }
 
     @Override
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService {
 
         if (!userRepository.existsByEmail(user.getEmail())) {
             Role userRole = roleService.getUserRole();
-            user.setRoleSet(new HashSet<Role>(List.of(userRole)));
+            Set<Role> roles = new HashSet<>();
+            roles.add(userRole);
+            user.setRoleSet(roles);
             user.setEnabled(1);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
@@ -42,7 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveNewPassUser(User user) {
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void saveUserNewPass(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -58,12 +66,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUserId(Long userId) {
-        return userRepository.findById(userId);
+    public Long userCount() {
+        return userRepository.count();
     }
 
     @Override
-    public boolean hasRoleAdmin(Long userId) {
-        return findByUserId(userId).isPresent();
+    public boolean hasRoleAdmin(Long id) {
+        Role roleAdmin = roleService.getAdminRole();
+        User user = findByUserId(id).orElse(null);
+        if (user != null) {
+            return user.getRoleSet().contains(roleAdmin);
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<User> findByUserId(Long userId) {
+        return userRepository.findById(userId);
     }
 }

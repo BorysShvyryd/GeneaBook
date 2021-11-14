@@ -9,18 +9,21 @@ import java.util.Optional;
 @Service
 public interface UserService {
 
-    Optional<User> findByUserName(String userEmail);
+    Optional<User> findByEmail(String userEmail);
 
     Optional<User> findByUserId(Long userId);
 
     void saveUser(User user);
 
-    void saveNewPassUser(User user);
+    void updateUser(User user);
+
+    void saveUserNewPass(User user);
 
     void deleteUserById(Long userId);
 
-    boolean hasRoleAdmin(Long userId);
-
     List<User> allUsers();
 
+    Long userCount();
+
+    boolean hasRoleAdmin(Long id);
 }

@@ -1,4 +1,4 @@
-package com.borman.geneabook;
+package com.borman.geneabook.config;
 
 import com.borman.geneabook.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;

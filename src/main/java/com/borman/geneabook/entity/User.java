@@ -162,7 +162,6 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
         return roleSet;
     }
 
-
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
     }

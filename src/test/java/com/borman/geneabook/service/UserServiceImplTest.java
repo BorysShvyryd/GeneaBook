@@ -35,7 +35,7 @@ class UserServiceImplTest {
 
         assertEquals(1, userService.allUsers().size());
 
-        Optional<User> findUserWithCorrectPassword = userService.findByUserName("user@user.com");
+        Optional<User> findUserWithCorrectPassword = userService.findByEmail("user@user.com");
 
         findUserWithCorrectPassword.ifPresent(user -> assertEquals(userWithCorrectPassword.getNickname(), user.getNickname()));
 
