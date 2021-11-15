@@ -1,8 +1,8 @@
 package com.borman.geneabook.controllers;
 
 import com.borman.geneabook.repository.UserRepository;
-import com.borman.geneabook.service.EmailService;
 import com.borman.geneabook.entity.User;
+import com.borman.geneabook.service.EmailService;
 import com.borman.geneabook.service.RandomDataService;
 import com.borman.geneabook.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
-@SessionAttributes({"nic", "email", "token"})
 public class RegistrationController {
 
     private final EmailService emailService;
@@ -24,7 +23,11 @@ public class RegistrationController {
     private final UserServiceImpl userService;
     private final UserRepository userRepository;
 
-    public RegistrationController(EmailService emailService, RandomDataService randomDataService, UserServiceImpl userService, UserRepository userRepository) {
+    public RegistrationController(EmailService emailService,
+                                  RandomDataService randomDataService,
+                                  UserServiceImpl userService,
+                                  UserRepository userRepository) {
+
         this.emailService = emailService;
         this.randomDataService = randomDataService;
         this.userService = userService;
@@ -66,18 +69,15 @@ public class RegistrationController {
 
         String tokenEmail = randomDataService.getToken();
 
-        model.addAttribute("nic", loginUser.getNickname());
-        model.addAttribute("email", loginUser.getEmail());
-        model.addAttribute("token", tokenEmail);
-
-        model.addAttribute("sendEmail",
-                emailService.SendEmail(loginUser.getEmail(),
+        emailService.sendSimpleMessage(loginUser.getEmail(),
                         "Confirm your account on GenealogyBook",
                         "Thank you for registering with GenealogyBook! To activate your account, follow this link: "
                                 + request.getHeader("referer")
                                 + "/"
-                                + tokenEmail)
+                                + tokenEmail
         );
+
+        model.addAttribute("sendEmail", true);
 
         return "registration/registration-sendEmail";
     }
@@ -88,14 +88,14 @@ public class RegistrationController {
         User loginUser = new User();
         loginUser.setNickname((String) model.getAttribute("nic"));
         loginUser.setEmail((String) model.getAttribute("email"));
-        model.addAttribute("sendEmail",
-                emailService.SendEmail(loginUser.getEmail(),
-                        "Confirm your account on GenealogyBook",
-                        "Thank you for registering with GenealogyBook! To activate your account, follow this link: "
-                                + request.getHeader("referer")
-                                + "/"
-                                + model.getAttribute("token"))
-        );
+//        model.addAttribute("sendEmail",
+//                emailService.SendEmail(loginUser.getEmail(),
+//                        "Confirm your account on GenealogyBook",
+//                        "Thank you for registering with GenealogyBook! To activate your account, follow this link: "
+//                                + request.getHeader("referer")
+//                                + "/"
+//                                + model.getAttribute("token"))
+//        );
 
         return "registration/registration-sendEmail";
     }

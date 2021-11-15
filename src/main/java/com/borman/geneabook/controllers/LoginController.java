@@ -1,7 +1,7 @@
 package com.borman.geneabook.controllers;
 
 import com.borman.geneabook.entity.User;
-import com.borman.geneabook.service.EmailService;
+//import com.borman.geneabook.service.EmailService;
 import com.borman.geneabook.service.RandomDataService;
 import com.borman.geneabook.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -18,13 +18,13 @@ import java.util.Optional;
 public class LoginController {
 
     private final RandomDataService randomDataService;
-    private final EmailService emailService;
+//    private final EmailService emailService;
     private final UserService userService;
 
 
-    public LoginController(RandomDataService randomDataService, EmailService emailService, UserService userService) {
+    public LoginController(RandomDataService randomDataService, UserService userService) {
         this.randomDataService = randomDataService;
-        this.emailService = emailService;
+//        this.emailService = emailService;
         this.userService = userService;
     }
 
@@ -62,14 +62,14 @@ public class LoginController {
         model.addAttribute("token", tokenEmail);
         model.addAttribute("email", email);
 
-        model.addAttribute("sendEmail",
-                emailService.SendEmail(restoreUser.get().getEmail(),
-                        "Change password",
-                        "To change your password, follow the link: "
-                                + request.getHeader("referer")
-                                + "/"
-                                + tokenEmail)
-        );
+//        model.addAttribute("sendEmail",
+//                emailService.SendEmail(restoreUser.get().getEmail(),
+//                        "Change password",
+//                        "To change your password, follow the link: "
+//                                + request.getHeader("referer")
+//                                + "/"
+//                                + tokenEmail)
+//        );
 
         model.addAttribute("sendForgotPass", true);
         model.addAttribute("sendEmail", false);
@@ -81,14 +81,14 @@ public class LoginController {
     @GetMapping("/forgot/resend")
     public String resendPass(Model model, HttpServletRequest request) {
 
-        model.addAttribute("sendEmail",
-                emailService.SendEmail((String) model.getAttribute("email"),
-                        "Change password",
-                        "To change your password, follow the link: "
-                                + request.getHeader("referer")
-                                + "/"
-                                + model.getAttribute("token"))
-        );
+//        model.addAttribute("sendEmail",
+//                emailService.SendEmail((String) model.getAttribute("email"),
+//                        "Change password",
+//                        "To change your password, follow the link: "
+//                                + request.getHeader("referer")
+//                                + "/"
+//                                + model.getAttribute("token"))
+//        );
 
         model.addAttribute("sendForgotPass", true);
         model.addAttribute("sendEmail", false);
